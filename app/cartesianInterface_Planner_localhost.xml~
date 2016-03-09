@@ -1,0 +1,48 @@
+<application>
+<name>Cartesian Solvers and Planner</name>
+
+        <dependencies>
+        <port>/icubSim/left_arm/state:o</port>
+        <port>/icubSim/right_arm/state:o</port>
+        <port>/icubSim/left_leg/state:o</port>
+        <port>/icubSim/right_leg/state:o</port>
+        </dependencies>
+
+        <module>
+                <name>iCub_SIM</name>
+                <node>localhost</node>
+                <tag>icubSim</tag>
+        </module>
+      
+        <module>
+                <name>simCartesianControl</name>
+                <node>localhost</node>
+                <tag>limbsController</tag>
+        </module>
+
+
+        <module>
+                <name>iKinCartesianSolver</name>
+                <parameters>--context simCartesianControl --part left_arm</parameters>
+                <node>localhost</node>
+                <tag>leftArmSolver</tag>
+        </module>
+
+
+        <!--<module>
+                <name>iKinCartesianSolver</name>
+                <parameters>--context simCartesianControl --part left_leg</parameters>
+                <node>localhost</node>
+                <tag>leftLegSolver</tag>
+        </module>
+
+	<module>
+                <name>tutorial_cartesian_interface</name>
+                <node>localhost</node>
+                <tag>leftCartesianInterface</tag>
+        </module>-->
+
+
+</application>
+
+
