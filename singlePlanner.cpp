@@ -1,9 +1,30 @@
+/*
+ * Copyright: (C) 2015 iCub Facility - Istituto Italiano di Tecnologia
+ * Author: Nguyen Dong Hai Phuong <phuong.nguyen@iit.it>
+ * website: www.robotcub.org
+ * author website: https://github.com/towardthesea
+ *
+ * Permission is granted to copy, distribute, and/or modify this program
+ * under the terms of the GNU General Public License, version 2 or any
+ * later version published by the Free Software Foundation.
+ *
+ * A copy of the license can be found at
+ * http://www.robotcub.org/icub/license/gpl.txt
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+*/
+
 #include "singlePlanner.h"
 
-singlePlanner::singlePlanner(const int& _verbosity, const string& _name)
+singlePlanner::singlePlanner(const int& _verbosity, const string& _name,
+                             const string& _controlPoint)
 {
     verbosity   =        _verbosity;
     name        =             _name;
+    controlPoint=             _controlPoint;
     nDim        =                 3;
     nIter       =             50000;
     deadline    =               1.0;
@@ -14,10 +35,10 @@ singlePlanner::singlePlanner(const int& _verbosity, const string& _name)
 void singlePlanner::init()
 {
     //**** visualizing targets and collision points in simulator ***************************
-    string port2icubsim = "/" + name + "/sim:o";
+    string port2icubsim = "/" + name + "/" + controlPoint + "/sim:o";
     //cout<<port2icubsim<<endl;
     if (!portToSimWorld.open(port2icubsim.c_str())) {
-        yError("[upperPlanner] Unable to open port << port2icubsim << endl");
+        yError("Unable to open port << port2icubsim << endl");
     }
     std::string port2world = "/icubSim/world";
     yarp::os::Network::connect(port2icubsim, port2world.c_str());
@@ -205,14 +226,16 @@ vector<Vector> singlePlanner::getBestTrajRoot()
   return bestTrajRoot;
 }
 
-void singlePlanner::executeTrajectory(vector<Vector> &_bestTraj, vector<Vector> &_bestTrajRoot)
+void singlePlanner::executeTrajectory(vector<Vector> &_bestTraj,
+                                      vector<Vector> &_bestTrajRoot,
+                                      const string &color)
 {
 
     updatePlanner();
     _bestTraj = generateTrajectory();
     _bestTrajRoot = getBestTrajRoot();
     printTrajectory();
-    displayPlan();
+    displayPlan(color);
     logTrajectory();
 }
 
@@ -323,7 +346,7 @@ void singlePlanner::logTrajectory()
       }
 }
 
-void singlePlanner::displayPlan()
+void singlePlanner::displayPlan(const string &color)
 {
     printf("\n===============================\n");
     cout<<"DISPLAY PLAN"<<endl;
@@ -333,9 +356,10 @@ void singlePlanner::displayPlan()
       }
     for (int i=0; i<bestTraj.size(); i++)
       {
-        createStaticSphere(0.05, bestTraj[i]);
+        createStaticSphere(0.03, bestTraj[i], color);
       }
-    createStaticBox(target,"goal");
+    if (controlPoint == "End-effector")
+        createStaticBox(target,"goal");
 }
 
 void singlePlanner::convertPosFromRootToSimFoR(const Vector &pos, Vector &outPos)
@@ -372,7 +396,7 @@ void singlePlanner::convertPosFromSimToRootFoR(const Vector &pos, Vector &outPos
     return;
 }
 
-void singlePlanner::createStaticSphere(double radius, const Vector &pos)
+void singlePlanner::createStaticSphere(double radius, const Vector &pos, const string &color)
 {
     cmd.clear();
     cmd.addString("world");
@@ -384,7 +408,36 @@ void singlePlanner::createStaticSphere(double radius, const Vector &pos)
     cmd.addDouble(pos(1));
     cmd.addDouble(pos(2));
     // color
-    cmd.addInt(0);cmd.addInt(0);cmd.addInt(1);  //blue
+    if (color=="red")
+    {
+        cmd.addInt(1);cmd.addInt(0);cmd.addInt(0);  //red
+    }
+    else if (color == "green")
+    {
+        cmd.addInt(0);cmd.addInt(1);cmd.addInt(0);  //green
+    }
+    else if (color == "blue")
+    {
+        cmd.addInt(0);cmd.addInt(0);cmd.addInt(1);  //blue
+    }
+    else if (color == "purple")
+    {
+        cmd.addInt(1);cmd.addInt(0);cmd.addInt(1);  //purple
+    }
+    else if (color == "yellow")
+    {
+        cmd.addInt(1);cmd.addInt(1);cmd.addInt(0);  //yellow
+    }
+    else if (color == "magenta")
+    {
+        cmd.addInt(0);cmd.addInt(1);cmd.addInt(1);  //magenta
+    }
+    else
+    {
+        cmd.addInt(0);cmd.addInt(0);cmd.addInt(1);  //blue
+    }
+
+//    cmd.addInt(0);cmd.addInt(0);cmd.addInt(1);  //blue
     cmd.addString("false"); //no collisions
     printMessage(5,"createSphere(): sending %s \n",cmd.toString().c_str());
     portToSimWorld.write(cmd);

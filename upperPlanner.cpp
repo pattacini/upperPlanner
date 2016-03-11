@@ -34,9 +34,9 @@ upperPlanner::upperPlanner()
     disableTorso=             false;
 
     nDim        =                 3;
-//    nIter       =             10000;
-//    deadline    =               1.0;
-//    system.setNumDimensions(nDim);
+    lShoulder   =              0.05;
+    lArm        =              0.22;
+    lForearm    =              0.16;
 
     if (robot == "icubSim")
     {
@@ -137,10 +137,12 @@ bool upperPlanner::configure(ResourceFinder &rf){
     {
         if(rf.find("disableTorso").asString()=="on"){
             disableTorso = true;
+            useTorso = false;
             yInfo("[upperPlanner] disableTorso flag set to on.");
         }
         else{
             disableTorso = false;
+            useTorso = true;
             yInfo("[upperPlanner] disableTorso flag set to off.");
         }
     }
@@ -285,6 +287,8 @@ bool upperPlanner::configure(ResourceFinder &rf){
    planningTime = 1.0;
    bestTrajEE.clear();
    bestTrajRootEE.clear();
+   bestTrajElbow.clear();
+   bestTrajRootElbow.clear();
 
    return true;
 }
@@ -307,7 +311,8 @@ bool upperPlanner::updateModule()
     // Check if required re-plan and do if necessary; remember to clear "replan" after running
     if (replan==true)
     {
-        singlePlanner plannerEE(verbosity,name);
+        singlePlanner plannerEE(verbosity,name,"End-effector");
+        singlePlanner plannerElbow(verbosity,name, "Elbow");
         // 1.Reading message of Trajectory through port
 
         // 2.Perception part: obtaining information of Target, Workspace, Obstacles
@@ -316,7 +321,7 @@ bool upperPlanner::updateModule()
 
         // Test=======================================================
         Vector workspace(6,0.0);
-        workspace[3]=4.0/10.0;
+        workspace[3]=8.0/10.0;
         workspace[4]=20.0/10.0;
         workspace[5]=8.0/10.0;
 
@@ -357,24 +362,74 @@ bool upperPlanner::updateModule()
         plannerEE.setObstacles(obsSet);
 
         // 3.Manipulator position
-        Vector xCur(3,0.0), startPose(3,0.0);
+        Vector xCur(3,0.0), startPose(3,0.0), xElbow(3,0.0), startPoseElbow(3,0.0);
 
         updateArmChain();
         iKinChain &chain = *arm->asChain();
         xCur = chain.EndEffPosition();
 
+        xElbow = chain.Position(indexElbow);
+
+        printf("useTorso: %d \n", useTorso);
+        printf("EE Position: %f, %f, %f\n",xCur[0], xCur[1], xCur[2]);
+        printf("Elbow (link %d-th) Position: %f, %f, %f\n",indexElbow, xElbow[0], xElbow[1], xElbow[2]);
+
+//
+//        for (int i=0; i<10; i++)
+//        {
+//            xElbow = chain.Position(i);
+//            printf("Link %d-th Position: %f, %f, %f\n",i,xElbow[0], xElbow[1], xElbow[2]);
+//        }
+
         convertPosFromRootToSimFoR(xCur,startPose); // This test using Objects in World of Sim
         printf("startPose: %f, %f, %f\n",startPose[0], startPose[1], startPose[2]);
         plannerEE.setStart(startPose);
 
-
         // 4.Planning
-        plannerEE.executeTrajectory(bestTrajEE, bestTrajRootEE);
+        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        printf("!!!                      !!!\n");
+        printf("!!! END-EFFECTOR PLANNER !!!\n");
+        printf("!!!                      !!!\n");
+        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        plannerEE.executeTrajectory(bestTrajEE, bestTrajRootEE, "blue");
+
+        // 4b. Planning for Elbow
+        double sizeGoalElbow = 2*lForearm;
+        Vector goalElbow(6,sizeGoalElbow);
+        int indexLastTrajEE = bestTrajEE.size()-1;
+        for (int i=0; i<nDim; i++)
+            goalElbow[i] = bestTrajEE[indexLastTrajEE][i];
+
+        printf("!!!!!!!!!!!!!!!!!!!!!\n");
+        printf("!!!               !!!\n");
+        printf("!!! ELBOW PLANNER !!!\n");
+        printf("!!!               !!!\n");
+        printf("!!!!!!!!!!!!!!!!!!!!!\n");
+
+//        Vector workspace(6,0.0);
+        workspace[3]=.8-lForearm;
+        workspace[4]=20.0/10.0;
+        workspace[5]=.8-lForearm;
+
+        plannerElbow.setRegionOperating(workspace);
+        plannerElbow.setGoal(goalElbow);
+        plannerElbow.setDeadline(planningTime);
+        plannerElbow.setObstacles(obsSet);
+
+        convertPosFromRootToSimFoR(xElbow,startPoseElbow);
+        plannerElbow.setStart(startPoseElbow);
+
+        plannerElbow.executeTrajectory(bestTrajElbow,bestTrajRootElbow, "yellow");
 
         // 5.Sending message of Trajectory through port
         sendTrajectory();
+
+        // 6.Clearing all planners to make sure they won't effect the next run
         bestTrajEE.clear();
         bestTrajRootEE.clear();
+
+        bestTrajElbow.clear();
+        bestTrajRootElbow.clear();
 
         replan = false;
     }
@@ -434,10 +489,14 @@ void upperPlanner::updateArmChain()
         q.setSubvector(0,qT);
         q.setSubvector(3,qA);
         arm->setAng(q*CTRL_DEG2RAD);
+
+        indexElbow = 6;
     }
     else
     {
         arm->setAng(qA*CTRL_DEG2RAD);
+
+        indexElbow = 3;
     }
 
 
@@ -485,9 +544,6 @@ void upperPlanner::sendTrajectory()
     for (int j=0; j<bestTrajRootEE.size(); j++)
     {
         viaPoint.clear();
-//        viaPoint.addDouble(bestTrajRootEE[j][0]);
-//        viaPoint.addDouble(bestTrajRootEE[j][1]);
-//        viaPoint.addDouble(bestTrajRootEE[j][2]);
         for (int i=0; i<nDim; i++)
             viaPoint.addDouble(bestTrajRootEE[j][i]);
         traj.append(viaPoint);

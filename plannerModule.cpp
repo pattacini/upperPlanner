@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     ResourceFinder rf;
     rf.setVerbose(true);
-    rf.setDefaultContext("upper-planner");
+    rf.setDefaultContext("upperPlanner");
     rf.setDefaultConfigFile("upperPlanner.ini");
     rf.configure(argc,argv);
 

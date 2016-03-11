@@ -76,7 +76,7 @@ class rpcDataProcessor : public PortReader
         bool ok = in.read(connection);
         if (!ok) return false;
         // process data "in", prepare "out"
-        if (in.get(0).asString() == "replan")
+        if (in.get(0).asString() == "re_plan")
         {
             printf("receive replan cmd");
         }
@@ -114,26 +114,17 @@ protected:
     bool visualizeObjectsInSim; // using yarp rpc /icubSim/world to visualize Objects, i.e. obstacles, target
     /***************************************************************************/
     // INTERNAL VARIABLES:
-//    // Variable for planner
-//    planner_t rrts;
+    // Variable for planner
 
-//    // Dynamic system
-//    System system;
     int nDim;
-
-//    // Number of iteration for planning
-//    int nIter;
-
-//    // Deadline
-//    double deadline;
-
-//    // Time to solve planning problem
-//    double solveTime;
-//    //Time solveTime1;
 
     // Best trajectory for End Effector
     vector<Vector> bestTrajEE;
     vector<Vector> bestTrajRootEE;
+
+    // Best trajectory for Elbow
+    vector<Vector> bestTrajElbow;
+    vector<Vector> bestTrajRootElbow;
 
     // Set of Obstacles
     vector<Vector> obsSet;
@@ -144,12 +135,16 @@ protected:
 
     // Manipulator
     iCubArm *arm;
-    //iKinChain &chain;
-    Vector x0;   // End-Effector initial position
+    Vector x0;   // End-Effector initial position before planning
+                 // will be read through the Dynamic chain
+
+    // Links' length
+    double lShoulder, lArm, lForearm;
+    unsigned int indexElbow;
+
 
     // Ports for exchange data
     Stamp ts;   // Stamp for the setEnvelope for the ports
-
     BufferedPort<Bottle> upperTrajectPortOut;   // Output for Trajectory of upper body
 
 
@@ -217,6 +212,8 @@ public:
     void updateArmChain();
 
     void processRpcCommand();
+
+//    void expandObstacles();
 
 //    void setIteration(const int&);
 

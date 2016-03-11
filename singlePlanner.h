@@ -1,3 +1,22 @@
+/*
+ * Copyright: (C) 2015 iCub Facility - Istituto Italiano di Tecnologia
+ * Author: Nguyen Dong Hai Phuong <phuong.nguyen@iit.it>
+ * website: www.robotcub.org
+ * author website: https://github.com/towardthesea
+ *
+ * Permission is granted to copy, distribute, and/or modify this program
+ * under the terms of the GNU General Public License, version 2 or any
+ * later version published by the Free Software Foundation.
+ *
+ * A copy of the license can be found at
+ * http://www.robotcub.org/icub/license/gpl.txt
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+*/
+
 #ifndef SINGLEPLANNER_H
 #define SINGLEPLANNER_H
 
@@ -57,7 +76,8 @@ protected:
     // Name of the module (to change port names accordingly):
     string robot;       // Name of the robot
     string  name;       // Name of the module
-    string  part;       // Part to use
+    string  part;       // Name of part to use
+    string controlPoint;// Name of Control point
 
     // Variable for planner
     planner_t rrts;
@@ -95,7 +115,7 @@ protected:
     int printMessage(const int l, const char *f, ...) const;
 
 public:
-    singlePlanner(const int&, const string&);
+    singlePlanner(const int&, const string&, const string&);
 
     void init();
 
@@ -118,13 +138,13 @@ public:
 
     vector<Vector> getBestTrajRoot(void);
 
-    void executeTrajectory(vector<Vector> &_bestTraj, vector<Vector> &_bestTrajRoot);
+    void executeTrajectory(vector<Vector> &_bestTraj, vector<Vector> &_bestTrajRoot, const string &color);
 
     void printTrajectory(void);
 
     void logTrajectory();
 
-    void displayPlan(void);
+    void displayPlan(const string &color);
 
 //    void sendTrajectory(void);
 
@@ -138,7 +158,7 @@ public:
     * @param radius
     * @param pos
     */
-    void createStaticSphere(double radius, const yarp::sig::Vector &pos);
+    void createStaticSphere(double radius, const yarp::sig::Vector &pos, const string &color);
 
     void moveSphere(int index, const yarp::sig::Vector &pos);
 
