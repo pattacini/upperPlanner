@@ -3,16 +3,17 @@
 
         <dependencies>
         <port>/icubSim/left_arm/state:o</port>
-        <port>/icubSim/right_arm/state:o</port>
+        <!--<port>/icubSim/right_arm/state:o</port>
         <port>/icubSim/left_leg/state:o</port>
-        <port>/icubSim/right_leg/state:o</port>
+        <port>/icubSim/right_leg/state:o</port>-->
         </dependencies>
 
-        <module>
+        <!--<module>
                 <name>iCub_SIM</name>
                 <node>localhost</node>
                 <tag>icubSim</tag>
         </module>
+	-->
       
         <module>
                 <name>simCartesianControl</name>
@@ -27,6 +28,43 @@
                 <node>localhost</node>
                 <tag>leftArmSolver</tag>
         </module>
+	
+        <module>
+                <name>reaching-planner</name>
+                <node>localhost</node>
+                <tag>planner</tag>
+        </module>
+
+	<ensure>
+		<wait>5.0</wait>
+	</ensure>
+
+	<module>
+		<name>yarp read /read1</name>
+		<port>/read1</port>
+		<node>localhost</node>
+		<tag>read1</tag>
+
+	</module>
+
+	<module>
+		<name>yarp read /read2</name>
+		<port>/read2</port>
+		<node>localhost</node>
+		<tag>read2</tag>
+
+	</module>
+
+	<connection>
+		<from>/reaching-planner/End-Effector/bestCartesianTrajectory:o</from>
+        	<to>/read1</to>
+    	</connection>
+
+	<connection>
+		<from>/reaching-planner/Half-Elbow/bestCartesianTrajectory:o</from>
+        	<to>/read2</to>
+    	</connection>
+
 
 
         <!--<module>

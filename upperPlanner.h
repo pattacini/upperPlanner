@@ -48,11 +48,10 @@
 #include <stdarg.h>
 #include <fstream>
 
-//#include "object.h"
 #include "rrts.hpp"
 #include "system_single_integrator.h"
 #include "singlePlanner.h"
-#include "upperPlanner_IDL.h"
+//#include "upperPlanner_IDL.h"
 
 using namespace std;
 using namespace RRTstar;
@@ -67,6 +66,53 @@ using namespace iCub::iKin;
 
 typedef Planner<State,Trajectory,System> planner_t;
 typedef Vertex<State,Trajectory,System> vertex_t;
+
+class trajOutPort : public BufferedPort<Bottle>
+{
+protected:
+    string controlPoint;
+    vector<Vector> trajectory;
+    Stamp ts;
+    int nDim;
+
+public:
+    void setControlPoint(const string &ctrPoint){
+        controlPoint = ctrPoint;
+    }
+
+    void setTrajectory(const vector<Vector> &traject)
+    {
+        trajectory = traject;
+        if (trajectory.size()>0)
+            nDim = trajectory[0].size();
+    }
+
+    void sendTrajectory()
+    {
+        Bottle &outTraj = prepare();
+        outTraj.clear();
+        Bottle traj, viaPoint;
+        traj.clear();
+        viaPoint.clear();
+
+        ts.update();
+
+        traj.addString(controlPoint);   // Added on 21/03/2016 for sending trajectory of different control points
+
+        traj.addInt(trajectory.size());
+        traj.addInt(nDim);
+        for (int j=0; j<trajectory.size(); j++)
+        {
+            viaPoint.clear();
+            for (int i=0; i<nDim; i++)
+                viaPoint.addDouble(trajectory[j][i]);
+            traj.append(viaPoint);
+        }
+        outTraj.addList().read(traj);
+        setEnvelope(ts);
+        write();
+    }
+};
 
 class rpcDataProcessor : public PortReader
 {
@@ -102,9 +148,16 @@ protected:
     string  name;       // Name of the module
     string  part;       // Part to use
     string  part_short;
+    string running_mode;// To set running mode as "Single" or "Batch"
 
     RpcServer rpcSrvr;
     bool replan;        // Flag to run the planner
+
+    // Variables for Batch operation
+    unsigned int countReplan;
+    unsigned int maxReplan;
+    bool success;       // Flag to indicate the plan is sucessful or not (Batch Summary only)
+    double solvingTime; // Total time for each whole planner of all control points
     double planningTime;// Deadline for planner
 
     // Flag to know if the torso shall be used or not
@@ -126,8 +179,19 @@ protected:
     vector<Vector> bestTrajElbow;
     vector<Vector> bestTrajRootElbow;
 
+    // Best trajectory for Half of Elbow
+    vector<Vector> bestTrajHalfElbow;
+    vector<Vector> bestTrajRootHalfElbow;
+
     // Set of Obstacles
     vector<Vector> obsSet;
+    vector<Vector> obsSetExpandedElbow; // Expanded obstacle set of the Elbow,
+                                        // generated from obstacle set of End-Effector
+                                        // Obstacle set of the Elbow is combination of
+                                        // obsSet and obsSetExpandedElbow
+    vector<Vector> obsSetExpandedElbow_fromHalf;
+
+    vector<Vector> obsSetExpandedHalfElbow;
 
     // Goal
     Vector target;
@@ -147,9 +211,10 @@ protected:
     Stamp ts;   // Stamp for the setEnvelope for the ports
     BufferedPort<Bottle> upperTrajectPortOut;   // Output for Trajectory of upper body
 
+    trajOutPort EEPortOut, HalfElbowPortOut;
 
-//    Bottle cmd;
-//    Port portToSimWorld;
+    Bottle cmd;
+    Port portToSimWorld;
     Matrix T_world_root; //homogenous transf. matrix expressing the rotation and translation of FoR from world (simulator) to from robot (Root) FoR
     Matrix T_root_world; //homogenous transf. matrix expressing the rotation and translation of FoR from robot (Root) to from world (simulator) FoR
 
@@ -195,7 +260,7 @@ public:
 
     virtual bool close();
 
-    virtual bool attach (RpcServer&);
+//    virtual bool attach (RpcServer&);
 
     virtual double getPeriod();
 
@@ -209,9 +274,28 @@ public:
 
 //    bool restartPlanner(void);
 
+    void initBatchSummary();
+
+    void logBatchSummary();
+
+    bool padWaypoint(const Vector &point1, const Vector &point2,
+                     const Vector &pointj, const double &lengthLimb,
+                     Vector &newPoint);
+
     void updateArmChain();
 
     void processRpcCommand();
+
+    vector<Vector> expandObstacle(const vector<Vector> &traject, const vector<Vector> &obstacles,
+                                  const double &lengthLimb);
+
+    Vector findOtherEndPoint(const Vector &oneEndPoint, const Vector &halfPoint,
+                             const double &lengthLimb);
+
+    double distWpObs(const Vector &waypoint, const Vector &obstacle);
+
+    double distWpWp(const Vector &wp1, const Vector &wp2);
+
 
 //    void expandObstacles();
 
@@ -240,9 +324,20 @@ public:
 
 //    void logTrajectory();
 
-//    void displayPlan(void);
+    void displayTraj(const vector<Vector> &trajectory, const string &color);
+
+    void logTrajectory(const string &trajectFilename, const double &time);
 
     void sendTrajectory(void);
+
+
+    void sendTrajectory(const string &ctrPoint,
+                        const vector<Vector> &trajectory);
+
+    void sendTrajectory(const string &ctrPoint,
+                        BufferedPort<Bottle> trajectPortOut,
+                        const vector<Vector> &trajectory);
+
 
     void convertPosFromRootToSimFoR(const Vector &pos, Vector &outPos);
 
@@ -254,11 +349,11 @@ public:
 //    * @param radius
 //    * @param pos
 //    */
-//    void createStaticSphere(double radius, const yarp::sig::Vector &pos);
+    void createStaticSphere(double radius, const yarp::sig::Vector &pos, const string &color);
 
 //    void moveSphere(int index, const yarp::sig::Vector &pos);
 
-//    void createStaticBox(const yarp::sig::Vector &pos, const string &type);
+    void createStaticBox(const yarp::sig::Vector &pos, const string &type);
 
 //    void moveBox(int index, const yarp::sig::Vector &pos);
 };

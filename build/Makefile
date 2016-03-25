@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pnguyen/icub_workspace/upperPlanner
+CMAKE_SOURCE_DIR = /home/pnguyen/icub_workspace/reaching-planner
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pnguyen/icub_workspace/upperPlanner/build
+CMAKE_BINARY_DIR = /home/pnguyen/icub_workspace/reaching-planner/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -82,16 +82,6 @@ install/local: preinstall
 install/local/fast: install/local
 .PHONY : install/local/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-.PHONY : install/strip/fast
-
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\" \"configuration\""
@@ -113,9 +103,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pnguyen/icub_workspace/upperPlanner/build/CMakeFiles /home/pnguyen/icub_workspace/upperPlanner/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pnguyen/icub_workspace/reaching-planner/build/CMakeFiles /home/pnguyen/icub_workspace/reaching-planner/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pnguyen/icub_workspace/upperPlanner/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pnguyen/icub_workspace/reaching-planner/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -143,24 +133,29 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named upperPlanner
+# Target rules for targets named reaching-planner
 
 # Build rule for target.
-upperPlanner: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 upperPlanner
-.PHONY : upperPlanner
+reaching-planner: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 reaching-planner
+.PHONY : reaching-planner
 
 # fast build rule for target.
-upperPlanner/fast:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/build
-.PHONY : upperPlanner/fast
+reaching-planner/fast:
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/build
+.PHONY : reaching-planner/fast
+
+# Manual pre-install relink rule for target.
+reaching-planner/preinstall:
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/preinstall
+.PHONY : reaching-planner/preinstall
 
 kdtree.o: kdtree.c.o
 .PHONY : kdtree.o
 
 # target to build an object file
 kdtree.c.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/kdtree.c.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/kdtree.c.o
 .PHONY : kdtree.c.o
 
 kdtree.i: kdtree.c.i
@@ -168,7 +163,7 @@ kdtree.i: kdtree.c.i
 
 # target to preprocess a source file
 kdtree.c.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/kdtree.c.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/kdtree.c.i
 .PHONY : kdtree.c.i
 
 kdtree.s: kdtree.c.s
@@ -176,7 +171,7 @@ kdtree.s: kdtree.c.s
 
 # target to generate assembly for a file
 kdtree.c.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/kdtree.c.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/kdtree.c.s
 .PHONY : kdtree.c.s
 
 plannerModule.o: plannerModule.cpp.o
@@ -184,7 +179,7 @@ plannerModule.o: plannerModule.cpp.o
 
 # target to build an object file
 plannerModule.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/plannerModule.cpp.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/plannerModule.cpp.o
 .PHONY : plannerModule.cpp.o
 
 plannerModule.i: plannerModule.cpp.i
@@ -192,7 +187,7 @@ plannerModule.i: plannerModule.cpp.i
 
 # target to preprocess a source file
 plannerModule.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/plannerModule.cpp.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/plannerModule.cpp.i
 .PHONY : plannerModule.cpp.i
 
 plannerModule.s: plannerModule.cpp.s
@@ -200,7 +195,7 @@ plannerModule.s: plannerModule.cpp.s
 
 # target to generate assembly for a file
 plannerModule.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/plannerModule.cpp.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/plannerModule.cpp.s
 .PHONY : plannerModule.cpp.s
 
 rpcDataProcessor.o: rpcDataProcessor.cpp.o
@@ -208,7 +203,7 @@ rpcDataProcessor.o: rpcDataProcessor.cpp.o
 
 # target to build an object file
 rpcDataProcessor.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/rpcDataProcessor.cpp.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/rpcDataProcessor.cpp.o
 .PHONY : rpcDataProcessor.cpp.o
 
 rpcDataProcessor.i: rpcDataProcessor.cpp.i
@@ -216,7 +211,7 @@ rpcDataProcessor.i: rpcDataProcessor.cpp.i
 
 # target to preprocess a source file
 rpcDataProcessor.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/rpcDataProcessor.cpp.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/rpcDataProcessor.cpp.i
 .PHONY : rpcDataProcessor.cpp.i
 
 rpcDataProcessor.s: rpcDataProcessor.cpp.s
@@ -224,7 +219,7 @@ rpcDataProcessor.s: rpcDataProcessor.cpp.s
 
 # target to generate assembly for a file
 rpcDataProcessor.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/rpcDataProcessor.cpp.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/rpcDataProcessor.cpp.s
 .PHONY : rpcDataProcessor.cpp.s
 
 singlePlanner.o: singlePlanner.cpp.o
@@ -232,7 +227,7 @@ singlePlanner.o: singlePlanner.cpp.o
 
 # target to build an object file
 singlePlanner.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/singlePlanner.cpp.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/singlePlanner.cpp.o
 .PHONY : singlePlanner.cpp.o
 
 singlePlanner.i: singlePlanner.cpp.i
@@ -240,7 +235,7 @@ singlePlanner.i: singlePlanner.cpp.i
 
 # target to preprocess a source file
 singlePlanner.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/singlePlanner.cpp.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/singlePlanner.cpp.i
 .PHONY : singlePlanner.cpp.i
 
 singlePlanner.s: singlePlanner.cpp.s
@@ -248,39 +243,15 @@ singlePlanner.s: singlePlanner.cpp.s
 
 # target to generate assembly for a file
 singlePlanner.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/singlePlanner.cpp.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/singlePlanner.cpp.s
 .PHONY : singlePlanner.cpp.s
-
-src/upperPlanner_IDL.o: src/upperPlanner_IDL.cpp.o
-.PHONY : src/upperPlanner_IDL.o
-
-# target to build an object file
-src/upperPlanner_IDL.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/src/upperPlanner_IDL.cpp.o
-.PHONY : src/upperPlanner_IDL.cpp.o
-
-src/upperPlanner_IDL.i: src/upperPlanner_IDL.cpp.i
-.PHONY : src/upperPlanner_IDL.i
-
-# target to preprocess a source file
-src/upperPlanner_IDL.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/src/upperPlanner_IDL.cpp.i
-.PHONY : src/upperPlanner_IDL.cpp.i
-
-src/upperPlanner_IDL.s: src/upperPlanner_IDL.cpp.s
-.PHONY : src/upperPlanner_IDL.s
-
-# target to generate assembly for a file
-src/upperPlanner_IDL.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/src/upperPlanner_IDL.cpp.s
-.PHONY : src/upperPlanner_IDL.cpp.s
 
 system_single_integrator.o: system_single_integrator.cpp.o
 .PHONY : system_single_integrator.o
 
 # target to build an object file
 system_single_integrator.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/system_single_integrator.cpp.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/system_single_integrator.cpp.o
 .PHONY : system_single_integrator.cpp.o
 
 system_single_integrator.i: system_single_integrator.cpp.i
@@ -288,7 +259,7 @@ system_single_integrator.i: system_single_integrator.cpp.i
 
 # target to preprocess a source file
 system_single_integrator.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/system_single_integrator.cpp.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/system_single_integrator.cpp.i
 .PHONY : system_single_integrator.cpp.i
 
 system_single_integrator.s: system_single_integrator.cpp.s
@@ -296,7 +267,7 @@ system_single_integrator.s: system_single_integrator.cpp.s
 
 # target to generate assembly for a file
 system_single_integrator.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/system_single_integrator.cpp.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/system_single_integrator.cpp.s
 .PHONY : system_single_integrator.cpp.s
 
 upperPlanner.o: upperPlanner.cpp.o
@@ -304,7 +275,7 @@ upperPlanner.o: upperPlanner.cpp.o
 
 # target to build an object file
 upperPlanner.cpp.o:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/upperPlanner.cpp.o
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/upperPlanner.cpp.o
 .PHONY : upperPlanner.cpp.o
 
 upperPlanner.i: upperPlanner.cpp.i
@@ -312,7 +283,7 @@ upperPlanner.i: upperPlanner.cpp.i
 
 # target to preprocess a source file
 upperPlanner.cpp.i:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/upperPlanner.cpp.i
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/upperPlanner.cpp.i
 .PHONY : upperPlanner.cpp.i
 
 upperPlanner.s: upperPlanner.cpp.s
@@ -320,7 +291,7 @@ upperPlanner.s: upperPlanner.cpp.s
 
 # target to generate assembly for a file
 upperPlanner.cpp.s:
-	$(MAKE) -f CMakeFiles/upperPlanner.dir/build.make CMakeFiles/upperPlanner.dir/upperPlanner.cpp.s
+	$(MAKE) -f CMakeFiles/reaching-planner.dir/build.make CMakeFiles/reaching-planner.dir/upperPlanner.cpp.s
 .PHONY : upperPlanner.cpp.s
 
 # Help Target
@@ -332,10 +303,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
-	@echo "... install/strip"
 	@echo "... list_install_components"
+	@echo "... reaching-planner"
 	@echo "... rebuild_cache"
-	@echo "... upperPlanner"
 	@echo "... kdtree.o"
 	@echo "... kdtree.i"
 	@echo "... kdtree.s"
@@ -348,9 +318,6 @@ help:
 	@echo "... singlePlanner.o"
 	@echo "... singlePlanner.i"
 	@echo "... singlePlanner.s"
-	@echo "... src/upperPlanner_IDL.o"
-	@echo "... src/upperPlanner_IDL.i"
-	@echo "... src/upperPlanner_IDL.s"
 	@echo "... system_single_integrator.o"
 	@echo "... system_single_integrator.i"
 	@echo "... system_single_integrator.s"

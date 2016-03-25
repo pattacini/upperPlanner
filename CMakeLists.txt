@@ -2,7 +2,7 @@
 # Author: Nguyen Dong Hai Phuong
 # CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 
-project(upperPlanner)
+project(reaching-planner)
 cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
 
@@ -23,13 +23,13 @@ icubcontrib_set_default_prefix()
 add_definitions(${YARP_DEFINES})   # add yarp definitions - this contains also -D_REENTRANT
 include(YarpInstallationHelpers)   # pick up yarp's cmake scripts
 
-include(YarpIDL)
+#include(YarpIDL)
 
-set(idl_files    ${PROJECT_NAME}.thrift)
+#set(idl_files    ${PROJECT_NAME}.thrift)
 
-yarp_add_idl(IDL_GEN_FILES ${PROJECT_NAME}.thrift)
+#yarp_add_idl(IDL_GEN_FILES ${PROJECT_NAME}.thrift)
 
-source_group("IDL Files" FILES ${idl_files})
+#source_group("IDL Files" FILES ${idl_files})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
                     ${IPOPT_INCLUDE_DIRS}
@@ -38,7 +38,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} rrts.hpp ${IDL_GEN_FILES} ${idl_files}) #system_single_integrator.cpp kdtree.c)
+add_executable(${PROJECT_NAME} ${SRC_LIST} rrts.hpp) #${IDL_GEN_FILES} ${idl_files}) #system_single_integrator.cpp kdtree.c)
 target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ctrlLib iKin ${IPOPT_LIBRARIES})
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)

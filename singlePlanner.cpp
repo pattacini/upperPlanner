@@ -43,11 +43,14 @@ void singlePlanner::init()
     std::string port2world = "/icubSim/world";
     yarp::os::Network::connect(port2icubsim, port2world.c_str());
 
-    cmd.clear();
-    cmd.addString("world");
-    cmd.addString("del");
-    cmd.addString("all");
-    portToSimWorld.write(cmd);
+    if (controlPoint != "local-Half-Elbow")
+    {
+        cmd.clear();
+        cmd.addString("world");
+        cmd.addString("del");
+        cmd.addString("all");
+        portToSimWorld.write(cmd);
+    }
 
     T_world_root = zeros(4,4);
     T_world_root(0,1)=-1;
@@ -292,8 +295,15 @@ void singlePlanner::printTrajectory()
 
 void singlePlanner::logTrajectory()
 {
-    ofstream logfile("workspacePlanner.txt");
-    ofstream logfile1("resultPlanner.txt");
+    char logNameWorkspace[50];
+    char logNameResult[50];
+    sprintf(logNameWorkspace,"%s_workspacePlanner.txt",controlPoint.c_str());
+    sprintf(logNameResult,"%s_resultPlanner.txt",controlPoint.c_str());
+    ofstream logfile(logNameWorkspace);
+    ofstream logfile1(logNameResult);
+
+//    ofstream logfile("workspacePlanner.txt");
+//    ofstream logfile1("resultPlanner.txt");
 
     if (logfile.is_open())
       {
@@ -344,20 +354,25 @@ void singlePlanner::logTrajectory()
           }
 
       }
+    logfile.close();
+    logfile.close();
 }
 
 void singlePlanner::displayPlan(const string &color)
 {
     printf("\n===============================\n");
     cout<<"DISPLAY PLAN"<<endl;
-    for (int j=1; j<obsSet.size(); j++)
-      {
-        createStaticBox(obsSet[j],"obstacle");
-      }
-    for (int i=0; i<bestTraj.size(); i++)
-      {
-        createStaticSphere(0.03, bestTraj[i], color);
-      }
+    if (controlPoint == "End-effector")
+    {
+        for (int j=1; j<obsSet.size(); j++)
+          {
+            createStaticBox(obsSet[j],"obstacle");
+          }
+    }
+//    for (int i=0; i<bestTraj.size(); i++)
+//      {
+//        createStaticSphere(0.03, bestTraj[i], color);
+//      }
     if (controlPoint == "End-effector")
         createStaticBox(target,"goal");
 }

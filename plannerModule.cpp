@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 
     ResourceFinder rf;
     rf.setVerbose(true);
-    rf.setDefaultContext("upperPlanner");
-    rf.setDefaultConfigFile("upperPlanner.ini");
+    rf.setDefaultContext("reaching-planner");
+    rf.setDefaultConfigFile("reaching-planner.ini");
     rf.configure(argc,argv);
 
     if (rf.check("help"))
