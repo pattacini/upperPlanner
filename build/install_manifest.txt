@@ -1,2 +1,0 @@
-/usr/local/share/yarp/config/path.d/ICUBcontrib.ini
-/usr/local/bin/reaching-planner
