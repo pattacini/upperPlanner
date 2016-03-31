@@ -167,9 +167,11 @@ protected:
     bool visualizeObjectsInSim; // using yarp rpc /icubSim/world to visualize Objects, i.e. obstacles, target
     /***************************************************************************/
     // INTERNAL VARIABLES:
-    // Variable for planner
 
+    // Variable for planner
     int nDim;
+    Vector workspace;       // World frame
+    Vector workspaceRoot;   // Root frame
 
     // Best trajectory for End Effector
     vector<Vector> bestTrajEE;
@@ -291,6 +293,8 @@ public:
 
     Vector findOtherEndPoint(const Vector &oneEndPoint, const Vector &halfPoint,
                              const double &lengthLimb);
+
+    bool collisionCheck(const Vector &waypoint, const vector<Vector> &obstacles);
 
     double distWpObs(const Vector &waypoint, const Vector &obstacle);
 

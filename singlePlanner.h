@@ -115,7 +115,7 @@ protected:
     int printMessage(const int l, const char *f, ...) const;
 
 public:
-    singlePlanner(const int&, const string&, const string&);
+    singlePlanner(const int&, const string&, const string&, const string&);
 
     void init();
 
@@ -141,6 +141,8 @@ public:
     void executeTrajectory(vector<Vector> &_bestTraj, vector<Vector> &_bestTrajRoot, const string &color);
 
     void printTrajectory(void);
+
+    void logVertices(void);
 
     void logTrajectory();
 

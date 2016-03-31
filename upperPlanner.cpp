@@ -285,7 +285,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
 
     //****RPC Port ************************************************************************
     rpcSrvr.open(("/"+name+"/rpc:i").c_str());
-    attach(rpcSrvr); // Cannot work withooouuuu thrift
+    attach(rpcSrvr);
 
     //   rpcDataProcessor processor;
     //   rpcSrvr.setReader(processor);
@@ -320,6 +320,21 @@ bool upperPlanner::configure(ResourceFinder &rf){
     bestTrajHalfElbow.clear();
     bestTrajRootHalfElbow.clear();
 
+    workspaceRoot.resize(6);        // Root frame
+    workspaceRoot[0] = -0.024500;   // x coordinate
+    workspaceRoot[1] = -0.074500;   // y coordinate
+    workspaceRoot[2] = 0.051000;    // z coordinate
+    workspaceRoot[3] = 1.05100;     // size of x coordinate
+    workspaceRoot[4] = 0.84900;     // size of y coordinate
+    workspaceRoot[5] = 1.00000;     // size of z coordinate
+
+    workspace.resize(6);        // World frame
+    workspace[0] = 0.074500;   // x coordinate
+    workspace[1] = 0.051000;   // y coordinate
+    workspace[2] = 0.024500;    // z coordinate
+    workspace[3] = 0.84900;     // size of x coordinate
+    workspace[4] = 1.00000+1;     // size of y coordinate
+    workspace[5] = 1.05100;     // size of z coordinate
 
     countReplan = 0;
 
@@ -351,9 +366,9 @@ bool upperPlanner::updateModule()
     {
         success = false;    //Batch Summary only
 
-        singlePlanner plannerEE(verbosity,name,"End-effector");
-        singlePlanner plannerElbow(verbosity,name, "Elbow");
-        singlePlanner plannerHalfElbow(verbosity,name,"Half-Elbow");
+        singlePlanner plannerEE(verbosity,name,robot,"End-effector");
+        singlePlanner plannerElbow(verbosity,name, robot, "Elbow");
+        singlePlanner plannerHalfElbow(verbosity,name, robot,"Half-Elbow");
 
 
         // 1.Reading message of Trajectory through port
@@ -363,16 +378,16 @@ bool upperPlanner::updateModule()
 
         double xReaching = 0.7, zReaching = 0.7;
         // Test=======================================================
-        Vector workspace(6,0.0);
-        workspace[3]= xReaching;    //8.0/10.0;
-        workspace[4]=20.0/10.0;
-        workspace[5]= zReaching;    //8.0/10.0;
+//        Vector workspace(6,0.0);
+//        workspace[3]= xReaching;    //8.0/10.0;
+//        workspace[4]=20.0/10.0;
+//        workspace[5]= zReaching;    //8.0/10.0;
 
         double scale = 10.0;
         double sizeObject = 1.0/scale;  //1.0/10.0;
         double sizeGoal = .15; //1.4/scale;
 
-        Vector goal(6,sizeGoal);
+        Vector goal(6,sizeGoal);    // World frame for the table
 
         if (robot == "icubSim")
         {
@@ -381,14 +396,15 @@ bool upperPlanner::updateModule()
             goal[1]=5.64/scale; //6.0/scale; //7.0/scale;
             goal[2]=3.7/scale;  //1.0/scale;
 
-            target = goal;
+//            target = goal;
+            convertPosFromSimToRootFoR(goal,target);
 
             srand(time(NULL));
     //        vector<Vector> obsSet;
             obsSet.clear();
             obsSetExpandedElbow.clear();
             obsSetExpandedHalfElbow.clear();
-            Vector obs0(6,0.2); // robot itself
+            Vector obs0(6,0.2); // robot itself in World frame
             obs0[0]=0.0;
             obs0[1]=0.5;
             obs0[2]=0.0;
@@ -396,9 +412,18 @@ bool upperPlanner::updateModule()
 
             obsSet.push_back(obs0);
 
+            Vector obs1(6,0.5); // Table in World frame
+            obs1[0] = 0.0;
+            obs1[1] = 0.5;
+            obs1[2] = 0.35;
+            obs1[3] = 0.7;
+            obs1[4] = 0.025;
+
+            obsSet.push_back(obs1);
+
             for (int i=0; i<=10; i++)
             {
-                Vector obs(6, sizeObject);
+                Vector obs(6, sizeObject);  // World frame
                 obs[0] = (double)(rand()%8-4)/scale;
                 //obs[1] = 0.564;
                 obs[1] = 0.614;
@@ -408,16 +433,17 @@ bool upperPlanner::updateModule()
                         (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
                         (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
                 {
+//                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
                     obsSet.push_back(obs);
                 }
 
             }
             //============================================================
         }
-        plannerEE.setRegionOperating(workspace);
-        plannerEE.setGoal(goal);
-        plannerEE.setDeadline(planningTime);
-        plannerEE.setObstacles(obsSet);
+        plannerEE.setRegionOperating(workspace);    // World frame
+        plannerEE.setGoal(goal);                  // World frame
+        plannerEE.setDeadline(planningTime);        // World frame
+        plannerEE.setObstacles(obsSet);             // World frame
 
         // 3.Manipulator position
         Vector xCur(3,0.0), startPose(3,0.0),
@@ -427,9 +453,8 @@ bool upperPlanner::updateModule()
 
         updateArmChain();
         iKinChain &chain = *arm->asChain();
-        xCur = chain.EndEffPosition();      // Root frame
-
-        xElbow = chain.Position(indexElbow);// Root frame
+        xCur = chain.EndEffPosition();              // Root frame
+        xElbow = chain.Position(indexElbow);        // Root frame
 
         for (int i=0; i<nDim; i++)
             xHalfElbow[i]=(xCur[i]+xElbow[i])/2.0;// Root frame
@@ -438,16 +463,10 @@ bool upperPlanner::updateModule()
         printf("EE Position: %f, %f, %f\n",xCur[0], xCur[1], xCur[2]);
         printf("Elbow (link %d-th) Position: %f, %f, %f\n",indexElbow, xElbow[0], xElbow[1], xElbow[2]);
 
-//
-//        for (int i=0; i<10; i++)
-//        {
-//            xElbow = chain.Position(i);
-//            printf("Link %d-th Position: %f, %f, %f\n",i,xElbow[0], xElbow[1], xElbow[2]);
-//        }
-
         convertPosFromRootToSimFoR(xCur,startPose); // This test using Objects in World of Sim
         printf("startPose: %f, %f, %f\n",startPose[0], startPose[1], startPose[2]);
-        plannerEE.setStart(startPose);
+        plannerEE.setStart(startPose);              // World frame
+//        plannerEE.setStart(xCur);                   // Root frame
 
         // 4.Planning
         printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -496,9 +515,10 @@ bool upperPlanner::updateModule()
                 printf("!!!                          !!!\n");
                 printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 
-                workspace[3]=xReaching-lForearm/2.0;
-                workspace[4]=20.0/10.0;
-                workspace[5]=zReaching-lForearm/2.0;
+                Vector workspaceHalfElbow = workspace;
+                workspaceHalfElbow[3]=workspace[3]-lForearm/2.0;
+//                workspaceHalfElbow[4]=workspace[4]-lForearm/2.0;
+                workspaceHalfElbow[5]=workspace[5]-lForearm/2.0;
 
 //                singlePlanner localPlannerHalfElbow(verbosity,name,"local-Half-Elbow");
 //                localPlannerHalfElbow.setRegionOperating(workspace);
@@ -516,15 +536,15 @@ bool upperPlanner::updateModule()
 //                {
 
 
-                // NEED TO CHECK AND DEBUG
+
 
                 bool replanPadWaypoint = false;
                 vector<Vector> paddingWaypoints, paddingRootWaypoints;
 //                while (bestTrajLocalHalfElbow.size()==0 || replanPadWaypoint)
                 do
                 {
-                    singlePlanner localPlannerHalfElbow(verbosity,name,"local-Half-Elbow");
-                    localPlannerHalfElbow.setRegionOperating(workspace);
+                    singlePlanner localPlannerHalfElbow(verbosity,name,robot,"local-Half-Elbow");
+                    localPlannerHalfElbow.setRegionOperating(workspaceHalfElbow);
                     localPlannerHalfElbow.setGoal(localGoalHalfElbow);
                     localPlannerHalfElbow.setDeadline(planningTime);
                     localPlannerHalfElbow.setObstacles(obsSet);  //Add "real" obstacle set to the planner of Elbow
@@ -666,13 +686,7 @@ bool upperPlanner::updateModule()
 
     //                        replanLocal = false;
                 }
-
-
             }
-
-
-
-
 
             bestTrajHalfElbow.push_back(lastHalfElbow);
             bestTrajRootHalfElbow.push_back(lastRootHalfElbow);
@@ -757,11 +771,6 @@ bool upperPlanner::updateModule()
 
             */
             // 5.Sending message of Trajectory through port
-//            sendTrajectory("End-Effector",bestTrajRootEE);
-//            sendTrajectory("Half-Elbow", bestTrajRootHalfElbow);
-//            sendTrajectory("End-Effector",upperTrajectPortOut,bestTrajRootEE);
-//            sendTrajectory();
-
             EEPortOut.setTrajectory(bestTrajRootEE);
             EEPortOut.sendTrajectory();
 
@@ -774,19 +783,10 @@ bool upperPlanner::updateModule()
                 displayTraj(bestTrajEE,"blue");
                 displayTraj(bestTrajHalfElbow,"yellow");
             }
-
-
-//            }
-//            else
-//            {
-//                // Replan
-//            }
         }
         else
         {
             // Replan
-
-
         }
 
         clock_t finish = clock();
@@ -802,18 +802,37 @@ bool upperPlanner::updateModule()
 
         if (bestTrajEE.size() == bestTrajHalfElbow.size())
         {
+            bestTrajElbow.clear();
             printf("Distance of waypoint in trajectory of EE and Half-elbow are: \n");
             for (int i=0; i<bestTrajEE.size(); i++)
             {
                 printf ("\twaypoint %d: %f \n", i, distWpWp(bestTrajEE[i],bestTrajHalfElbow[i]));
+
+                Vector elbow(3,0.0);
+                elbow = findOtherEndPoint(bestTrajEE[i],bestTrajHalfElbow[i],lForearm);
+                bestTrajElbow.push_back(elbow);
+
             }
+
+
             printf("Length of Half Forearm: %f \n", lForearm/2.0);
             if (bestTrajEE.size()!=0)
                 success = true;
+
+//            displayTraj(bestTrajElbow,"purple");
+            for (int i=0; i<bestTrajElbow.size(); i++)
+            {
+                if (collisionCheck(bestTrajElbow[i],obsSet))
+                {
+                    success = false;
+                    printf("Elbow %d collided\n", i);
+                }
+            }
         }
 
-        logTrajectory(name, solvingTime);
+//        logTrajectory(name, solvingTime);
 
+        // Batch operation for statistic purpose
         if (running_mode == "batch")
         {
             countReplan++;
@@ -829,9 +848,16 @@ bool upperPlanner::updateModule()
             logBatchSummary();
         }
         else if (running_mode== "single")
+        {
+            logTrajectory(name, solvingTime);
+            plannerEE.logVertices();
+            displayTraj(bestTrajElbow,"purple");
             replan = false;
+        }
 
-        // 6.Clearing all planners to make sure they won't effect the next run
+        // 7.Clearing all planners to make sure they won't effect the next run
+
+
         bestTrajEE.clear();
         bestTrajRootEE.clear();
 
@@ -841,17 +867,11 @@ bool upperPlanner::updateModule()
         bestTrajHalfElbow.clear();
         bestTrajRootHalfElbow.clear();
 
-
-
-
         printf("THE END %d\n", countReplan);
         printf("===============================\n");
 
 
     }
-
-
-
     return true;
 }
 
@@ -1264,6 +1284,24 @@ Vector upperPlanner::findOtherEndPoint(const Vector &oneEndPoint, const Vector &
 }
 
 
+bool upperPlanner::collisionCheck(const Vector &waypoint, const vector<Vector> &obstacles)
+{
+    bool collided;
+    for(int i=0; i<obstacles.size(); i++)
+    {
+        collided = true;
+        for(int j=0; j<nDim; j++)
+        {
+            if (fabs(waypoint[j]-obstacles[i][j])>obstacles[i][j+3]/2.0)
+            {
+                collided = false;
+                break;
+            }
+        }
+    }
+    return collided;
+}
+
 double upperPlanner::distWpObs(const Vector &waypoint, const Vector &obstacle)
 {
     double distance = 1000;
@@ -1623,15 +1661,9 @@ void upperPlanner::convertPosFromSimToRootFoR(const Vector &pos, Vector &outPos)
 void upperPlanner::logTrajectory(const string &trajectFilename,
                                  const double &time)
 {
-//    char logNameWorkspace[50];
     char logNameResult[50];
-//    sprintf(logNameWorkspace,"%s_workspacePlanner.txt",trajectFilename);
     sprintf(logNameResult,"%s_resultPlanner.txt",trajectFilename.c_str());
-//    ofstream logfile(logNameWorkspace);
     ofstream logfile1(logNameResult);
-
-//    ofstream logfile("workspacePlanner.txt");
-//    ofstream logfile1("resultPlanner.txt");
 
     if (logfile1.is_open())
       {

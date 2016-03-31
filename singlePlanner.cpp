@@ -20,10 +20,11 @@
 #include "singlePlanner.h"
 
 singlePlanner::singlePlanner(const int& _verbosity, const string& _name,
-                             const string& _controlPoint)
+                             const string& _robot, const string& _controlPoint)
 {
     verbosity   =        _verbosity;
     name        =             _name;
+    robot       =            _robot;
     controlPoint=             _controlPoint;
     nDim        =                 3;
     nIter       =             50000;
@@ -293,6 +294,48 @@ void singlePlanner::printTrajectory()
 
 }
 
+void singlePlanner::logVertices()
+{
+    char logNameVertices[50], logNameWPs[50];
+    sprintf(logNameVertices,"%s_listVertices.txt",controlPoint.c_str());
+    sprintf(logNameWPs,"%s_waypoints.txt",controlPoint.c_str());
+    ofstream logfile(logNameVertices);
+    ofstream logfile1(logNameWPs);
+
+    if (logfile.is_open())
+    {
+        for (list<vertex_t*>::iterator iter=rrts.listVertices.begin(); iter!= rrts.listVertices.end(); iter++)
+        {
+            vertex_t &vertexCurr = **iter;
+            vertex_t &vertexParent = vertexCurr.getParent();
+            if (&vertexParent == NULL)
+                continue;
+            State &stateCurr = vertexCurr.getState();
+            State &stateParent = vertexParent.getState();
+            //cout<<"vertex ["<<vertexIndex<<"]: "<<stateCurr[0]<<","<<stateCurr[1]<<","<<stateCurr[2]<<endl;
+            logfile<< stateCurr[0] << "\t";
+            logfile<< stateCurr[1] << "\t";
+            logfile<< stateCurr[2] << "\t";
+            logfile<< stateParent[0] << "\t";
+            logfile<< stateParent[1] << "\t";
+            logfile<< stateParent[2] << "\n";
+        }
+
+    }
+    logfile.close();
+
+    if (logfile1.is_open())
+    {
+        for (int j=0; j<bestTraj.size(); j++)
+        {
+            for (int i=0; i<nDim; i++)
+              logfile1<< bestTraj[j][i] <<"\t";
+            logfile1<<"\n";
+        }
+    }
+    logfile1.close();
+}
+
 void singlePlanner::logTrajectory()
 {
     char logNameWorkspace[50];
@@ -362,9 +405,15 @@ void singlePlanner::displayPlan(const string &color)
 {
     printf("\n===============================\n");
     cout<<"DISPLAY PLAN"<<endl;
+    int indexFirstObsSet = 0;
+    if (robot == "icubSim")
+        indexFirstObsSet = 2;   // Do not display robot and table
+    else
+        indexFirstObsSet = 1;   // Do not display robot
+
     if (controlPoint == "End-effector")
     {
-        for (int j=1; j<obsSet.size(); j++)
+        for (int j=indexFirstObsSet; j<obsSet.size(); j++) // Do not display the robot itself
           {
             createStaticBox(obsSet[j],"obstacle");
           }
