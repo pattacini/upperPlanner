@@ -78,6 +78,7 @@ protected:
     string  name;       // Name of the module
     string  part;       // Name of part to use
     string controlPoint;// Name of Control point
+    string running_mode;// Name for running_mode
 
     // Variable for planner
     planner_t rrts;
@@ -115,7 +116,7 @@ protected:
     int printMessage(const int l, const char *f, ...) const;
 
 public:
-    singlePlanner(const int&, const string&, const string&, const string&);
+    singlePlanner(const int&, const string&, const string&, const string&, const string&);
 
     void init();
 

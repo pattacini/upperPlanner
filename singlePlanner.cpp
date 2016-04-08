@@ -20,12 +20,14 @@
 #include "singlePlanner.h"
 
 singlePlanner::singlePlanner(const int& _verbosity, const string& _name,
-                             const string& _robot, const string& _controlPoint)
+                             const string& _robot, const string& _running_mode,
+                             const string& _controlPoint)
 {
     verbosity   =        _verbosity;
     name        =             _name;
     robot       =            _robot;
-    controlPoint=             _controlPoint;
+    controlPoint=     _controlPoint;
+    running_mode=     _running_mode;
     nDim        =                 3;
     nIter       =             50000;
     deadline    =               1.0;
@@ -36,21 +38,24 @@ singlePlanner::singlePlanner(const int& _verbosity, const string& _name,
 void singlePlanner::init()
 {
     //**** visualizing targets and collision points in simulator ***************************
-    string port2icubsim = "/" + name + "/" + controlPoint + "/sim:o";
-    //cout<<port2icubsim<<endl;
-    if (!portToSimWorld.open(port2icubsim.c_str())) {
-        yError("Unable to open port << port2icubsim << endl");
-    }
-    std::string port2world = "/icubSim/world";
-    yarp::os::Network::connect(port2icubsim, port2world.c_str());
-
-    if (controlPoint != "local-Half-Elbow")
+    if (running_mode=="single")
     {
-        cmd.clear();
-        cmd.addString("world");
-        cmd.addString("del");
-        cmd.addString("all");
-        portToSimWorld.write(cmd);
+        string port2icubsim = "/" + name + "/" + controlPoint + "/sim:o";
+        //cout<<port2icubsim<<endl;
+        if (!portToSimWorld.open(port2icubsim.c_str())) {
+            yError("Unable to open port << port2icubsim << endl");
+        }
+        std::string port2world = "/icubSim/world";
+        yarp::os::Network::connect(port2icubsim, port2world.c_str());
+
+        if (controlPoint != "local-Half-Elbow")
+        {
+            cmd.clear();
+            cmd.addString("world");
+            cmd.addString("del");
+            cmd.addString("all");
+            portToSimWorld.write(cmd);
+        }
     }
 
     T_world_root = zeros(4,4);
@@ -239,8 +244,11 @@ void singlePlanner::executeTrajectory(vector<Vector> &_bestTraj,
     _bestTraj = generateTrajectory();
     _bestTrajRoot = getBestTrajRoot();
     printTrajectory();
-    displayPlan(color);
-    logTrajectory();
+    if (running_mode=="single")
+    {
+        displayPlan(color);
+        logTrajectory();
+    }
 }
 
 void singlePlanner::printTrajectory()
@@ -414,9 +422,9 @@ void singlePlanner::displayPlan(const string &color)
     if (controlPoint == "End-effector")
     {
         for (int j=indexFirstObsSet; j<obsSet.size(); j++) // Do not display the robot itself
-          {
+        {
             createStaticBox(obsSet[j],"obstacle");
-          }
+        }
     }
 //    for (int i=0; i<bestTraj.size(); i++)
 //      {

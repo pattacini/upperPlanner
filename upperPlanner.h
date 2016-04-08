@@ -47,6 +47,10 @@
 
 #include <stdarg.h>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sstream>
+#include <iostream>
 
 #include "rrts.hpp"
 #include "system_single_integrator.h"
@@ -165,6 +169,7 @@ protected:
 
     bool disableTorso;  // flag to know if the torso has to be used or not
     bool visualizeObjectsInSim; // using yarp rpc /icubSim/world to visualize Objects, i.e. obstacles, target
+    bool visualizeObjectsInGui;
     /***************************************************************************/
     // INTERNAL VARIABLES:
 
@@ -216,9 +221,11 @@ protected:
     trajOutPort EEPortOut, HalfElbowPortOut;
 
     Bottle cmd;
+    Bottle cmdGui;          // Bottle to display object on iCubGui
     Port portToSimWorld;
-    Matrix T_world_root; //homogenous transf. matrix expressing the rotation and translation of FoR from world (simulator) to from robot (Root) FoR
-    Matrix T_root_world; //homogenous transf. matrix expressing the rotation and translation of FoR from robot (Root) to from world (simulator) FoR
+    Port portToGui;
+    Matrix T_world_root;    //homogenous transf. matrix expressing the rotation and translation of FoR from world (simulator) to from robot (Root) FoR
+    Matrix T_root_world;    //homogenous transf. matrix expressing the rotation and translation of FoR from robot (Root) to from world (simulator) FoR
 
     // Driver for "classical" interfaces
     PolyDriver       ddA;
@@ -280,6 +287,14 @@ public:
 
     void logBatchSummary();
 
+    /**
+    * Add another waypoint between two waypoint 1 and 2, to form two control points' path with the same numbers of waypoints
+    * @param point1: 3D yarp Vector of waypoint 1
+    * @param point2: 3D yarp Vector of waypoint 2
+    * @param pointj: 3D yarp Vector of waypoint j, in the path of another control point
+    * @param lengthLimb: geometric distance of 2 control points
+    * @param newPoint: 3D yarp Vector of the output padded waypoint/
+    */
     bool padWaypoint(const Vector &point1, const Vector &point2,
                      const Vector &pointj, const double &lengthLimb,
                      Vector &newPoint);
@@ -291,42 +306,38 @@ public:
     vector<Vector> expandObstacle(const vector<Vector> &traject, const vector<Vector> &obstacles,
                                   const double &lengthLimb);
 
+    /**
+    * Find the other ending point in a link, like Elbow in the Forearm when knowing position of End-Effector and another control point
+    * @param oneEndPoint: 3D yarp Vector of 3D coordinate of one control point (e.g. End-effector)
+    * @param halfPoint: 3D yarp Vector of 3D coordinate of another control point (e.g. middle point in the Forearm)
+    * @param lengthLimb: geometric distance of 2 control points (e.g. length of Forearm)
+    * Output is the D yarp Vector of the other Ending point of link (e.g. Elbow)
+    */
     Vector findOtherEndPoint(const Vector &oneEndPoint, const Vector &halfPoint,
                              const double &lengthLimb);
-
-    bool collisionCheck(const Vector &waypoint, const vector<Vector> &obstacles);
 
     double distWpObs(const Vector &waypoint, const Vector &obstacle);
 
     double distWpWp(const Vector &wp1, const Vector &wp2);
 
+    /**
+    * Check if the new waypoint is collided with set of obstacles
+    * @param waypoint: 3D yarp Vector of 3D coordinate
+    * @param obstacles: std vector of 6 parameter yarp Vector, the first 3 are 3D coordinate of the center of obstacle, the last 3 are sizes of obstacle
+    */
+    bool collisionCheck(const Vector &waypoint, const vector<Vector> &obstacles);
 
-//    void expandObstacles();
+    void findCenterOnSurfaces(const Vector &obstacle,
+                         vector<Vector> &centers, vector<Vector> &normVectors);
 
-//    void setIteration(const int&);
+    double dotProduct(const Vector &v1, const Vector &v2);
 
-//    void setDeadline(const double&);
+    bool intersectionSegmentPlane(const Vector &point1, const Vector &point2,
+                                  const Vector &pointOnPlane, const Vector &normalVector,
+                                  Vector &intersection);
 
-//    void setRegionOperating(const Vector&);
-
-//    void setGoal(const Vector&);
-
-//    void setStart(const Vector&);
-
-//    // Obstacle is a Vector of six with 3 for coordinates and 3 for size
-//    void setObstacles(const std::vector<Vector>&);
-
-//    void updatePlanner(void);
-
-//    vector<Vector> generateTrajectory(void);
-
-//    vector<Vector> getBestTrajRoot(void);
-
-//    void executeTrajectory(void);
-
-//    void printTrajectory(void);
-
-//    void logTrajectory();
+    bool collisionCheckPathSegment(const Vector &point1, const Vector &point2,
+                            const vector<Vector> &obstacles);
 
     void displayTraj(const vector<Vector> &trajectory, const string &color);
 
@@ -347,19 +358,29 @@ public:
 
     void convertPosFromSimToRootFoR(const Vector &pos, Vector &outPos);
 
-//    //*** visualizations in icub simulator
-//    /**
-//    * Creates a sphere (not affected by gravity) in the iCub simulator through the /icubSim/world port
-//    * @param radius
-//    * @param pos
-//    */
+    //*** visualizations in icub simulator
+    /**
+    * Creates a sphere (not affected by gravity) in the iCub simulator through the /icubSim/world port
+    * @param radius
+    * @param pos
+    */
     void createStaticSphere(double radius, const yarp::sig::Vector &pos, const string &color);
-
-//    void moveSphere(int index, const yarp::sig::Vector &pos);
 
     void createStaticBox(const yarp::sig::Vector &pos, const string &type);
 
-//    void moveBox(int index, const yarp::sig::Vector &pos);
+    void displayWorkspaceGui();
+
+    void createObsGui(const Vector &pos, const string &type, const int &order);
+
+    void displayWpsGui(const vector<Vector> &trajectory, const string &ctrlPoint, const string &color);
+
+    void createWpGui(const Vector &pos, const string &ctrlPoint, const int &order, const string &color);
+
+    void convertObjFromSimToRootFoR(const Vector &obj, Vector &outObj);
+
+    void initShowTrajGui(const string &ctrlPoint, const string &color);
+
+    void updateTrajGui(const vector<Vector> &trajectory, const string &ctrlPoint);
 };
 
 #endif
