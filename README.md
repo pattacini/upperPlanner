@@ -8,6 +8,5 @@
 ## Commands
 - By sending commands through yarp rpc port, we can trigger the planner to generate a plan based on the environment perception
 i.e: `yarp rpc /reaching-planner/rpc:i`
-- Command for replan
-	+`replan <deadline>`, with <deadline> is the maximum exploration time of each planner
+- Command for replan: `replan <deadline>`, with `<deadline>` is the maximum exploration time of each planner
  
