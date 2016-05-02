@@ -31,6 +31,7 @@ upperPlanner::upperPlanner()
     name        ="reaching-planner";
     part        =        "left_arm";
     running_mode=          "single";
+    targetName  =         "Octopus";
     verbosity   =                 0;
     disableTorso=             false;
     maxReplan   =              1000;
@@ -261,14 +262,16 @@ bool upperPlanner::configure(ResourceFinder &rf){
     }
 
     //**** visualizing targets and collision points in simulator ***************************
-    string port2icubsim = "/" + name + "/sim:o";
-    //cout<<port2icubsim<<endl;
-    if (!portToSimWorld.open(port2icubsim.c_str())) {
-       yError("[reaching-planner] Unable to open port << port2icubsim << endl");
+    if (robot == "icubSim")
+    {
+        string port2icubsim = "/" + name + "/sim:o";
+        //cout<<port2icubsim<<endl;
+        if (!portToSimWorld.open(port2icubsim.c_str())) {
+           yError("[reaching-planner] Unable to open port << port2icubsim << endl");
+        }
+        std::string port2world = "/icubSim/world";
+        yarp::os::Network::connect(port2icubsim, port2world.c_str());
     }
-    std::string port2world = "/icubSim/world";
-    yarp::os::Network::connect(port2icubsim, port2world.c_str());
-
     //   cmd.clear();
     //   cmd.addString("world");
     //   cmd.addString("del");
@@ -317,6 +320,16 @@ bool upperPlanner::configure(ResourceFinder &rf){
     //****RPC Port ************************************************************************
     rpcSrvr.open(("/"+name+"/rpc:i").c_str());
     attach(rpcSrvr);
+
+    string port2OPC = "/"+name+"/OPC/rpc";
+    if (!rpc2OPC.open(port2OPC.c_str()))
+    {
+        yError("[reaching-planner] Unable to open port << port2OPC << endl");
+    }
+//    string portOPCrpc = "/objectsPropertiesCollector/rpc";
+//    string portOPCrpc = "/memory/rpc";
+    string portOPCrpc = "/OPC/rpc"; // For WYSIWYD
+    Network::connect(port2OPC.c_str(), portOPCrpc.c_str());
 
     //   rpcDataProcessor processor;
     //   rpcSrvr.setReader(processor);
@@ -420,6 +433,31 @@ bool upperPlanner::updateModule()
 
         Vector goal(6,sizeGoal);    // World frame for the table
 
+        // Old codes for obstacles and target
+
+
+        // 3.Manipulator position
+        Vector xCur(3,0.0), startPose(3,0.0),
+                xElbow(3,0.0), startPoseElbow(3,0.0),
+                xHalfElbow(3,0.0), startPoseHalfElbow(3,0.0),
+                xLocalHalfElbow(3,0.0), startPoseLocalHalfElbow(3,0.0);
+
+        updateArmChain();
+        iKinChain &chain = *arm->asChain();
+        xCur = chain.EndEffPosition();              // Root frame
+        xElbow = chain.Position(indexElbow);        // Root frame
+
+        for (int i=0; i<nDim; i++)
+            xHalfElbow[i]=(xCur[i]+xElbow[i])/2.0;// Root frame
+
+        printf("useTorso: %d \n", useTorso);
+        printf("EE Position: %f, %f, %f\n",xCur[0], xCur[1], xCur[2]);
+        printf("Elbow (link %d-th) Position: %f, %f, %f\n",indexElbow, xElbow[0], xElbow[1], xElbow[2]);
+
+        convertPosFromRootToSimFoR(xCur,startPose); // This test using Objects in World of Sim
+        printf("startPose: %f, %f, %f\n",startPose[0], startPose[1], startPose[2]);
+
+        // New codes for obstacles and target
         if (robot == "icubSim")
         {
 
@@ -427,7 +465,7 @@ bool upperPlanner::updateModule()
             goal[1]=5.64/scale; //6.0/scale; //7.0/scale;
             goal[2]=3.7/scale;  //1.0/scale;
 
-            target = goal;
+//            target = goal;
 //            convertPosFromSimToRootFoR(goal,target);
 
             srand(time(NULL));
@@ -471,27 +509,53 @@ bool upperPlanner::updateModule()
             }
             //============================================================
         }
+        else if(robot == "icub")
+        {
+            obsSet.clear();
+            printf("===============================\n");
+            printf("Get target from OPC!!!\n");
 
-        // 3.Manipulator position
-        Vector xCur(3,0.0), startPose(3,0.0),
-                xElbow(3,0.0), startPoseElbow(3,0.0),
-                xHalfElbow(3,0.0), startPoseHalfElbow(3,0.0),
-                xLocalHalfElbow(3,0.0), startPoseLocalHalfElbow(3,0.0);
+            Vector targetCenterRoot(nDim,0.0), targetCenterSim(nDim,0.0);
+            Vector targetRoot(2*nDim,0.0), targetSim(2*nDim,0.0);
+            targetRoot = getObjFromOPC_Name(targetName,targetID);
+            convertObjFromRootToSimFoR(targetRoot,targetSim);
+            goal = targetSim;
 
-        updateArmChain();
-        iKinChain &chain = *arm->asChain();
-        xCur = chain.EndEffPosition();              // Root frame
-        xElbow = chain.Position(indexElbow);        // Root frame
+            vector<int> obstacleIDsOPC = getObsIDFromOPC_Name();
+            for (int i=0; i<obstacleIDsOPC.size(); i++)
+            {
+                printf ("id [%d]=%d\t",i,obstacleIDsOPC[i]);
+//                Vector obstacle = getObsFromOPC(obstacleIDsOPC[i]);
+                Vector obstacle(6,0.0), obstacleSim(6,0.0);
+                if (getObsFromOPC(obstacleIDsOPC[i],obstacle))
+                {
+                    convertObjFromRootToSimFoR(obstacle,obstacleSim);
+                    obsSet.push_back(obstacleSim);
+                    printf("obstacle: %f, %f, %f, %f, %f, %f\n",obstacle[0], obstacle[1], obstacle[2],obstacle[3], obstacle[4], obstacle[5]);
+                }
 
-        for (int i=0; i<nDim; i++)
-            xHalfElbow[i]=(xCur[i]+xElbow[i])/2.0;// Root frame
+            }
 
-        printf("useTorso: %d \n", useTorso);
-        printf("EE Position: %f, %f, %f\n",xCur[0], xCur[1], xCur[2]);
-        printf("Elbow (link %d-th) Position: %f, %f, %f\n",indexElbow, xElbow[0], xElbow[1], xElbow[2]);
+//            targetCenterRoot = targetRoot.subVector(0,2);
+//            convertPosFromRootToSimFoR(targetCenterRoot,targetCenterSim);
+//            goal.setSubvector(0,targetCenterSim);
+//            goal[3] = targetRoot[4];
+//            goal[4] = targetRoot[5];
+//            goal[5] = targetRoot[3];
 
-        convertPosFromRootToSimFoR(xCur,startPose); // This test using Objects in World of Sim
-        printf("startPose: %f, %f, %f\n",startPose[0], startPose[1], startPose[2]);
+//            goal.setSubvector(0,startPose);
+
+            printf("targetCenterRoot: %f, %f, %f\n",targetCenterRoot[0], targetCenterRoot[1], targetCenterRoot[2]);
+            printf("targetCenterSim: %f, %f, %f\n",targetCenterSim[0], targetCenterSim[1], targetCenterSim[2]);
+            printf("goal: %f, %f, %f, %f, %f, %f\n",goal[0], goal[1], goal[2],goal[3], goal[4], goal[5]);
+
+            // Get objects from messages, information in Root frame
+
+            // Convert to World (simulator) frame
+
+        }
+        target = goal;
+
 
         // 4.Planning for End-Effector
         do
@@ -796,6 +860,8 @@ bool upperPlanner::updateModule()
             }
 
 
+//            if (robot =="icubSim")  // Remove this and else when finishing debug with Elbow checking
+//            {
 
             // ELBOW Checking
             if (bestTrajEE.size() == bestTrajHalfElbow.size())
@@ -859,6 +925,12 @@ bool upperPlanner::updateModule()
                 bestTrajRootElbow.clear();
                 obsSetExpandedHalfElbow.clear();
             }
+
+//            }
+//            else
+//            {
+//                success = true;
+//            }
         }
         while (!success);
 
@@ -1137,6 +1209,290 @@ void upperPlanner::processRpcCommand()
     }
     rpcSrvr.reply(out);
 
+}
+
+Vector upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject)
+{
+    Vector objectIn3D(6,0.0);
+    Vector centerIn3D(3,0.0);
+    bool isPresent = false;
+
+    Bottle cmd,reply;
+    cmd.addVocab(Vocab::encode("ask"));
+    Bottle &content=cmd.addList();
+    Bottle &cond_1=content.addList();
+    cond_1.addString("entity");
+    cond_1.addString("==");
+    cond_1.addString("object");
+    content.addString("&&");
+    Bottle &cond_2=content.addList();
+    cond_2.addString("name");
+    cond_2.addString("==");
+    cond_2.addString(objectName);
+
+    rpc2OPC.write(cmd,reply);
+    if(reply.size()>1)
+    {
+        if(reply.get(0).asVocab()==Vocab::encode("ack"))
+        {
+            if (Bottle *b=reply.get(1).asList())
+            {
+                if (Bottle *b1=b->get(1).asList())
+                {
+                    cmd.clear();
+//                    int id=b1->get(0).asInt();
+                    idObject=b1->get(0).asInt();
+                    cmd.addVocab(Vocab::encode("get"));
+                    Bottle &info=cmd.addList();
+                    Bottle &info2=info.addList();
+                    info2.addString("id");
+//                    info2.addInt(id);
+                    info2.addInt(idObject);
+
+                }
+                else
+                    yError("no object id provided by OPC!");
+            }
+            else
+                yError("uncorrect reply from OPC!");
+
+            Bottle reply;
+            rpc2OPC.write(cmd,reply);
+            if (reply.size()>1)
+            {
+                if (reply.get(0).asVocab()==Vocab::encode("ack"))
+                {
+                    if (Bottle *b=reply.get(1).asList())
+                    {
+                        if ((b->find("isPresent").asInt())==1)
+                        {
+                            isPresent = true;
+
+                            if (Bottle *b1=b->find("position_3d").asList())
+                            {
+                                for (int i=0; i<3; i++)
+                                {
+    //                                centerIn3D[i]=b1->get(i).asDouble();
+                                    objectIn3D[i]=b1->get(i).asDouble();
+                                }
+
+                            }
+                            else
+                                yError("position_3d field not found in the OPC reply!");
+
+                            if (double b1=b->find("rt_dim_x").asDouble())
+                            {
+                                objectIn3D[3]=b1;
+                                printf("\tdimX = %f\n", b1);
+                            }
+                            else
+                                yError("rt_dim_x field not found in the OPC reply!");
+                            if (double b1=b->find("rt_dim_y").asDouble())
+                            {
+                                objectIn3D[4]=b1;
+                                printf("\tdimY = %f\n", b1);
+                            }
+                            else
+                                yError("rt_dim_y field not found in the OPC reply!");
+                            if (double b1=b->find("rt_dim_z").asDouble())
+                            {
+                                objectIn3D[5]=b1;
+                                printf("\tdimZ = %f\n", b1);
+                            }
+                            else
+                                yError("rt_dim_z field not found in the OPC reply!");
+                        }
+                    }
+                    else
+                        yError("uncorrect reply structure received!");
+                }
+                else
+                    yError("Failure in reply for object 2D point!");
+            }
+            else
+                yError("reply size for 2D point less than 1!");
+        }
+        else
+            yError("Failure in reply for object id!");
+    }
+    else
+        yError("reply size for object id less than 1!");
+
+    return objectIn3D;
+
+}
+
+vector<int> upperPlanner::getObsIDFromOPC_Name()
+{
+    vector<int> obstacleIDs;
+    Bottle cmd,reply;
+    cmd.addVocab(Vocab::encode("ask"));
+    Bottle &content=cmd.addList();
+//    Bottle &cond_1=content.addList();
+    content.addString("all");
+
+    rpc2OPC.write(cmd,reply);
+    if(reply.size()>1)
+    {
+        if(reply.get(0).asVocab()==Vocab::encode("ack"))
+        {
+            if (Bottle *b=reply.get(1).asList())
+            {
+                if (Bottle *b1=b->get(1).asList())
+                {
+                    for (int i=0; i<b1->size();i++)
+                    {
+                        int idObs = b1->get(i).asInt();
+                        if (idObs != targetID)
+                        {
+                            obstacleIDs.push_back(idObs);
+                        }
+                    }
+
+//                    idObject=b1->get(0).asInt();
+
+                }
+                else
+                    yError("no object id provided by OPC!");
+            }
+            else
+                yError("uncorrect reply from OPC!");
+
+/*
+            Bottle reply;
+            rpc2OPC.write(cmd,reply);
+            if (reply.size()>1)
+            {
+                if (reply.get(0).asVocab()==Vocab::encode("ack"))
+                {
+                    if (Bottle *b=reply.get(1).asList())
+                    {
+                        if (Bottle *b1=b->find("position_3d").asList())
+                        {
+                            for (int i=0; i<3; i++)
+                            {
+//                                centerIn3D[i]=b1->get(i).asDouble();
+                                objectIn3D[i]=b1->get(i).asDouble();
+                            }
+
+                        }
+                        else
+                            yError("position_3d field not found in the OPC reply!");
+
+                        if (double b1=b->find("rt_dim_x").asDouble())
+                        {
+                            objectIn3D[3]=b1;
+                            printf("\tdimX = %f\n", b1);
+                        }
+                        else
+                            yError("rt_dim_x field not found in the OPC reply!");
+                        if (double b1=b->find("rt_dim_y").asDouble())
+                        {
+                            objectIn3D[4]=b1;
+                            printf("\tdimY = %f\n", b1);
+                        }
+                        else
+                            yError("rt_dim_y field not found in the OPC reply!");
+                        if (double b1=b->find("rt_dim_z").asDouble())
+                        {
+                            objectIn3D[5]=b1;
+                            printf("\tdimZ = %f\n", b1);
+                        }
+                        else
+                            yError("rt_dim_z field not found in the OPC reply!");
+                    }
+                    else
+                        yError("uncorrect reply structure received!");
+                }
+                else
+                    yError("Failure in reply for object 2D point!");
+            }
+            else
+                yError("reply size for 2D point less than 1!");
+*/
+        }
+        else
+            yError("Failure in reply for object id!");
+    }
+    else
+        yError("reply size for object id less than 1!");
+
+    return obstacleIDs;
+}
+
+bool upperPlanner::getObsFromOPC(const int &idObject, Vector &obstacle)
+{
+    Vector objectIn3D(6,0.0);
+    bool isPresent = false;
+
+    Bottle cmd,reply;
+
+
+    cmd.addVocab(Vocab::encode("get"));
+    Bottle &info=cmd.addList();
+    Bottle &info2=info.addList();
+    info2.addString("id");
+
+    info2.addInt(idObject);
+
+
+    rpc2OPC.write(cmd,reply);
+    if (reply.size()>1)
+    {
+        if (reply.get(0).asVocab()==Vocab::encode("ack"))
+        {
+            if (Bottle *b=reply.get(1).asList())
+            {
+                if ((b->find("isPresent").asInt())==1)
+                {
+                    isPresent = true;
+
+                    if (Bottle *b1=b->find("position_3d").asList())
+                    {
+                        for (int i=0; i<3; i++)
+                        {
+                            objectIn3D[i]=b1->get(i).asDouble();
+                        }
+
+                    }
+                    else
+                        yError("position_3d field not found in the OPC reply!");
+
+                    if (double b1=b->find("rt_dim_x").asDouble())
+                    {
+                        objectIn3D[3]=b1;
+                        printf("\tdimX = %f\n", b1);
+                    }
+                    else
+                        yError("rt_dim_x field not found in the OPC reply!");
+                    if (double b1=b->find("rt_dim_y").asDouble())
+                    {
+                        objectIn3D[4]=b1;
+                        printf("\tdimY = %f\n", b1);
+                    }
+                    else
+                        yError("rt_dim_y field not found in the OPC reply!");
+                    if (double b1=b->find("rt_dim_z").asDouble())
+                    {
+                        objectIn3D[5]=b1;
+                        printf("\tdimZ = %f\n", b1);
+                    }
+                    else
+                        yError("rt_dim_z field not found in the OPC reply!");
+                }
+            }
+            else
+                yError("uncorrect reply structure received!");
+        }
+        else
+            yError("Failure in reply for object 3D point!");
+    }
+    else
+        yError("reply size for 3D point less than 1!");
+
+
+    obstacle = objectIn3D;
+    return isPresent;
 }
 
 vector<Vector> findCorner(const Vector &obstacle)
@@ -1665,11 +2021,14 @@ void upperPlanner::logTrajectory(const string &trajectFilename,
 void upperPlanner::displayTraj(const vector<Vector> &trajectory,
                                const string &color)
 {
-    printf("\n===============================\n");
-    cout<<"DISPLAY TRAJECTORY"<<endl;
-    for (int i=0; i<trajectory.size(); i++)
+    if (trajectory.size()>0)
     {
-        createStaticSphere(0.03, trajectory[i], color);
+        printf("\n===============================\n");
+        cout<<"DISPLAY TRAJECTORY"<<endl;
+        for (int i=0; i<trajectory.size(); i++)
+        {
+            createStaticSphere(0.03, trajectory[i], color);
+        }
     }
 
 }
@@ -1750,6 +2109,7 @@ void upperPlanner::createStaticBox(const Vector &pos, const string &type)
 
 void upperPlanner::displayWorkspaceGui()
 {
+
     printf("\n===============================\n");
     cout<<"DISPLAY WORKSPACE GUI"<<endl;
 
@@ -1757,20 +2117,24 @@ void upperPlanner::displayWorkspaceGui()
     cmdGui.addString("reset");
     portToGui.write(cmdGui);
 
-    Vector obsGui;
-    for (int i=1; i<obsSet.size(); i++)
+    Vector obsGui(6,0.0);
+    if (obsSet.size()>0)
     {
+        for (int i=1; i<obsSet.size(); i++)
+        {
 
-        obsGui.resize(obsSet[i].size());
-        convertObjFromSimToRootFoR(obsSet[i],obsGui);
+            obsGui.resize(obsSet[i].size());
+            convertObjFromSimToRootFoR(obsSet[i],obsGui);
 
-        if (i==1)
-            createObsGui(obsGui,"table",i);
-        else
-            createObsGui(obsGui,"obstacle",i);
+            if (i==1)
+                createObsGui(obsGui,"table",i);
+            else
+                createObsGui(obsGui,"obstacle",i);
+        }
     }
     convertObjFromSimToRootFoR(target,obsGui);
     createObsGui(obsGui,"goal",0);
+
 }
 
 template <typename T>
@@ -1912,6 +2276,19 @@ void upperPlanner::convertObjFromSimToRootFoR(const Vector &obj, Vector &outObj)
     outObj[5] = obj[4];
 }
 
+void upperPlanner::convertObjFromRootToSimFoR(const Vector &obj, Vector &outObj)
+{
+    Vector object(3,0.0);
+
+    convertPosFromRootToSimFoR(obj.subVector(0,2),object);
+    outObj[0] = object[0];
+    outObj[1] = object[1];
+    outObj[2] = object[2];
+    outObj[3] = obj[4];
+    outObj[4] = obj[5];
+    outObj[5] = obj[3];
+}
+
 void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
 {
     printf("\n===============================\n");
@@ -1955,21 +2332,24 @@ void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
 
 void upperPlanner::updateTrajGui(const vector<Vector> &trajectory, const string &ctrlPoint)
 {
-    printf("\n===============================\n");
-    cout<<"DISPLAY TRAJECTORY GUI"<<endl;
-
-
-    for (int i=0; i<trajectory.size(); i++)
+    if (trajectory.size()>0)
     {
-        cmdGui.clear();
+        printf("\n===============================\n");
+        cout<<"DISPLAY TRAJECTORY GUI"<<endl;
 
-        cmdGui.addString("addpoint");
-        cmdGui.addString(ctrlPoint.c_str());                    // trajectory identifier
-        cmdGui.addDouble(1000.0*trajectory[i][0]);      // posX [mm]
-        cmdGui.addDouble(1000.0*trajectory[i][1]);      // posY [mm]
-        cmdGui.addDouble(1000.0*trajectory[i][2]);      // posZ [mm]
 
-        portToGui.write(cmdGui);
+        for (int i=0; i<trajectory.size(); i++)
+        {
+            cmdGui.clear();
+
+            cmdGui.addString("addpoint");
+            cmdGui.addString(ctrlPoint.c_str());                    // trajectory identifier
+            cmdGui.addDouble(1000.0*trajectory[i][0]);      // posX [mm]
+            cmdGui.addDouble(1000.0*trajectory[i][1]);      // posY [mm]
+            cmdGui.addDouble(1000.0*trajectory[i][2]);      // posZ [mm]
+
+            portToGui.write(cmdGui);
+        }
     }
 
 }

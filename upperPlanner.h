@@ -27,6 +27,7 @@
 #include <yarp/os/LockGuard.h>
 
 #include <yarp/os/RpcServer.h>
+#include <yarp/os/RpcClient.h>
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/RFModule.h>
 
@@ -146,30 +147,33 @@ protected:
     /***************************************************************************/
     // EXTERNAL VARIABLES: change them from command line or through .ini file
     // Flag that manages verbosity (v=1 -> more text printed out; v=2 -> even more text):
-    int verbosity;
+    int     verbosity;
     // Name of the module (to change port names accordingly):
-    string robot;       // Name of the robot
-    string  name;       // Name of the module
-    string  part;       // Part to use
+    string  robot;          // Name of the robot
+    string  name;           // Name of the module
+    string  part;           // Part to use
     string  part_short;
-    string running_mode;// To set running mode as "Single" or "Batch"
+    string  running_mode;   // To set running mode as "Single" or "Batch"
+    string  targetName;     // Name of the object considered as target
+    int     targetID;       // ID of the object considered as target in OPC (at /memory/rpc)
 
-    RpcServer rpcSrvr;
-    bool replan;        // Flag to run the planner
+    RpcServer   rpcSrvr;
+    bool    replan;        // Flag to run the planner
+    RpcClient   rpc2OPC;
 
     // Variables for Batch operation
     unsigned int countReplan;
     unsigned int maxReplan;
-    bool success;       // Flag to indicate the plan is sucessful or not (Batch Summary only)
-    double solvingTime; // Total time for each whole planner of all control points
-    double planningTime;// Deadline for planner
+    bool    success;       // Flag to indicate the plan is sucessful or not (Batch Summary only)
+    double  solvingTime; // Total time for each whole planner of all control points
+    double  planningTime;// Deadline for planner
 
     // Flag to know if the torso shall be used or not
-    bool useTorso;
+    bool    useTorso;
 
-    bool disableTorso;  // flag to know if the torso has to be used or not
-    bool visualizeObjectsInSim; // using yarp rpc /icubSim/world to visualize Objects, i.e. obstacles, target
-    bool visualizeObjectsInGui;
+    bool    disableTorso;  // flag to know if the torso has to be used or not
+    bool    visualizeObjectsInSim; // using yarp rpc /icubSim/world to visualize Objects, i.e. obstacles, target
+    bool    visualizeObjectsInGui;
     /***************************************************************************/
     // INTERNAL VARIABLES:
 
@@ -303,6 +307,12 @@ public:
 
     void processRpcCommand();
 
+    Vector getObjFromOPC_Name(const string &objectName, int &idObject);
+
+    vector<int> getObsIDFromOPC_Name();
+
+    bool getObsFromOPC(const int &idObject, Vector &obstacle);
+
     vector<Vector> expandObstacle(const vector<Vector> &traject, const vector<Vector> &obstacles,
                                   const double &lengthLimb);
 
@@ -377,6 +387,8 @@ public:
     void createWpGui(const Vector &pos, const string &ctrlPoint, const int &order, const string &color);
 
     void convertObjFromSimToRootFoR(const Vector &obj, Vector &outObj);
+
+    void convertObjFromRootToSimFoR(const Vector &obj, Vector &outObj);
 
     void initShowTrajGui(const string &ctrlPoint, const string &color);
 
