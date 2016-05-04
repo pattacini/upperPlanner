@@ -159,7 +159,8 @@ protected:
 
     RpcServer   rpcSrvr;
     bool    replan;        // Flag to run the planner
-    RpcClient   rpc2OPC;
+    RpcClient   rpc2OPC;        // rpc client to connect with port /OPC/rpc
+    RpcClient   rpc2actReEn;
 
     // Variables for Batch operation
     unsigned int countReplan;
@@ -327,9 +328,10 @@ public:
     * @brief Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD
     * @param objectName: string value of name of the object wanted to obtain information, i.e targetName (Octopus, box, etc.)
     * @param idObject: int value output of the id of the object wanted to obtain information, which is stored in /OPC
-    * @return Output is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
+    * @param objectRoot: is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
+    * @return Output is boolean value indicating if the object is available (true) or not (false)
     */
-    Vector getObjFromOPC_Name(const string &objectName, int &idObject);
+    bool getObjFromOPC_Name(const string &objectName, int &idObject, Vector &objectRoot);
 
     /**
     * @brief Get list of id of obstacles (excluding target) from /OPC/rpc port of WYSIWYD
@@ -340,9 +342,14 @@ public:
     /**
     * @brief Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD
     * @param idObject: integer value of the id of the obstacle wanted to obtain information, which is stored in /OPC and has been obtained by @see getObsIDFromOPC_Name()
-    * @return Output is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
+    * @param obstacle is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
+    * @return Output is boolean value indicating if the obstacle is available (true) or not (false)
     */
     bool getObsFromOPC(const int &idObject, Vector &obstacle);
+
+
+
+    bool getTableHeightFromOPC(double &tableHeight);
 
     /**
     * @brief Expanding the size of all obstacles closed to any waypoints of a trajectory to prevent waypoints of the trajectory of the next controlled point to be assigned in "bad" position
