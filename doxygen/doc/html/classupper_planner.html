@@ -143,16 +143,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#afda98a18cc9eb0ef639881b5762a172d">processRpcCommand</a> ()</td></tr>
 <tr class="memdesc:afda98a18cc9eb0ef639881b5762a172d"><td class="mdescLeft">&#160;</td><td class="mdescRight">processRpcCommand <br /></td></tr>
 <tr class="separator:afda98a18cc9eb0ef639881b5762a172d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a437fb5efe37aa040b88e6194548defd4"><td class="memItemLeft" align="right" valign="top">Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#a437fb5efe37aa040b88e6194548defd4">getObjFromOPC_Name</a> (const string &amp;objectName, int &amp;idObject)</td></tr>
-<tr class="memdesc:a437fb5efe37aa040b88e6194548defd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD.  <a href="#a437fb5efe37aa040b88e6194548defd4">More...</a><br /></td></tr>
-<tr class="separator:a437fb5efe37aa040b88e6194548defd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d6e76a6e13bacd5abd285d272da5606"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#a5d6e76a6e13bacd5abd285d272da5606">getObjFromOPC_Name</a> (const string &amp;objectName, int &amp;idObject, Vector &amp;objectRoot)</td></tr>
+<tr class="memdesc:a5d6e76a6e13bacd5abd285d272da5606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD application.  <a href="#a5d6e76a6e13bacd5abd285d272da5606">More...</a><br /></td></tr>
+<tr class="separator:a5d6e76a6e13bacd5abd285d272da5606"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbceb49210412c94b418788f0cfabe44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acbceb49210412c94b418788f0cfabe44"></a>
 vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#acbceb49210412c94b418788f0cfabe44">getObsIDFromOPC_Name</a> ()</td></tr>
 <tr class="memdesc:acbceb49210412c94b418788f0cfabe44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get list of id of obstacles (excluding target) from /OPC/rpc port of WYSIWYD Output is a standard integer vector of id of all obtacles. <br /></td></tr>
 <tr class="separator:acbceb49210412c94b418788f0cfabe44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c8d332b31dd5e68fd197ae06407bea8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#a0c8d332b31dd5e68fd197ae06407bea8">getObsFromOPC</a> (const int &amp;idObject, Vector &amp;obstacle)</td></tr>
-<tr class="memdesc:a0c8d332b31dd5e68fd197ae06407bea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD.  <a href="#a0c8d332b31dd5e68fd197ae06407bea8">More...</a><br /></td></tr>
+<tr class="memdesc:a0c8d332b31dd5e68fd197ae06407bea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD application.  <a href="#a0c8d332b31dd5e68fd197ae06407bea8">More...</a><br /></td></tr>
 <tr class="separator:a0c8d332b31dd5e68fd197ae06407bea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea1c9b8ada8ba09235ee9e9993cffbe8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#aea1c9b8ada8ba09235ee9e9993cffbe8">getTableHeightFromOPC</a> (double &amp;tableHeight)</td></tr>
+<tr class="memdesc:aea1c9b8ada8ba09235ee9e9993cffbe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get table height from /actionsRenderingEngine/get:io port of **<code>actionsRenderingEngine</code>** module.  <a href="#aea1c9b8ada8ba09235ee9e9993cffbe8">More...</a><br /></td></tr>
+<tr class="separator:aea1c9b8ada8ba09235ee9e9993cffbe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40b884b623245cdc580bd873aa004ef3"><td class="memItemLeft" align="right" valign="top">vector&lt; Vector &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classupper_planner.html#a40b884b623245cdc580bd873aa004ef3">expandObstacle</a> (const vector&lt; Vector &gt; &amp;traject, const vector&lt; Vector &gt; &amp;obstacles, const double &amp;lengthLimb)</td></tr>
 <tr class="memdesc:a40b884b623245cdc580bd873aa004ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expanding the size of all obstacles closed to any waypoints of a trajectory to prevent waypoints of the trajectory of the next controlled point to be assigned in "bad" position.  <a href="#a40b884b623245cdc580bd873aa004ef3">More...</a><br /></td></tr>
 <tr class="separator:a40b884b623245cdc580bd873aa004ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,6 +276,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>replan</b></td></tr>
 <tr class="memitem:a41a875adca43da91a6499372ce5f0a8e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41a875adca43da91a6499372ce5f0a8e"></a>
 RpcClient&#160;</td><td class="memItemRight" valign="bottom"><b>rpc2OPC</b></td></tr>
 <tr class="separator:a41a875adca43da91a6499372ce5f0a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaafe99d5f29d9a8cc83962a27443b3c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaafe99d5f29d9a8cc83962a27443b3c7"></a>
+RpcClient&#160;</td><td class="memItemRight" valign="bottom"><b>rpc2actReEn</b></td></tr>
+<tr class="separator:aaafe99d5f29d9a8cc83962a27443b3c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd7bd19a63651685fe37dd13b98648d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd7bd19a63651685fe37dd13b98648d0"></a>
 unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>countReplan</b></td></tr>
 <tr class="separator:acd7bd19a63651685fe37dd13b98648d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -471,7 +477,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicate the collision (true) and no collision (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01717">1717</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01733">1733</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -516,7 +522,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean vector indicate if the path segment collides with any obstacle (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01814">1814</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01830">1830</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -553,7 +559,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02280">2280</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02302">2302</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -590,7 +596,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02267">2267</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02289">2289</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -627,7 +633,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01958">1958</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01974">1974</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -664,7 +670,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01975">1975</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01991">1991</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -701,7 +707,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02084">2084</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02100">2100</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -745,7 +751,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02037">2037</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02053">2053</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -782,7 +788,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02022">2022</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02038">2038</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -820,7 +826,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double value of the distance. </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01851">1851</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01867">1867</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -857,7 +863,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double value of the distance. </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01864">1864</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01880">1880</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -895,7 +901,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double result of dot product calculation </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01765">1765</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01781">1781</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -940,7 +946,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is the standard vector of 6 parameter yarp Vector of new obstacles' list </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01576">1576</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01592">1592</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -985,7 +991,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 <dd>
 normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01735">1735</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01751">1751</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1030,16 +1036,16 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is the D yarp Vector of the other Ending point of link (e.g. Elbow) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01698">1698</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01714">1714</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a437fb5efe37aa040b88e6194548defd4"></a>
+<a class="anchor" id="a5d6e76a6e13bacd5abd285d272da5606"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">Vector upperPlanner::getObjFromOPC_Name </td>
+          <td class="memname">bool upperPlanner::getObjFromOPC_Name </td>
           <td>(</td>
           <td class="paramtype">const string &amp;&#160;</td>
           <td class="paramname"><em>objectName</em>, </td>
@@ -1048,7 +1054,13 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>idObject</em>&#160;</td>
+          <td class="paramname"><em>idObject</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vector &amp;&#160;</td>
+          <td class="paramname"><em>objectRoot</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1058,17 +1070,18 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD. </p>
+<p>Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD application. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">objectName</td><td>string value of name of the object wanted to obtain information, i.e targetName (Octopus, box, etc.) </td></tr>
     <tr><td class="paramname">idObject</td><td>int value output of the id of the object wanted to obtain information, which is stored in /OPC </td></tr>
+    <tr><td class="paramname">objectRoot</td><td>is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Output is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the object is available (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01215">1215</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01257">1257</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1096,7 +1109,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD. </p>
+<p>Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD application. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">idObject</td><td>integer value of the id of the obstacle wanted to obtain information, which is stored in /OPC and has been obtained by </td></tr>
@@ -1104,9 +1117,42 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classupper_planner.html#acbceb49210412c94b418788f0cfabe44" title="Get list of id of obstacles (excluding target) from /OPC/rpc port of WYSIWYD Output is a standard int...">getObsIDFromOPC_Name()</a> </dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>Output is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obstacle</td><td>is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the obstacle is available (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01424">1424</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01412">1412</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aea1c9b8ada8ba09235ee9e9993cffbe8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool upperPlanner::getTableHeightFromOPC </td>
+          <td>(</td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>tableHeight</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get table height from /actionsRenderingEngine/get:io port of **<code>actionsRenderingEngine</code>** module. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tableHeight</td><td>is a double value of table height in the Robot frame </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the table is available (true) or not (false). If not, it means that you forgot to calibrate the table. Please refer documentation for more information. </dd></dl>
+
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01487">1487</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1143,7 +1189,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02293">2293</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02315">2315</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1202,7 +1248,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classupper_planner.html#a9a50c6782cfd32b869e39ea1415e0a21" title="Find the center points of all surfaces of a box obstacle and the norm vectors of all those surfaces...">findCenterOnSurfaces()</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double result of dot product calculation </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01779">1779</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01795">1795</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1261,7 +1307,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value to indicate if it is successful in padding a waypoint (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01105">1105</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01147">1147</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1347,7 +1393,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02334">2334</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02356">2356</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1358,7 +1404,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 4 2016 13:18:54 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 5 2016 13:21:42 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.12
 </small></address>
