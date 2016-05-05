@@ -531,6 +531,8 @@ bool upperPlanner::updateModule()
             haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);
             convertObjFromRootToSimFoR(targetRoot,targetSim);
             goal = targetSim;
+            printf("targetRoot: %f, %f, %f, %f, %f, %f\n",targetRoot[0], targetRoot[1], targetRoot[2],targetRoot[3], targetRoot[4], targetRoot[5]);
+//            printf("goal: %f, %f, %f, %f, %f, %f\n",goal[0], goal[1], goal[2],goal[3], goal[4], goal[5]);
 
             // Obtain table
             printf("Get table from actionsRenderingEngine!!!\n");
@@ -576,9 +578,9 @@ bool upperPlanner::updateModule()
 
 //            goal.setSubvector(0,startPose);
 
-            printf("targetCenterRoot: %f, %f, %f\n",targetCenterRoot[0], targetCenterRoot[1], targetCenterRoot[2]);
-            printf("targetCenterSim: %f, %f, %f\n",targetCenterSim[0], targetCenterSim[1], targetCenterSim[2]);
-            printf("goal: %f, %f, %f, %f, %f, %f\n",goal[0], goal[1], goal[2],goal[3], goal[4], goal[5]);
+//            printf("targetCenterRoot: %f, %f, %f\n",targetCenterRoot[0], targetCenterRoot[1], targetCenterRoot[2]);
+//            printf("targetCenterSim: %f, %f, %f\n",targetCenterSim[0], targetCenterSim[1], targetCenterSim[2]);
+
 
             // Get objects from messages, information in Root frame
 
@@ -1498,13 +1500,8 @@ bool upperPlanner::getTableHeightFromOPC(double &tableHeight)
 //    cout << reply.toString()<<endl;
     if (reply.size()>=1)
     {
-//        cout << reply.toString()<<endl;
-//        cout << "test" << endl;
-        if (Bottle *b=reply.get(0).asList())
-        {
-            isPresent = true;
-            tableHeight = b->find("table_height").asDouble();
-        }
+        if (isPresent=reply.check("table_height"))
+            tableHeight=reply.find("table_height").asDouble();
         else
             yError("table_height field not found in the actionsRenderingEngine reply!");
     }
