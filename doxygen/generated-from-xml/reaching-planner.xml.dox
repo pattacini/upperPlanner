@@ -46,12 +46,12 @@
   * \section outputports_sec Output Ports
   * 
   *- /reaching-planner/End-Effector/bestCartersianTrajectory:o []  [default carrier:tcp]: 
-        send trajectory of the End-Effector.
+        send trajectory of the End-Effector in the format **(End-Effector "number_of_waypoints" "dimension" x1 y1 z1 x2 y2 z2 ...)**
       
   *
   
   *- /reaching-planner/Half-Elbow/bestCartersianTrajectory:o []  [default carrier:tcp]: 
-        send trajectory of the mid point in the Forearm.
+        send trajectory of the mid point in the Forearm in the format **(Half-Elbow "number_of_waypoints" "dimension" x1 y1 z1 x2 y2 z2 ...)**
       
   *
   
