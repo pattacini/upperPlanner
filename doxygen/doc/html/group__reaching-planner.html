@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>reaching-planner: /home/pnguyen/icub_workspace/reaching-planner/build/CMakeFiles/2.8.12.2 Directory Reference</title>
+<title>reaching-planner: reaching-planner</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -41,9 +41,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li class="current"><a href="files.html"><span>Files</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -62,11 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li class="current"><a href="files.html"><span>File&#160;List</span></a></li>
-    </ul>
-  </div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -81,20 +77,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_4fef79e7177ba769987a8da36c892c5f.html">build</a></li><li class="navelem"><a class="el" href="dir_63772b626f2709090f0bdca0f40827b4.html">CMakeFiles</a></li><li class="navelem"><a class="el" href="dir_da9d1f60b22a094d3f39025147373af5.html">2.8.12.2</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">2.8.12.2 Directory Reference</div>  </div>
+<div class="title">reaching-planner</div>  </div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="subdirs"></a>
-Directories</h2></td></tr>
-</table>
+<p>Module to generate a motion plan for an iCub arm Version:1.0 </p><dl class="section author"><dt>Author</dt><dd>NGUYEN Dong Hai Phuong <a href="#" onclick="location.href='mai'+'lto:'+'phu'+'on'+'g.n'+'gu'+'yen'+'@i'+'it.'+'it'; return false;">phuon<span style="display: none;">.nosp@m.</span>g.ng<span style="display: none;">.nosp@m.</span>uyen@<span style="display: none;">.nosp@m.</span>iit.<span style="display: none;">.nosp@m.</span>it</a> <br />
+ </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Released under the terms of the GNU GPL v2.0 </dd></dl>
+<h1><a class="anchor" id="intro_sec"></a>
+Description</h1>
+<p>This module can be triggered by send rpc command to the input rpc port</p>
+<p>To correctly use the module with iCub Simulator, do the following:</p><ul>
+<li>Launch iCub Simulator</li>
+<li>Launch this planner module</li>
+<li>Send rpc command to this planner module</li>
+</ul>
+<p>To correctly use the module with real robot, do the following:</p><ul>
+<li>Launch <a href="https://github.com/robotology/wysiwyd"><b>WYSIWYD</b></a> application from <em>yarpmanager</em></li>
+<li>Launch <b>actionsRenderingEngine</b> module from a new <em>terminal</em></li>
+<li>Connect all port in **WYSIWYD* application from <em>yarpmanager</em></li>
+<li>Open another new <em>terminal</em> and type <code>echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io</code>, and then <code>echo âcalib tableâ | yarp rpc /actionsRenderingEngine/cmd:io</code></li>
+</ul>
+<h1><a class="anchor" id="parameters_sec"></a>
+Parameters</h1>
+<h1><a class="anchor" id="inputports_sec"></a>
+Input Ports</h1>
+<ul>
+<li>/reaching-planner/OPC/rpc:io [] [default carrier:tcp]: receive Target, obstacles from /OPC/rpc port</li>
+<li>/reaching-planner/rpc:i [] [default carrier:tcp]: receive trigger command.</li>
+</ul>
+<h1><a class="anchor" id="outputports_sec"></a>
+Output Ports</h1>
+<ul>
+<li>/reaching-planner/End-Effector/bestCartersianTrajectory:o [] [default carrier:tcp]: send trajectory of the End-Effector.</li>
+<li>/reaching-planner/Half-Elbow/bestCartersianTrajectory:o [] [default carrier:tcp]: send trajectory of the mid point in the Forearm.</li>
+</ul>
+<h1><a class="anchor" id="services_sec"></a>
+Services</h1>
+<ul>
+<li>/superquadric-detection/rpc [rpc-server]: service port . This service is described in superquadricDetection_IDL (idl.thrift) </li>
+</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

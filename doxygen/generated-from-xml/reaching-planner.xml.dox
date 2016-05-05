@@ -1,0 +1,67 @@
+
+  /**
+  *
+  * @ingroup  
+  * \defgroup reaching-planner reaching-planner
+  * Module to generate a motion plan for an iCub arm
+  * Version:1.0
+  * \author  NGUYEN Dong Hai Phuong phuong.nguyen@iit.it
+  * \n
+  * \copyright Released under the terms of the GNU GPL v2.0
+  * \section intro_sec Description
+  *
+  
+    This module can be triggered by send rpc command to the input rpc port
+
+    To correctly use the module with iCub Simulator, do the following:
+	- Launch iCub Simulator
+	- Launch this planner module
+	- Send rpc command to this planner module
+
+    To correctly use the module with real robot, do the following:
+	- Launch  <a href="https://github.com/robotology/wysiwyd"> <b>WYSIWYD</b></a> application from *yarpmanager*
+	- Launch **actionsRenderingEngine** module from a new *terminal*
+	- Connect all port in **WYSIWYD* application from *yarpmanager*
+	- Open another new *terminal* and type `echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io`, and then `echo âcalib tableâ | yarp rpc /actionsRenderingEngine/cmd:io`
+    
+  
+  * \section parameters_sec Parameters     
+  
+  * \section inputports_sec Input Ports
+  * 
+  *- /reaching-planner/OPC/rpc:io []  [default carrier:tcp]: 
+        receive Target, obstacles from /OPC/rpc port
+      
+  *
+  
+  *- /reaching-planner/rpc:i []  [default carrier:tcp]: 
+        receive trigger command.
+      
+  *
+  
+  * \section outputports_sec Output Ports
+  * 
+  *- /reaching-planner/End-Effector/bestCartersianTrajectory:o []  [default carrier:tcp]: 
+        send trajectory of the End-Effector.
+      
+  *
+  
+  *- /reaching-planner/Half-Elbow/bestCartersianTrajectory:o []  [default carrier:tcp]: 
+        send trajectory of the mid point in the Forearm.
+      
+  *
+  
+  *
+  * \section services_sec Services
+  * 
+  *- /superquadric-detection/rpc
+  *  [rpc-server]: 
+  * service port
+  * . This service is described in superquadricDetection_IDL (idl.thrift)
+  * 
+  *
+  * 
+  *
+  *
+  **/
+
