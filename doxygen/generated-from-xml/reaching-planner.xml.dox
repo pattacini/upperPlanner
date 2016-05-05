@@ -14,17 +14,19 @@
     This module can be triggered by send rpc command to the input rpc port
 
     To correctly use the module with iCub Simulator, do the following:
-	- Launch iCub Simulator
+	- Launch iCub Simulator, i.e typing **iCub_SIM** in a *terminal*
 	- Launch this planner module
-	- Send rpc command to this planner module
+	- Send rpc command to this planner module, i.e typing **yarp rpc "input_rpc_port"**
 
     To correctly use the module with real robot, do the following:
 	- Launch  <a href="https://github.com/robotology/wysiwyd"> <b>WYSIWYD</b></a> application from *yarpmanager*
-	- Launch **actionsRenderingEngine** module from a new *terminal*
+	- Launch <a href="http://wiki.icub.org/brain/group__actionsRenderingEngine.html"><b>actionsRenderingEngine</b></a> module from a new *terminal*
 	- Connect all port in **WYSIWYD** application from *yarpmanager*
-	- Open another new *terminal*, put some objects on the table in front of the iCub face and type 
+	- Open another new *terminal*, put some objects on the table in front of the iCub face and type: 
 		+ **echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io**, to move iCub to *home* pose.
 		+ **echo "calib table" | yarp rpc /actionsRenderingEngine/cmd:io**, to calibrate the table with iCub's finger.
+	- Launch this planner module
+	- Send rpc command to this planner module
     
   
   * \section parameters_sec Parameters     

@@ -89,19 +89,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 Description</h1>
 <p>This module can be triggered by send rpc command to the input rpc port</p>
 <p>To correctly use the module with iCub Simulator, do the following:</p><ul>
-<li>Launch iCub Simulator</li>
+<li>Launch iCub Simulator, i.e typing <b>iCub_SIM</b> in a <em>terminal</em></li>
 <li>Launch this planner module</li>
-<li>Send rpc command to this planner module</li>
+<li>Send rpc command to this planner module, i.e typing <b>yarp rpc "input_rpc_port"</b></li>
 </ul>
 <p>To correctly use the module with real robot, do the following:</p><ul>
 <li>Launch <a href="https://github.com/robotology/wysiwyd"><b>WYSIWYD</b></a> application from <em>yarpmanager</em></li>
-<li>Launch <b>actionsRenderingEngine</b> module from a new <em>terminal</em></li>
+<li>Launch <a href="http://wiki.icub.org/brain/group__actionsRenderingEngine.html"><b>actionsRenderingEngine</b></a> module from a new <em>terminal</em></li>
 <li>Connect all port in <b>WYSIWYD</b> application from <em>yarpmanager</em></li>
-<li>Open another new <em>terminal</em>, put some objects on the table in front of the iCub face and type<ul>
+<li>Open another new <em>terminal</em>, put some objects on the table in front of the iCub face and type:<ul>
 <li><b>echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io</b>, to move iCub to <em>home</em> pose.</li>
 <li><b>echo "calib table" | yarp rpc /actionsRenderingEngine/cmd:io</b>, to calibrate the table with iCub's finger.</li>
 </ul>
 </li>
+<li>Launch this planner module</li>
+<li>Send rpc command to this planner module</li>
 </ul>
 <h1><a class="anchor" id="parameters_sec"></a>
 Parameters</h1>
@@ -122,7 +124,7 @@ Services</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 5 2016 14:24:03 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 5 2016 14:31:48 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.12
 </small></address>
