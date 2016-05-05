@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DESTINATIONXML=generated-from-xml
-YARP_ROOT=../../../../../../yarp
+YARP_ROOT=../../../yarp
 
 # clean-up
 rm doc -rf
@@ -9,7 +9,7 @@ rm $DESTINATIONXML -rf
 
 # generate doxy from xml
 mkdir $DESTINATIONXML
-list=`find .. -iname *.xml | xargs`
+list=`find .. -iname reaching-planner.xml | xargs`
 for i in $list
 do
    filename=`basename $i`

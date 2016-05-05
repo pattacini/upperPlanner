@@ -96,8 +96,12 @@ Description</h1>
 <p>To correctly use the module with real robot, do the following:</p><ul>
 <li>Launch <a href="https://github.com/robotology/wysiwyd"><b>WYSIWYD</b></a> application from <em>yarpmanager</em></li>
 <li>Launch <b>actionsRenderingEngine</b> module from a new <em>terminal</em></li>
-<li>Connect all port in **WYSIWYD* application from <em>yarpmanager</em></li>
-<li>Open another new <em>terminal</em> and type <code>echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io</code>, and then <code>echo âcalib tableâ | yarp rpc /actionsRenderingEngine/cmd:io</code></li>
+<li>Connect all port in <b>WYSIWYD</b> application from <em>yarpmanager</em></li>
+<li>Open another new <em>terminal</em>, put some objects on the table in front of the iCub face and type<ul>
+<li><b>echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io</b>, to move iCub to <em>home</em> pose.</li>
+<li><b>echo "calib table" | yarp rpc /actionsRenderingEngine/cmd:io</b>, to calibrate the table with iCub's finger.</li>
+</ul>
+</li>
 </ul>
 <h1><a class="anchor" id="parameters_sec"></a>
 Parameters</h1>
@@ -115,13 +119,10 @@ Output Ports</h1>
 </ul>
 <h1><a class="anchor" id="services_sec"></a>
 Services</h1>
-<ul>
-<li>/superquadric-detection/rpc [rpc-server]: service port . This service is described in superquadricDetection_IDL (idl.thrift) </li>
-</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 5 2016 14:16:14 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 5 2016 14:24:03 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.12
 </small></address>

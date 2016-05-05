@@ -21,8 +21,10 @@
     To correctly use the module with real robot, do the following:
 	- Launch  <a href="https://github.com/robotology/wysiwyd"> <b>WYSIWYD</b></a> application from *yarpmanager*
 	- Launch **actionsRenderingEngine** module from a new *terminal*
-	- Connect all port in **WYSIWYD* application from *yarpmanager*
-	- Open another new *terminal* and type `echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io`, and then `echo âcalib tableâ | yarp rpc /actionsRenderingEngine/cmd:io`
+	- Connect all port in **WYSIWYD** application from *yarpmanager*
+	- Open another new *terminal*, put some objects on the table in front of the iCub face and type 
+		+ **echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io**, to move iCub to *home* pose.
+		+ **echo "calib table" | yarp rpc /actionsRenderingEngine/cmd:io**, to calibrate the table with iCub's finger.
     
   
   * \section parameters_sec Parameters     
@@ -53,11 +55,6 @@
   
   *
   * \section services_sec Services
-  * 
-  *- /superquadric-detection/rpc
-  *  [rpc-server]: 
-  * service port
-  * . This service is described in superquadricDetection_IDL (idl.thrift)
   * 
   *
   * 
