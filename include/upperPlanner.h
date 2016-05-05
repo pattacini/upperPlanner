@@ -325,11 +325,11 @@ public:
     void processRpcCommand();
 
     /**
-    * @brief Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD
+    * @brief Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD application
     * @param objectName: string value of name of the object wanted to obtain information, i.e targetName (Octopus, box, etc.)
     * @param idObject: int value output of the id of the object wanted to obtain information, which is stored in /OPC
     * @param objectRoot: is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
-    * @return Output is boolean value indicating if the object is available (true) or not (false)
+    * @return Output is a boolean value indicating if the object is available (true) or not (false)
     */
     bool getObjFromOPC_Name(const string &objectName, int &idObject, Vector &objectRoot);
 
@@ -340,15 +340,19 @@ public:
     vector<int> getObsIDFromOPC_Name();
 
     /**
-    * @brief Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD
+    * @brief Get information (coordinate and dimension) of 3D obstacle from /OPC/rpc port of WYSIWYD application
     * @param idObject: integer value of the id of the obstacle wanted to obtain information, which is stored in /OPC and has been obtained by @see getObsIDFromOPC_Name()
-    * @param obstacle is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
-    * @return Output is boolean value indicating if the obstacle is available (true) or not (false)
+    * @param obstacle: is the 6 parameter yarp Vector of object 3D coordinate and 3D dimension
+    * @return Output is a boolean value indicating if the obstacle is available (true) or not (false)
     */
     bool getObsFromOPC(const int &idObject, Vector &obstacle);
 
 
-
+    /**
+     * @brief Get table height from /actionsRenderingEngine/get:io port of **`actionsRenderingEngine`** module
+     * @param tableHeight: is a double value of table height in the Robot frame
+     * @return Output is a boolean value indicating if the table is available (true) or not (false). If not, it means that you forgot to calibrate the table. Please refer documentation for more information.
+     */
     bool getTableHeightFromOPC(double &tableHeight);
 
     /**
