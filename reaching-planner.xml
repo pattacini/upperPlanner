@@ -67,6 +67,7 @@
 
   </data>
  
+<!--
   <services>
     <server>
       <type>superquadricDetection_IDL</type>
@@ -75,5 +76,5 @@
       <description>service port</description>
     </server>
   </services>
- 
+ -->
 </module>
