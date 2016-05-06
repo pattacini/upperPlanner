@@ -1,5 +1,5 @@
 /* 
- * Copyright: (C) 2015 iCub Facility - Istituto Italiano di Tecnologia
+ * Copyright: (C) 2016 iCub Facility - Istituto Italiano di Tecnologia
  * Author: Nguyen Dong Hai Phuong <phuong.nguyen@iit.it>
  * website: www.robotcub.org
  * author website: https://github.com/towardthesea
