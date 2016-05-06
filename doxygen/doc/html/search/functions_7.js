@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['operator_3d',['operator=',['../class_state.html#a529c405911700f036fd7331bd40df652',1,'State::operator=()'],['../class_trajectory.html#a4986ad998ea5fec53c2c872fc3380ef3',1,'Trajectory::operator=()'],['../class_single_integrator_1_1_state.html#a04b3ac29a9d88cc97f2a58060da01c58',1,'SingleIntegrator::State::operator=()'],['../class_single_integrator_1_1_trajectory.html#ac99e8f9b6f17c594d28660e1df30e023',1,'SingleIntegrator::Trajectory::operator=()']]],
-  ['operator_5b_5d',['operator[]',['../class_state.html#aebe013c059d3252677187479123b9b56',1,'State::operator[]()'],['../class_single_integrator_1_1_state.html#aad1437e4bf9c87b528b616445734fda2',1,'SingleIntegrator::State::operator[]()']]]
+  ['logbatchsummary',['logBatchSummary',['../classupper_planner.html#a38687a226aa43316f880c153bd1dac03',1,'upperPlanner']]],
+  ['logtrajectory',['logTrajectory',['../classsingle_planner.html#a1e493fb6134cf3ad84e89ada6b491679',1,'singlePlanner']]],
+  ['logvertices',['logVertices',['../classsingle_planner.html#acc3dc1236659039c033ce9c2f8246465',1,'singlePlanner']]]
 ];
