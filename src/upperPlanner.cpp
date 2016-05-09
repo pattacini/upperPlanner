@@ -470,6 +470,7 @@ bool upperPlanner::updateModule()
         if (robot == "icubSim")
         {
 
+            haveTarget = true;
             goal[0]=-1.0/scale; //-3.0/scale; //-10.0/scale;
             goal[1]=5.64/scale; //6.0/scale; //7.0/scale;
             goal[2]=3.7/scale;  //1.0/scale;
