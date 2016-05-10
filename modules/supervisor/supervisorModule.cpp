@@ -68,7 +68,10 @@ int main(int argc, char *argv[])
 
 
     reachingSupervisor supervisor;
+    cout<<"check 1"<<endl;
+
     supervisor.configure(rf);
+    cout<<"check 2"<<endl;
 
     return supervisor.runModule();
     //return planner.runModule(rf);   // runModule(rf) = configure() + runModule()

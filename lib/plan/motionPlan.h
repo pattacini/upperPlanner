@@ -86,7 +86,7 @@ public:
 
     void clearTrajectory();
 
-    vector<waypointTrajectory> getListTrajectory(); //Change to reference
+    vector<waypointTrajectory>& getListTrajectory(); //Change to reference
 
     void sendPlan();
 

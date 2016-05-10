@@ -25,7 +25,7 @@ void motionPlan::clearTrajectory()
     listTrajectory.clear();
 }
 
-vector<waypointTrajectory> motionPlan::getListTrajectory()
+vector<waypointTrajectory>& motionPlan::getListTrajectory()
 {
     return listTrajectory;
 }
@@ -83,27 +83,40 @@ void motionPlan::receivePlan()
 
     if (inPlan != NULL)
     {
-        Bottle* inListTrajectories = inPlan->get(0).asList();
-        int numberCtrlPoints = inListTrajectories->size();
-        if (inListTrajectories != NULL)
-        {
-            waypointTrajectory wpTraject;
+//        Bottle* inListTrajectories = inPlan->get(0).asList();
+        int numberCtrlPoints = inPlan->size();
+        printf("numberCtrlPoints= %d\n",numberCtrlPoints);
+//        if (inListTrajectories != NULL)
+//        {
+
             vector<Vector> trajectory;
             int numberWaypoint, numberDimension;
 
             for (int i=0; i<numberCtrlPoints; i++)
             {
-                if (Bottle* inListTrajectory = inListTrajectories->get(i).asList())
+                printf("i= %d\n",i);
+//                Bottle* inListTrajectory = inPlan->get(i).asList();
+                if (Bottle* inListTrajectory = inPlan->get(i).asList())
                 {
-                    if (inListTrajectory->find("control-point") != NULL)
-                        wpTraject.setCtrlPoint(inListTrajectory->find("control-point").asString());
+                    string ctrlPtName = inListTrajectory->find("control-point").asString();
+                    printf("ctrlPtName= %s\n", ctrlPtName.c_str());
+                    waypointTrajectory wpTraject;
+                    wpTraject.setCtrlPoint(ctrlPtName);
+
 
                     if (int tempMsg = inListTrajectory->find("number-waypoints").asInt())
+                    {
                         numberWaypoint = tempMsg;
+//                        printf("numberWaypoint = %d\n",numberWaypoint);
+                    }
 
                     if (int tempMsg = inListTrajectory->find("number-dimension").asInt())
+                    {
                         numberDimension = tempMsg;
+//                        printf("numberDimension = %d\n",numberDimension);
+                    }
 
+                    trajectory.clear();
                     for (int j=0; j<numberWaypoint; j++)
                     {
                         Vector waypoint(numberDimension,0.0);
@@ -115,19 +128,35 @@ void motionPlan::receivePlan()
                                 for (int k=0; k<numberDimension; k++)
                                 {
                                     waypoint[k]=coordinate->get(k).asDouble();
+//                                    printf("waypoint[%d]= %f\n",k,waypoint[k]);
                                 }
                                 trajectory.push_back(waypoint);
                             }
                         }
 
                     }
+                    wpTraject.setWaypoints(trajectory);
+                    listTrajectory.push_back(wpTraject);
+
                 }
 
             }
-            wpTraject.setWaypoints(trajectory);
-            listTrajectory.push_back(wpTraject);
+
+    }
+    printf("listTrajectory.size()= %d\n",listTrajectory.size());
+    if (listTrajectory.size()>0)
+    {
+        for (int i=0; i<listTrajectory.size(); i++)
+        {
+            printf("i= %d\n",i);
+            vector<Vector> tempTrajectory = listTrajectory[i].getWaypoints();
+            for (int j=0; j<tempTrajectory.size(); j++)
+            {
+                printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
+            }
         }
     }
+
 }
 
 

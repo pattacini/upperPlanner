@@ -24,8 +24,8 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
         yError("[reaching-supervisor] Unable to open port << port2planner << endl");
 
     string portPlanner = "/reaching-planner/bestCartesianTrajectory:o";
-    Network::connect(portPlanner.c_str(),port2planner.c_str());
-    printf("[reaching-supervisor] can connect to receive motion plan");
+    if(Network::connect(portPlanner.c_str(),port2planner.c_str()))
+        printf("[reaching-supervisor] can connect to receive motion plan\n");
 }
 
 double reachingSupervisor::getPeriod()
@@ -35,17 +35,24 @@ double reachingSupervisor::getPeriod()
 
 bool reachingSupervisor::updateModule()
 {
-    printf("check updateModule reachingSupervisor");
+//    vector<waypointTrajectory> &listTraject;
+    printf("check updateModule reachingSupervisor\n");
     planPortIn.receivePlan();
     printf("===============================\n");
     printf("Get list of Trajectory!!!\n");
-    listTrajectory = planPortIn.getListTrajectory();
-    if (listTrajectory.size()>0)
+    vector<waypointTrajectory> &listTraject = planPortIn.getListTrajectory();
+    if (listTraject.size()>0)
     {
-        printf("Got some thing\n");
-        for (int i=0; i<listTrajectory.size(); i++)
+
+        printf("Got some thing. listTrajectory.size()= %d\n",listTraject.size());
+        for (int i=0; i<listTraject.size(); i++)
         {
-    //        listTrajectory[i]
+            printf("i= %d\n",i);
+            vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
+            for (int j=0; j<tempTrajectory.size(); j++)
+            {
+                printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
+            }
         }
     }
 
