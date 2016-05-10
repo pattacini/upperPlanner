@@ -16,10 +16,10 @@ using namespace yarp::os;
 class waypointTrajectory
 {
 private:
-    string  controlPoint;
+    string  controlPointName;
     int     numberDimension;
     int     numberWaypoints;
-    vector<Vector> waypoints;
+    vector<Vector> waypoints;   // Delete it later
 public:
 
     waypointTrajectory()
@@ -31,7 +31,7 @@ public:
     waypointTrajectory(const string &ctrlPt,
                        const vector<Vector> &trajectory)
     {
-        controlPoint = ctrlPt;
+        controlPointName = ctrlPt;
         waypoints = trajectory;
         numberWaypoints = trajectory.size();
         if (trajectory.size()>0)
@@ -40,7 +40,7 @@ public:
 
     void setCtrlPoint(const string& ctrlPt)
     {
-        controlPoint = ctrlPt;
+        controlPointName = ctrlPt;
     }
 
 
@@ -54,7 +54,7 @@ public:
 
     string getCtrlPoint()
     {
-        return controlPoint;
+        return controlPointName;
     }
 
     int getDimension()
@@ -77,7 +77,7 @@ public:
 class motionPlan : public BufferedPort<Bottle>
 {
 private:
-    vector<waypointTrajectory> listTrajectory;
+    vector<waypointTrajectory> listTrajectory;  // Delete later
     Stamp ts;
 public:
     motionPlan();
@@ -86,7 +86,7 @@ public:
 
     void clearTrajectory();
 
-    vector<waypointTrajectory> getListTrajectory();
+    vector<waypointTrajectory> getListTrajectory(); //Change to reference
 
     void sendPlan();
 
