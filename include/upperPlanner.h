@@ -58,6 +58,8 @@
 #include "singlePlanner.h"
 //#include "upperPlanner_IDL.h"
 
+#include "motionPlan.h"
+
 using namespace std;
 using namespace RRTstar;
 using namespace SingleIntegrator;
@@ -224,6 +226,8 @@ protected:
     BufferedPort<Bottle> upperTrajectPortOut;   // Output for Trajectory of upper body
 
     trajOutPort EEPortOut, HalfElbowPortOut;
+
+    motionPlan planPortOut;
 
     Bottle cmd;
     Bottle cmdGui;          // Bottle to display object on iCubGui

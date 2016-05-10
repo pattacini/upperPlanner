@@ -139,13 +139,21 @@ bool upperPlanner::configure(ResourceFinder &rf){
         yInfo("[reaching-planner] running_mode set to %s", running_mode.c_str());
     }
     else yInfo("[reaching-planner] Could not find running_mode option in the config file; using %s as default",running_mode.c_str());
-    //********************** NUMBER OF e ***********************
+    //********************** NUMBER OF REPEAT PLANNING IN BATCH MODE************
     if (rf.check("maxReplan"))
     {
         maxReplan = rf.find("maxReplan").asInt();
         yInfo("[reaching-planner] maxReplan set to %i", maxReplan);
     }
     else yInfo("[reaching-planner] Could not find maxReplan option in the config file; using %i as default",maxReplan);
+    //********************** TARGET************
+    if (rf.check("targetName"))
+    {
+        targetName = rf.find("targetName").asString();
+        yInfo("[reaching-planner] targetName set to %s", targetName.c_str());
+    }
+    else yInfo("[reaching-planner] Could not find targetName option in the config file; using %s as default",targetName.c_str());
+
     //********************** CONFIGS ***********************
     if (rf.check("disableTorso"))
     {
@@ -352,6 +360,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
     HalfElbowPortOut.setControlPoint("Half-Elbow");
     HalfElbowPortOut.open(("/"+name+"/Half-Elbow/bestCartesianTrajectory:o").c_str());
 
+    planPortOut.open(("/"+name+"/bestCartesianTrajectory:o").c_str());
     //****Planning*************************************************************************
     if (running_mode == "batch")
     {
@@ -1009,6 +1018,16 @@ bool upperPlanner::updateModule()
 
             HalfElbowPortOut.setTrajectory(bestTrajRootHalfElbow);
             HalfElbowPortOut.sendTrajectory();
+
+            planPortOut.clearTrajectory();
+            waypointTrajectory EE("End-Effector",bestTrajRootEE);
+            waypointTrajectory HE("Half-Elbow",bestTrajRootHalfElbow);
+            planPortOut.addTrajectory(EE);
+            planPortOut.addTrajectory(HE);
+            planPortOut.sendPlan();
+
+            // Using class motionPlan
+
 
             // 6. Display Trajectory
 
