@@ -48,7 +48,7 @@ void motionPlan::sendPlan()
         vector<Vector> waypoints = trajectory.getWaypoints();
 
         ctrlPt.addString("control-point");
-        ctrlPt.addString(trajectory.getCtrlPoint());
+        ctrlPt.addString(trajectory.getCtrlPointName());
         trajectPack.addList().read(ctrlPt);
 
         nWp.addString("number-waypoints");
@@ -121,7 +121,7 @@ void motionPlan::onRead(Bottle &inPlan)
                     string ctrlPtName = inListTrajectory->find("control-point").asString();
                     printf("ctrlPtName= %s\n", ctrlPtName.c_str());
                     waypointTrajectory wpTraject;
-                    wpTraject.setCtrlPoint(ctrlPtName);
+                    wpTraject.setCtrlPointName(ctrlPtName);
 
 
                     if (int tempMsg = inListTrajectory->find("number-waypoints").asInt())
@@ -204,7 +204,7 @@ void motionPlan::receivePlan()
                     string ctrlPtName = inListTrajectory->find("control-point").asString();
                     printf("ctrlPtName= %s\n", ctrlPtName.c_str());
                     waypointTrajectory wpTraject;
-                    wpTraject.setCtrlPoint(ctrlPtName);
+                    wpTraject.setCtrlPointName(ctrlPtName);
 
 
                     if (int tempMsg = inListTrajectory->find("number-waypoints").asInt())

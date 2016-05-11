@@ -46,7 +46,7 @@ public:
             numberDimension = waypoints[0].size();
     }
 
-    void setCtrlPoint(const string& ctrlPt)
+    void setCtrlPointName(const string& ctrlPt)
     {
         controlPointName = ctrlPt;
     }
@@ -60,7 +60,7 @@ public:
             numberDimension = waypoints[0].size();
     }
 
-    string getCtrlPoint()
+    string getCtrlPointName()
     {
         return controlPointName;
     }
