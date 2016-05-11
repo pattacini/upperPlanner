@@ -29,8 +29,8 @@ set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/rrts.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/plan/motionPlan.h
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/plan/motionPlan.cpp)
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan/motionPlan.h
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/src/motionPlan.cpp)
 
 #set (incldue_files	${CMAKE_CURRENT_SOURCE_DIR}/include/singlePlanner.h
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/include/upperPlanner.h)
@@ -39,7 +39,9 @@ set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/src/upperPlanner.cpp
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/src/plannerModule.cpp)
 
-include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/plan
+include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/include
+			${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan
+			${CMAKE_CURRENT_SOURCE_DIR}/lib/src
 		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star
                    	${YARP_INCLUDE_DIRS}
                     	${ICUB_INCLUDE_DIRS})

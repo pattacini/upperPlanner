@@ -10,9 +10,9 @@ include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${ICUB_INCLUDE_DIRS})
 include_directories(${IPOPT_INCLUDE_DIRS})
 
-set(folder_source plan/motionPlan.cpp)
+set(folder_source src/motionPlan.cpp)
 
-set(folder_header plan/motionPlan.h)
+set(folder_header include/iCub/motionPlan/motionPlan.h)
 
 #include_directories(${PROJECT_SOURCE_DIR}/include)
 

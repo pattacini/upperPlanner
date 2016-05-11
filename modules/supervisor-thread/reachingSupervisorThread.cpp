@@ -40,7 +40,7 @@ bool reachingSupervisorThread::updateModule()
 //    planPortIn.receivePlan();
     printf("===============================\n");
     printf("Get list of Trajectory!!!\n");
-    vector<waypointTrajectory> &listTraject = planPortIn.getListTrajectory();
+    deque<waypointTrajectory> &listTraject = planPortIn.getListTrajectory();
     if (listTraject.size()>0)
     {
 

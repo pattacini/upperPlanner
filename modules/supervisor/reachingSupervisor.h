@@ -69,7 +69,7 @@ class reachingSupervisor : public RFModule
 {
 protected:
     string name;
-    vector<waypointTrajectory> listTrajectory;
+    vector<waypointTrajectory> listTrajectories;
 
     motionPlan planPortIn;
 
