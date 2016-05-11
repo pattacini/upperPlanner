@@ -76,11 +76,19 @@ public:
 
 class motionPlan : public BufferedPort<Bottle>
 {
+    using BufferedPort<Bottle>::onRead;
+    virtual void onRead(Bottle &inPlan);
+
 private:
     vector<waypointTrajectory> listTrajectory;  // Delete later
     Stamp ts;
+
 public:
     motionPlan();
+    ~motionPlan();
+    bool haveNewMsg;
+
+
 
     void addTrajectory(const waypointTrajectory &ctrlPtTrajectory);
 
@@ -91,6 +99,12 @@ public:
     void sendPlan();
 
     void receivePlan();
+
+
+
+    bool& gotNewMsg();
+
+    void setNewMsg(const bool &value);
 
 
 };

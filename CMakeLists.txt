@@ -51,6 +51,8 @@ include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/plan
 
 add_subdirectory(modules)
 
+add_subdirectory(lib)
+
 #add_subdirectory(app)
 
 icubcontrib_add_uninstall_target()
