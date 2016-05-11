@@ -14,6 +14,13 @@ using namespace std;
 using namespace yarp::sig;
 using namespace yarp::os;
 
+namespace iCub {
+   namespace motionPlan {
+       class motionPlan;
+       class waypointTrajectory;
+    }
+}
+
 class waypointTrajectory
 {
 private:

@@ -44,7 +44,7 @@ bool reachingSupervisorThread::updateModule()
     if (listTraject.size()>0)
     {
 
-        printf("Got some thing. listTrajectory.size()= %d\n",listTraject.size());
+        printf("Got some thing. listTrajectory.size()= %d\n",(int) listTraject.size());
 
 //        for (int i=0; i<listTraject.size(); i++)
 //        {
