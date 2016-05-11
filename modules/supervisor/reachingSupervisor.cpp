@@ -20,6 +20,8 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     //****Normal communication port *******************************************************
     planPortIn.useCallback();
 
+
+
     string port2planner = "/"+name+"/bestCartesianTrajectory:i";
     if (!planPortIn.open(port2planner.c_str()))
         yError("[reaching-supervisor] Unable to open port << port2planner << endl");
@@ -28,6 +30,7 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if(Network::connect(portPlanner.c_str(),port2planner.c_str()))
         printf("[reaching-supervisor] can connect to receive motion plan\n");
 
+    return true;
 }
 
 double reachingSupervisor::getPeriod()
@@ -38,13 +41,12 @@ double reachingSupervisor::getPeriod()
 bool reachingSupervisor::updateModule()
 {
 
-
-//    planPortIn.receivePlan();
-    printf("updateModule reachingSupervisor\n");
+//    printf("updateModule reachingSupervisor\n");
     if (planPortIn.gotNewMsg())
     {
-        printf("check haveNewMsg\n");
-        planPortIn.haveNewMsg = false;
+        printf("===============================\n");
+        printf("updateModule() reachingSupervisor\n");
+        planPortIn.setNewMsg(false);
 
 
 
@@ -54,42 +56,22 @@ bool reachingSupervisor::updateModule()
 
             printf("Got some thing. listTrajectory.size()= %d\n",(int) listTraject.size());
 
-//            for (int i=0; i<listTraject.size(); i++)
-//            {
-//                printf("i= %d\n",i);
-//                vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
-//                for (int j=0; j<tempTrajectory.size(); j++)
-//                {
-//                    printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
-//                }
-//            }
+            for (int i=0; i<listTraject.size(); i++)
+            {
+                string tempCtrlPtName = listTraject[i].getCtrlPointName();
+                printf("CtrlPointName = %s\n",tempCtrlPtName.c_str());
+                vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
+                for (int j=0; j<tempTrajectory.size(); j++)
+                {
+                    printf("\tWaypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
+                }
+            }
         }
 
     }
-//    if (planPortIn.gotNewMsg())
-//    {
 
-//        printf("===============================\n");
-//        planPortIn.setNewMsg(false);
-//        printf("Get list of Trajectory!!!\n");
-//        vector<waypointTrajectory> &listTraject = planPortIn.getListTrajectory();
-//        if (listTraject.size()>0)
-//        {
 
-//            printf("Got some thing. listTrajectory.size()= %d\n",listTraject.size());
-
-//    //        for (int i=0; i<listTraject.size(); i++)
-//    //        {
-//    //            printf("i= %d\n",i);
-//    //            vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
-//    //            for (int j=0; j<tempTrajectory.size(); j++)
-//    //            {
-//    //                printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
-//    //            }
-//    //        }
-//        }
-//    }
-
+    return true;
 }
 
 bool reachingSupervisor::close()
@@ -97,4 +79,6 @@ bool reachingSupervisor::close()
     planPortIn.interrupt();
     planPortIn.close();
     listTrajectories.clear();
+
+    return true;
 }

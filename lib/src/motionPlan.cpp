@@ -15,7 +15,7 @@ motionPlan::motionPlan()
     ts.update();
     listTrajectory.clear();
     haveNewMsg = false;
-//    useCallback();
+
 }
 motionPlan::~motionPlan()
 {
@@ -99,8 +99,7 @@ void motionPlan::onRead(Bottle &inPlan)
     clearTrajectory();
     haveNewMsg = true;
 
-    printf("===============================\n");
-    printf("onRead()\n");
+
     if (!inPlan.isNull())
     {
 //        Bottle* inListTrajectories = inPlan->get(0).asList();
@@ -156,26 +155,27 @@ void motionPlan::onRead(Bottle &inPlan)
 
                     }
                     wpTraject.setWaypoints(trajectory);
-                    listTrajectory.push_back(wpTraject);
+//                    listTrajectory.push_back(wpTraject);
+                    addTrajectory(wpTraject);
 
                 }
 
             }
 
     }
-    printf("listTrajectory.size()= %d\n",(int) listTrajectory.size());
-    if (listTrajectory.size()>0)
-    {
-        for (int i=0; i<listTrajectory.size(); i++)
-        {
-            printf("i= %d\n",i);
-            vector<Vector> tempTrajectory = listTrajectory[i].getWaypoints();
-            for (int j=0; j<tempTrajectory.size(); j++)
-            {
-                printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
-            }
-        }
-    }
+//    printf("listTrajectory.size()= %d\n",(int) listTrajectory.size());
+//    if (listTrajectory.size()>0)
+//    {
+//        for (int i=0; i<listTrajectory.size(); i++)
+//        {
+//            printf("i= %d\n",i);
+//            vector<Vector> tempTrajectory = listTrajectory[i].getWaypoints();
+//            for (int j=0; j<tempTrajectory.size(); j++)
+//            {
+//                printf("Waypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
+//            }
+//        }
+//    }
 }
 
 void motionPlan::receivePlan()
@@ -264,18 +264,4 @@ void motionPlan::receivePlan()
 
 
 
-//virtual bool motionPlan::write(ConnectionWriter &connection)
-//{
-//    connection.appendInt(BOTTLE_TAG_LIST);
-//    connection.appendInt(listTrajectory.size());
-//    for (int i=0; i<listTrajectory.size(); i++)
-//    {
-//        connection.appendInt(BOTTLE_TAG_LIST);
-//        connection.appendInt(3+listTrajectory[i].getNbWaypoint());
-//    }
 
-//    connection.convertTextMode();
-
-//    return !connection.isError();
-
-//}

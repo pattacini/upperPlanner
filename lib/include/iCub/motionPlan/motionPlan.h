@@ -34,6 +34,7 @@ public:
     {
         numberDimension = 0;
         numberWaypoints = 0;
+        waypoints.clear();
     }
 
     waypointTrajectory(const string &ctrlPt,
@@ -88,13 +89,14 @@ class motionPlan : public BufferedPort<Bottle>
     virtual void onRead(Bottle &inPlan);
 
 private:
+    bool haveNewMsg;
     deque<waypointTrajectory> listTrajectory;  // Delete later
     Stamp ts;
 
 public:
     motionPlan();
     ~motionPlan();
-    bool haveNewMsg;
+
 
 
 
