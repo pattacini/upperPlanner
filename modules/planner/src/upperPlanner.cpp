@@ -1021,9 +1021,11 @@ bool upperPlanner::updateModule()
 
             planPortOut.clearTrajectory();
             waypointTrajectory EE("End-Effector",bestTrajRootEE);
-            waypointTrajectory HE("Half-Elbow",bestTrajRootHalfElbow);
+//            waypointTrajectory HE("Half-Elbow",bestTrajRootHalfElbow);
+            waypointTrajectory EB("Elbow",bestTrajRootElbow);
             planPortOut.addTrajectory(EE);
-            planPortOut.addTrajectory(HE);
+//            planPortOut.addTrajectory(HE);
+            planPortOut.addTrajectory(EB);
             planPortOut.sendPlan();
 
             // Using class motionPlan

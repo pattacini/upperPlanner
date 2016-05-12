@@ -21,7 +21,7 @@ icubcontrib_set_default_prefix()
 add_definitions(${YARP_DEFINES})   # add yarp definitions - this contains also -D_REENTRANT
 include(YarpInstallationHelpers)   # pick up yarp's cmake scripts
 
-
+set(main_project_path ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.h
@@ -29,6 +29,8 @@ set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/rrts.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.cpp
+#		${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread/particleThread.h
+#		${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread/particleThread.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan/motionPlan.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/src/motionPlan.cpp)
 
@@ -43,6 +45,7 @@ include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/include
 			${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan
 			${CMAKE_CURRENT_SOURCE_DIR}/lib/src
 		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star
+#		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread
                    	${YARP_INCLUDE_DIRS}
                     	${ICUB_INCLUDE_DIRS})
 

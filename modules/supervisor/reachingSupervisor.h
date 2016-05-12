@@ -55,6 +55,7 @@
 #include <iostream>
 
 #include "motionPlan.h"
+#include "particleThread.h"
 
 using namespace std;
 using namespace yarp::sig;
@@ -72,6 +73,10 @@ protected:
     vector<waypointTrajectory> listTrajectories;
 
     motionPlan planPortIn;
+
+    int rate;
+    int verbosity;
+    particleThread *tempWaypoint;
 
 public:
     reachingSupervisor();

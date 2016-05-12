@@ -2,7 +2,9 @@
 
 reachingSupervisor::reachingSupervisor()
 {
-    name = "reaching-supervisor";
+    name        =  "reaching-supervisor";
+    rate        =                     10;
+    verbosity   =                      0;
 }
 
 bool reachingSupervisor::configure(ResourceFinder &rf)
@@ -29,6 +31,9 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     string portPlanner = "/reaching-planner/bestCartesianTrajectory:o";
     if(Network::connect(portPlanner.c_str(),port2planner.c_str()))
         printf("[reaching-supervisor] can connect to receive motion plan\n");
+
+    //****Particle Thread******************************************************************
+    tempWaypoint = new particleThread(rate,name,verbosity);
 
     return true;
 }
