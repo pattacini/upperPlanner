@@ -8,18 +8,6 @@ multipleParticleThread::multipleParticleThread(int _rate, const string &_name, i
     rate                = _rate;
     nDim                = 3;
 
-//    integrator=new Integrator(_rate/1000.0,Vector(3,0.0));
-
-//    for (int i=0; i<numberCtrlPoints; i++)
-//    {
-//        (integrator+i) = new Integrator(_rate/1000.0,Vector(3,0.0));
-//    }
-
-//    integrator.resize(numberCtrlPoints);
-//    for (vector<Integrator*>::iterator itt= integrator.begin(); itt<integrator.end();itt++)
-//    {
-//        itt = new Integrator(_rate/1000.0,Vector(3,0.0));
-//    }
     lastWaypoints.clear();
     isFinished          = false;
     isRunning           = false;
