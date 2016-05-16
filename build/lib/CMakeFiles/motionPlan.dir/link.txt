@@ -1,2 +1,0 @@
-/usr/bin/ar cr libmotionPlan.a  CMakeFiles/motionPlan.dir/src/motionPlan.cpp.o
-/usr/bin/ranlib libmotionPlan.a
