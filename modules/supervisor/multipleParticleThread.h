@@ -1,3 +1,22 @@
+/*
+ * Copyright: (C) 2016 iCub Facility - Istituto Italiano di Tecnologia
+ * Author: Nguyen Dong Hai Phuong <phuong.nguyen@iit.it>
+ * website: www.robotcub.org
+ * author website: https://github.com/towardthesea
+ *
+ * Permission is granted to copy, distribute, and/or modify this program
+ * under the terms of the GNU General Public License, version 2 or any
+ * later version published by the Free Software Foundation.
+ *
+ * A copy of the license can be found at
+ * http://www.robotcub.org/icub/license/gpl.txt
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+*/
+
 #ifndef MULTIPLEPARTICLETHREAD_H
 #define MULTIPLEPARTICLETHREAD_H
 
@@ -41,9 +60,8 @@ protected:
     // INTERNAL VARIABLES:
     // Integrator to get the particle trajectory
     vector<iCub::ctrl::Integrator>  mIntegrator;
-//    iCub::ctrl::Integrator *integrator;
 
-    // Speed of the particle in 3D
+    // Velocities of the particles in 3D
     vector<yarp::sig::Vector>       vel;
 
     // Mutex for handling things correctly
@@ -71,9 +89,11 @@ protected:
     double                          rate;
 
     motionPlan                      particlesPortOut;        // port to send particle to controller
+    string                          particlesPortName;       // name of port to send particle to controller
 
 public:
-    multipleParticleThread(int _rate, const string &_name, int _verbosity, const double& tolerence);
+    multipleParticleThread(int _rate, const string &_name, int _verbosity, const double &tolerence,
+                           const string &portName);
 
     // RUN
     virtual void run();

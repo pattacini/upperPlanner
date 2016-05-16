@@ -1,6 +1,26 @@
+/*
+ * Copyright: (C) 2016 iCub Facility - Istituto Italiano di Tecnologia
+ * Author: Nguyen Dong Hai Phuong <phuong.nguyen@iit.it>
+ * website: www.robotcub.org
+ * author website: https://github.com/towardthesea
+ *
+ * Permission is granted to copy, distribute, and/or modify this program
+ * under the terms of the GNU General Public License, version 2 or any
+ * later version published by the Free Software Foundation.
+ *
+ * A copy of the license can be found at
+ * http://www.robotcub.org/icub/license/gpl.txt
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ * Public License for more details.
+*/
+
 #include "multipleParticleThread.h"
 
-multipleParticleThread::multipleParticleThread(int _rate, const string &_name, int _verbosity, const double &tolerence) :
+multipleParticleThread::multipleParticleThread(int _rate, const string &_name, int _verbosity, const double &tolerence,
+                                               const string &portName) :
     RateThread(_rate), name(_name), verbosity(_verbosity)
 {
 //    numberCtrlPoints    = numberCtrlPts;
@@ -13,7 +33,8 @@ multipleParticleThread::multipleParticleThread(int _rate, const string &_name, i
     isRunning           = false;
 
     // *****Port for communication***********************************
-    particlesPortOut.open(("/"+name+"/particlesCartesianTrajectory:o").c_str());
+    particlesPortName   = portName;
+    particlesPortOut.open(particlesPortName.c_str());
 }
 
 void multipleParticleThread::run()
@@ -28,19 +49,13 @@ void multipleParticleThread::run()
         {
 //        printf("check\n");
 //        LockGuard lg(mutex);
-//            Integrator integrator = mIntegrator[i];
-//            integrator.integrate(vel[i]);
 
-//            if (!isParticlesFinished[i])
-//                mIntegrator[i].integrate(vel[i]);
             if (distWpWp(x_n[i],x_d[i])<=tol)
             {
-//                isRunning = false;
                 isParticlesFinished[i] = true;
                 printf("i = %d,\tdistance of x_n, x_d: %f\n",i,distWpWp(x_n[i],x_d[i]));
                 countRunning++;
                 countFinished++;
-//                isFinished = true;
             }
             if (!isParticlesFinished[i])
                 mIntegrator[i].integrate(vel[i]);
@@ -55,15 +70,15 @@ void multipleParticleThread::run()
         // Send particles of controlled waypoints to controller
         x_n = getParticle();
         particlesPortOut.clearTrajectory();
-
-
         for (int i=0; i<ctrlPointsNames.size();i++)
         {
-//            printf("ctrlPointsNames[%d] = %s\n",i,ctrlPointsNames[i].c_str());
-            vector<Vector> trajectory;
-            trajectory.push_back(x_n[i]);
-            waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
-            particlesPortOut.addTrajectory(wpTraj);
+            if (ctrlPointsNames[i]!="")
+            {
+                vector<Vector> trajectory;
+                trajectory.push_back(x_n[i]);
+                waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
+                particlesPortOut.addTrajectory(wpTraj);
+            }
         }
         particlesPortOut.sendPlan();
 
@@ -81,12 +96,6 @@ bool multipleParticleThread::setupNewParticle(const vector<Vector> &_x_0, const 
     LockGuard lg(mutex);
 
     printf("%s multipleParticleThread: setupNewParticle\n\tcheck 1\n",name.c_str());
-
-//    for (int i=0; i<ctrlPointsNames.size();i++)
-//    {
-//        printf("ctrlPointsNames[%d] = %s\n",i,ctrlPointsNames[i].c_str());
-//    }
-
     if (_x_0.size()==_vel.size())
     {
         isRunning=true;
@@ -100,7 +109,7 @@ bool multipleParticleThread::setupNewParticle(const vector<Vector> &_x_0, const 
             {
                 printf("\tcheck 2\n");
                 printf("\tcheck 3\n");
-                printf("\tcheck 4, _x_0.size: %d \n", (int)_x_0[i].size());
+                printf("\tcheck 4\n");
                 Integrator integrator=Integrator(rate/1000.0,Vector(3,0.0));
 
                 integrator.reset(_x_0[i]);

@@ -45,35 +45,60 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if (rf.check("name"))
     {
         name = rf.find("name").asString();
-        yInfo("[reaching-supervisor] Module name set to %s", name.c_str());
+        yInfo("[%s] Module name set to %s", name.c_str(),name.c_str());
     }
-    else yInfo("[reaching-supervisor] Module name set to default, i.e. %s", name.c_str());
+    else yInfo("[%s] Module name set to default, i.e. %s", name.c_str(),name.c_str());
     setName(name.c_str());
+
+    //******************* VERBOSE ******************
+    if (rf.check("verbosity"))
+    {
+        verbosity = rf.find("verbosity").asInt();
+        yInfo("[%s] verbosity set to %i", name.c_str(), verbosity);
+    }
+    else yInfo("[%s] Could not find verbosity option in the config file; using %i as default", name.c_str(), verbosity);
+
+    //******************* RATE OF THREAD ******************
+    if (rf.check("rate"))
+    {
+        rate = rf.find("rate").asDouble();
+        yInfo("[%s] rate set to %i", name.c_str(), rate);
+    }
+    else yInfo("[%s] Could not find rate option in the config file; using %i as default", name.c_str(), rate);
+
+    //******************* TOLERANCE ******************
+    if (rf.check("tolerance"))
+    {
+        tol = rf.find("tolerance").asDouble();
+        yInfo("[%s] tolerance set to %f", name.c_str(), tol);
+    }
+    else yInfo("[%s] Could not find tolerance option in the config file; using %f as default", name.c_str(), tol);
+
+    //******************* SPEED OF END-EFFECTOR*******
+    if (rf.check("speedEE"))
+    {
+        speedEE = rf.find("speedEE").asDouble();
+        yInfo("[%s] speedEE set to %f", name.c_str(), speedEE);
+    }
+    else yInfo("[%s] Could not find speedEE option in the config file; using %f as default", name.c_str(), speedEE);
 
     //****Normal communication port *******************************************************
     planPortIn.useCallback();
 
-
-
     string port2planner = "/"+name+"/bestCartesianTrajectory:i";
     if (!planPortIn.open(port2planner.c_str()))
-        yError("[reaching-supervisor] Unable to open port << port2planner << endl");
+        yError("[%s] Unable to open port << port2planner << endl",name.c_str());
 
     string portPlanner = "/reaching-planner/bestCartesianTrajectory:o";
     if(Network::connect(portPlanner.c_str(),port2planner.c_str()))
-        printf("[reaching-supervisor] can connect to receive motion plan\n");
+        printf("[%s] can connect to receive motion plan\n",name.c_str());
+
+    string portParticle = "/"+name+"/particlesCartesianTrajectory:o";
 
     //****Particle Thread******************************************************************
-//    tempWaypoint = new particleThread(rate,name,verbosity);
 
     // hard coded
-//    tempWaypointEE = new particleThread(rate,name,verbosity);
-//    tempWaypointEB = new particleThread(rate,name,verbosity);
-
-//    tempWaypointEE = new particleWaypointThread(rate,"EE",verbosity,tol);
-//    tempWaypointEB = new particleWaypointThread(rate,"EB",verbosity,tol);
-
-    tempWaypoint = new multipleParticleThread(rate,name,verbosity,tol);
+    tempWaypoint = new multipleParticleThread(rate,name,verbosity,tol,portParticle);
 
     finishedCurSegment = true;
     numberWaypoint = 0;
@@ -89,18 +114,13 @@ double reachingSupervisor::getPeriod()
 
 bool reachingSupervisor::updateModule()
 {
-
-//    printf("updateModule reachingSupervisor\n");
     if (planPortIn.gotNewMsg())
     {
         listTrajectories.clear();
         ctrlPointsNames.clear();
         indexCurSegment=0;
         finishedCurSegment = true;
-//        tempWaypointEE->stop();
-//        tempWaypointEB->stop();
 
-        //multi-waypoints
         tempWaypoint->stop();
 
         printf("===============================\n");
@@ -144,14 +164,6 @@ bool reachingSupervisor::updateModule()
         //      - Come back to 1
         //  b NO: come back to 2 and continue
         //
-//        for (int i=0; i<listTrajectories.size(); i++)
-//        {
-//            vector<Vector> tempTrajectory = listTrajectories[i].getWaypoints();
-//            int indexSegment=0;
-//            x_0 = tempTrajectory[indexSegment];
-//            x_d = tempTrajectory[indexSegment+1];
-
-//        }
 
         ctrlPointsNames.clear();
         for (int i=0; i<listTrajectories.size(); i++)
@@ -193,80 +205,30 @@ bool reachingSupervisor::updateModule()
             x_d.push_back(x_dEE);
             x_d.push_back(x_dEB);
 
-//            printf("x_0EE = %s\n", x_0EE.toString().c_str());
-//            printf("x_dEE = %s\n", x_dEE.toString().c_str());
-//            printf("x_0EB = %s\n", x_0EB.toString().c_str());
-//            printf("x_dEB = %s\n", x_dEB.toString().c_str());
-
-//            printf("speedEE = %f \t speedEB = %f \n", speedEE, speedEB);
-
-//            printf("velEE = %s\n", velEE.toString().c_str());
-//            printf("velEB = %s\n", velEB.toString().c_str());
-
 
             printf("finishedCurSegment =%d \n",finishedCurSegment);
             if (finishedCurSegment)
             {
                 printf("check finishedCurSegment 1\n");
-
-//                tempWaypointEE->stop();
-//                tempWaypointEB->stop();
-
-                //multi-waypoints
                 tempWaypoint->stop();
 
                 printf("check finishedCurSegment 2\n");
-//                tempWaypointEE->setupNewParticle(x_0EE,velEE);
                 printf("check finishedCurSegment 2a\n");
-//                tempWaypointEB->setupNewParticle(x_0EB,velEB);
-
-                //multi-waypoints
                 tempWaypoint->setupNewParticle(x_0,vel);
 
-
                 printf("check finishedCurSegment 3\n");
-//                tempWaypointEE->setLastWaypoint(x_dEE);
-//                tempWaypointEB->setLastWaypoint(x_dEB);
-
-                //multi-waypoints
                 tempWaypoint->setLastWaypoint(x_d);
 
                 printf("check finishedCurSegment 4\n");
-//                tempWaypointEE->start();
-//                tempWaypointEB->start();
-
-                //multi-waypoints
                 tempWaypoint->start();
+
                 printf("check finishedCurSegment 5\n");
             }
 
-            printf("getParticle()\n");
-//            Vector x_nEE = tempWaypointEE->getParticle();
-//            Vector x_nEB = tempWaypointEB->getParticle();
-
-            //multi-waypoints
             vector<Vector> x_n = tempWaypoint->getParticle();
             printf("check getParticle()\n");
 
-    //        printf("x_nEE = %s\n", x_nEE.toString().c_str());
-    //        printf("x_nEB = %s\n", x_nEB.toString().c_str());
-
-//            printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_nEE-x_dEE), norm(x_nEB-x_dEB));
             printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_n[0]-x_d[0]), norm(x_n[1]-x_d[1]));
-
-    //        if (finishedCurSegment = ((norm(x_nEE-x_dEE)<=tol) && (norm(x_nEB-x_dEB)<=tol)))
-    //        if (finishedCurSegment = ((distWpWp(x_nEE,x_dEE)<=tol) && (distWpWp(x_nEB,x_dEB)<=tol)))
-    //        if (finishedCurSegment=(!tempWaypointEE->checkRunning()&&!tempWaypointEB->checkRunning()))
-
-//            if ((tempWaypointEE->checkFinished()&&tempWaypointEB->checkFinished()))
-//            {
-//                finishedCurSegment = true;
-//                printf("reaching waypoint %d-th & finish current segment \n",indexCurSegment+1);
-//                indexCurSegment++;
-//            }
-//            else
-//                finishedCurSegment = false;
-
 
             if ((tempWaypoint->checkFinished()))
             {
@@ -281,9 +243,6 @@ bool reachingSupervisor::updateModule()
         }
         else if (indexCurSegment>=numberWaypoint-1)
         {
-//            tempWaypointEE->stop();
-//            tempWaypointEB->stop();
-
             tempWaypoint->stop();
             listTrajectories.clear();
             printf("Finish trajectory. Waiting...\n");

@@ -1,0 +1,5 @@
+/home/pnguyen/icub_workspace/reaching-planner/build/lib/CMakeFiles/motionPlan.dir
+/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/CMakeFiles/reaching-planner.dir
+/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/CMakeFiles/reaching-supervisor.dir
+/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor-thread/CMakeFiles/reaching-supervisor-thread.dir
+/home/pnguyen/icub_workspace/reaching-planner/build/CMakeFiles/uninstall.dir

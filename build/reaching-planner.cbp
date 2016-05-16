@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="reaching-planner" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\local\;CMake Files\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\usr\local\lib\YARP\;CMake Files\..\..\..\..\usr\local\lib\ICUB\;CMake Files\..\..\..\..\usr\local\lib\ICUBcontrib\;CMake Files\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\usr\local\share\yarp\;CMake Files\..\..\..\..\usr\local\share\yarp\cmake\;CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.5\;CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.5\Modules\;CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.1\;CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.1\Modules\;CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\;CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\cmake\;CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\cmake\templates\;CMake Files\modules\;CMake Files\modules\planner\;CMake Files\modules\supervisor\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 install" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/local">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 install/local" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="install/strip">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 install/strip" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="list_install_components">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 list_install_components" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="uninstall">
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 uninstall" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="reaching-planner">
+         <Option output="/home/pnguyen/icub_workspace/reaching-planner/build/bin/reaching-planner" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DYARP_NO_DEPRECATED_WARNINGS" />
+            <Add option="-D_REENTRANT" />
+            <Add option="-D_USE_MATH_DEFINES" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/plan" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 reaching-planner" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="reaching-planner/fast">
+         <Option output="/home/pnguyen/icub_workspace/reaching-planner/build/bin/reaching-planner" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DYARP_NO_DEPRECATED_WARNINGS" />
+            <Add option="-D_REENTRANT" />
+            <Add option="-D_USE_MATH_DEFINES" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/plan" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/include" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 reaching-planner/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/planner/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="reaching-supervisor">
+         <Option output="/home/pnguyen/icub_workspace/reaching-planner/build/bin/reaching-supervisor" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DYARP_NO_DEPRECATED_WARNINGS" />
+            <Add option="-D_REENTRANT" />
+            <Add option="-D_USE_MATH_DEFINES" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/plan" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 reaching-supervisor" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="reaching-supervisor/fast">
+         <Option output="/home/pnguyen/icub_workspace/reaching-planner/build/bin/reaching-supervisor" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pnguyen/icub_workspace/reaching-planner/build/bin" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DYARP_NO_DEPRECATED_WARNINGS" />
+            <Add option="-D_REENTRANT" />
+            <Add option="-D_USE_MATH_DEFINES" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/plan" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star" />
+            <Add directory="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/4.8" />
+            <Add directory="/usr/include/c++/4.8/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/4.8" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 reaching-supervisor/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pnguyen/icub_workspace/reaching-planner/build/modules/supervisor/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/plan/motionPlan.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/kdtree.c">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/system_single_integrator.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/src/plannerModule.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/src/singlePlanner.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/src/upperPlanner.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/reachingSupervisor.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/supervisorModule.cpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/plan/motionPlan.h">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/kdtree.h">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/rrts.h">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/rrts.hpp">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/lib/rrt-star/system_single_integrator.h">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/reachingSupervisor.h">
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPTargets.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPTargets-release.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPConfigVersion.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/YARP/YARPConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\YARP\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUB/icub-config.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUB\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUB/icub-export-install.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUB\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUB/icub-export-install-release.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUB\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUB/icub-export-install-includes.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUB\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUB/icub-export-install-includes.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUB\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/lib/ICUBcontrib/ICUBcontribConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\ICUBcontrib\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/YarpIDL.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/YarpIDL.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/YarpInstallationHelpers.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/YarpInstallationHelpers.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/cmake-3.5/Modules/CMakeParseArguments.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.5\Modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/cmake-3.5/Modules/CMakeParseArguments.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.5\Modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/cmake-3.1/Modules/GNUInstallDirs.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.1\Modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/cmake-3.1/Modules/GNUInstallDirs.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.1\Modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/yarp/cmake/cmake-3.1/Modules/GNUInstallDirs.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\yarp\cmake\cmake-3.1\Modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/ICUBcontrib/cmake/ICUBcontribHelpers.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/ICUBcontrib/cmake/ICUBcontribOptions.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\cmake\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/../../../../usr/local/share/ICUBcontrib/cmake/templates/icubcontrib-config-uninstall.cmake.in">
+          <Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\ICUBcontrib\cmake\templates\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\modules\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/planner/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\modules\planner\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\modules\supervisor\" />
+      </Unit>
+      <Unit filename="/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\modules\supervisor\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>

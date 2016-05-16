@@ -1,0 +1,12 @@
+/usr/local/share/yarp/config/path.d/ICUBcontrib.ini
+/usr/local/bin/reaching-planner
+/usr/local/bin/reaching-supervisor
+/usr/local/bin/reaching-supervisor-thread
+/usr/local/lib/libmotionPlan.a
+/usr/local/include/iCub/motionPlan/motionPlan.h
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/reaching-planner.ini
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/reaching-supervisor.ini
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/iCub_parts_activation.ini
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/reaching-planner.ini
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/reaching-supervisor.ini
+/usr/local/share/ICUBcontrib/contexts/reaching-with-avoidance/iCub_parts_activation.ini

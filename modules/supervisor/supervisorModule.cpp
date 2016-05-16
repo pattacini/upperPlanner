@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     ResourceFinder rf;
     rf.setVerbose(true);
-    rf.setDefaultContext("reaching-supervisor");
+    rf.setDefaultContext("reaching-with-avoidance");
     rf.setDefaultConfigFile("reaching-supervisor.ini");
     rf.configure(argc,argv);
 
@@ -49,13 +49,14 @@ int main(int argc, char *argv[])
         yInfo("");
         yInfo("Options:");
         yInfo("");
-        yInfo("   --context     path:  where to find the called resource");
-        yInfo("   --from        from:  the name of the .ini file.");
-        yInfo("   --name        name:  the name of the module (default reactController).");
-        yInfo("   --robot       robot: the name of the robot. Default icubSim.");
-        yInfo("   --part        part:  the arm to use. Default left_arm.");
-        yInfo("   --rate        rate:  the period used by the thread. Default 100ms.");
-        yInfo("   --verbosity   int:   verbosity level (default 0).");
+        yInfo("   --context     path:   where to find the called resource");
+        yInfo("   --from        from:   the name of the .ini file.");
+        yInfo("   --name        name:   the name of the module (default reactController).");
+        yInfo("   --robot       robot:  the name of the robot. Default icubSim.");
+        yInfo("   --rate        rate:   the period used by the thread. Default 100ms.");
+        yInfo("   --verbosity   int:    verbosity level (default 0).");
+        yInfo("   --tolerance   double: tolerance of particles generator (default 0.005m).");
+        yInfo("   --speedEE     double: speed of the End-Effector (default 0.1m/s).");
         yInfo("");
         return 0;
     }

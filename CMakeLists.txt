@@ -22,6 +22,7 @@ add_definitions(${YARP_DEFINES})   # add yarp definitions - this contains also -
 include(YarpInstallationHelpers)   # pick up yarp's cmake scripts
 
 set(main_project_path ${CMAKE_CURRENT_SOURCE_DIR})
+set(main_project_name ${PROJECT_NAME})
 
 set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.h
@@ -54,7 +55,7 @@ add_subdirectory(modules)
 
 add_subdirectory(lib)
 
-#add_subdirectory(app)
+add_subdirectory(app)
 
 icubcontrib_add_uninstall_target()
 

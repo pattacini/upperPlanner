@@ -1,0 +1,9 @@
+name		reaching-planner     
+robot		icub
+verbosity	0
+part		left_arm
+running_mode	single
+maxReplan	1000
+targetName	Octopus
+disableTorso 	off
+visualizeObjectsInSim	on

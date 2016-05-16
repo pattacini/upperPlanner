@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     ResourceFinder rf;
     rf.setVerbose(true);
-    rf.setDefaultContext("reaching-planner");
+    rf.setDefaultContext("reaching-with-avoidance");
     rf.setDefaultConfigFile("reaching-planner.ini");
     rf.configure(argc,argv);
 
@@ -48,13 +48,17 @@ int main(int argc, char *argv[])
         yInfo("");
         yInfo("Options:");
         yInfo("");
-        yInfo("   --context     path:  where to find the called resource");
-        yInfo("   --from        from:  the name of the .ini file.");
-        yInfo("   --name        name:  the name of the module (default reactController).");
-        yInfo("   --robot       robot: the name of the robot. Default icubSim.");
-        yInfo("   --part        part:  the arm to use. Default left_arm.");
-        yInfo("   --rate        rate:  the period used by the thread. Default 100ms.");
-        yInfo("   --verbosity   int:   verbosity level (default 0).");
+        yInfo("   --context                 path:   where to find the called resource");
+        yInfo("   --from                    from:   the name of the .ini file.");
+        yInfo("   --name                    name:   the name of the module (default reaching-planner).");
+        yInfo("   --robot                   robot:  the name of the robot. Default icubSim.");
+        yInfo("   --part                    part:   the arm to use. Default left_arm.");
+        yInfo("   --verbosity               int:    verbosity level (default 0).");
+        yInfo("   --running_mode            string: operation mode (default Single), other is Batch.");
+        yInfo("   --maxReplan               int:    maxiumum repeat planning in Batch mode (default 0).");
+        yInfo("   --targetName              string: reaching object (default Octopus).");
+        yInfo("   --disableTorso            string: on/off the torso (default off), other is on.");
+        yInfo("   --visualizeObjectsInSim   string: on/off visualizing objects in simulator (default on), other is off.");
         yInfo("");
         return 0;
     }

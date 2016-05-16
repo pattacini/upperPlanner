@@ -1,0 +1,91 @@
+<application>
+<name>Multiple-Cartesian-Point Controller and Planner</name>
+
+        <dependencies>
+        <port>/icubSim/left_arm/state:o</port>
+        <!--<port>/icubSim/right_arm/state:o</port>
+        <port>/icubSim/left_leg/state:o</port>
+        <port>/icubSim/right_leg/state:o</port>-->
+        </dependencies>
+
+        <module>
+                <name>iCub_SIM</name>
+                <node>localhost</node>
+                <tag>icubSim</tag>
+        </module>
+	
+        <module>
+                <name>reactController</name>
+                <node>localhost</node>
+                <tag>controller</tag>
+        </module>
+
+        <module>
+                <name>reaching-planner</name>
+                <node>localhost</node>
+                <tag>planner</tag>
+        </module>      
+
+	
+        <module>
+                <name>reaching-supervisor</name>
+                <node>localhost</node>
+                <tag>supervisor</tag>
+        </module>
+
+
+
+	<ensure>
+		<wait>5.0</wait>
+	</ensure>
+
+	<module>
+		<name>yarp read /read1</name>
+		<port>/read1</port>
+		<node>localhost</node>
+		<tag>read1</tag>
+
+	</module>
+
+	<module>
+		<name>yarp read /read2</name>
+		<port>/read2</port>
+		<node>localhost</node>
+		<tag>read2</tag>
+
+	</module>
+
+	<connection>
+		<from>/reaching-planner/End-Effector/bestCartesianTrajectory:o</from>
+        	<to>/read1</to>
+    	</connection>
+
+	<connection>
+		<from>/reaching-planner/Half-Elbow/bestCartesianTrajectory:o</from>
+        	<to>/read2</to>
+    	</connection>
+
+	<connection>
+		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>
+        	<to>/reactController/streamedWholeBodyTargets:i</to>
+    	</connection>
+
+
+
+        <!--<module>
+                <name>iKinCartesianSolver</name>
+                <parameters>--context simCartesianControl --part left_leg</parameters>
+                <node>localhost</node>
+                <tag>leftLegSolver</tag>
+        </module>
+
+	<module>
+                <name>tutorial_cartesian_interface</name>
+                <node>localhost</node>
+                <tag>leftCartesianInterface</tag>
+        </module>-->
+
+
+</application>
+
+
