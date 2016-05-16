@@ -389,7 +389,8 @@ public:
 
     /**
     * @brief Find the distance between 2 waypoints
-    * @param waypoint: 3D yarp Vector of 3D coordinate of a waypoint
+    * @param wp1: 3D yarp Vector of 3D coordinate of a waypoint 1
+    * @param wp2: 3D yarp Vector of 3D coordinate of a waypoint 2
     * @return Output is a double value of the distance.
     */
     double distWpWp(const Vector &wp1, const Vector &wp2);
