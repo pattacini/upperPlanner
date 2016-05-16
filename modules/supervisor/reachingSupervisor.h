@@ -17,7 +17,6 @@
  * Public License for more details.
 */
 
-
 #ifndef REACHINGSUPERVISOR_H
 #define REACHINGSUPERVISOR_H
 
@@ -53,9 +52,11 @@
 #include <stdlib.h>
 #include <sstream>
 #include <iostream>
+#include <math.h>
 
 #include "motionPlan.h"
 #include "particleThread.h"
+#include "particleWaypointThread.h"
 
 using namespace std;
 using namespace yarp::sig;
@@ -69,15 +70,29 @@ using namespace iCub::iKin;
 class reachingSupervisor : public RFModule
 {
 protected:
-    string name;
-    vector<waypointTrajectory> listTrajectories;
+    string                        name;
+    int                           nDim;
+    deque<waypointTrajectory> listTrajectories;
+    int                         numberWaypoint;
 
     motionPlan planPortIn;
 
     int rate;
     int verbosity;
-    particleThread *tempWaypoint;
+    double tol;
 
+    int                 indexCurSegment;
+    bool             finishedCurSegment;
+//    particleThread        *tempWaypoint;
+//    particleThread        *tempWaypointEE;
+//    particleThread        *tempWaypointEB;
+
+    particleWaypointThread        *tempWaypointEE;
+    particleWaypointThread        *tempWaypointEB;
+    double          timeToFinishSegment;    // moving time between 2 sucessive waypoints, should be the same for every controlled points in one link
+    double                      speedEE;    // velocity magnitude of End-Effector
+    double                      speedEB;    // velocity magnitude of Elbow
+    vector<double>            speedLink;    // std vector contains all velocity magnituds of a link, e.g for Forearm, it includes End-effector and Elbow velocity
 public:
     reachingSupervisor();
 
@@ -95,6 +110,14 @@ public:
 
 
     /************************************************************************/
+    Vector computeVelFromSegment(const double& speed, const Vector& wp1, const Vector& wp2);
+
+    double computeOtherCtrlPtSpeed(const double& speed, const Vector &wp1, const Vector &wp2,
+                                                        const Vector &wp1Other, const Vector &wp2Other);
+
+    double distWpWp(const Vector &wp1, const Vector &wp2);
+
+
 };
 
 #endif // REACHINGSUPERVISOR_H

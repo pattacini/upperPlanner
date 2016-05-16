@@ -49,10 +49,6 @@ include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/include
                    	${YARP_INCLUDE_DIRS}
                     	${ICUB_INCLUDE_DIRS})
 
-#icubcontrib_export_library(${PROJECT_NAME} INTERNAL_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
-#                                           EXTERNAL_INCLUDE_DIRS ${YARP_INCLUDE_DIRS} ${ICUB_INCLUDE_DIRS} 
-#                                           DESTINATION include/iCub/${PROJECT_NAME}
-#                                           FILES ${folder_header})
 
 add_subdirectory(modules)
 
