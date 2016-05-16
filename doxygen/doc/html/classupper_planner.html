@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>reaching-planner: upperPlanner Class Reference</title>
+<title>reaching-with-avoidance: upperPlanner Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">reaching-planner
+   <div id="projectname">reaching-with-avoidance
    &#160;<span id="projectnumber">1.0</span>
    </div>
   </td>
@@ -42,7 +42,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,10 +64,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -89,8 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="classupper_planner-members.html">List of all members</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">upperPlanner Class Reference</div>  </div>
 </div><!--header-->
@@ -295,6 +294,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>solvingTime</b></td
 <tr class="memitem:abb3ff9b6f0632d369114486a298a0f62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb3ff9b6f0632d369114486a298a0f62"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>planningTime</b></td></tr>
 <tr class="separator:abb3ff9b6f0632d369114486a298a0f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05a8c9c412e7920b9e5e7c9e1cbd8e32"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a05a8c9c412e7920b9e5e7c9e1cbd8e32"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>planningTimeGlob</b></td></tr>
+<tr class="separator:a05a8c9c412e7920b9e5e7c9e1cbd8e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a516b4730bf348cdafd37ffec80fef2fb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a516b4730bf348cdafd37ffec80fef2fb"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>useTorso</b></td></tr>
 <tr class="separator:a516b4730bf348cdafd37ffec80fef2fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -445,7 +447,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="upper_planner_8h_source.html#l00146">146</a> of file <a class="el" href="upper_planner_8h_source.html">upperPlanner.h</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8h_source.html#l00149">149</a> of file <a class="el" href="upper_planner_8h_source.html">upperPlanner.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aebf7c434784d3d8e72d0ed3e88e09adc"></a>
 <div class="memitem">
@@ -481,7 +483,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicate the collision (true) and no collision (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01755">1755</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01668">1668</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -526,7 +528,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean vector indicate if the path segment collides with any obstacle (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01852">1852</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01765">1765</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -563,7 +565,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02324">2324</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02237">2237</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -600,7 +602,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02311">2311</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02224">2224</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -637,7 +639,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01996">1996</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01909">1909</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -674,7 +676,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02013">2013</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01926">1926</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -711,7 +713,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02122">2122</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02035">2035</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -755,7 +757,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02075">2075</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01988">1988</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -792,7 +794,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02060">2060</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01973">1973</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -830,7 +832,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double value of the distance. </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01889">1889</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01802">1802</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -868,7 +870,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double value of the distance. </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01902">1902</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01815">1815</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -906,7 +908,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double result of dot product calculation </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01803">1803</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01716">1716</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -951,7 +953,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is the standard vector of 6 parameter yarp Vector of new obstacles' list </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01614">1614</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01527">1527</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -996,7 +998,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>jntsT</b></td></tr>
 <dd>
 normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01773">1773</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01686">1686</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1041,7 +1043,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is the D yarp Vector of the other Ending point of link (e.g. Elbow) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01736">1736</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01649">1649</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1086,7 +1088,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the object is available (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01279">1279</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01192">1192</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1130,7 +1132,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the obstacle is available (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01434">1434</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01347">1347</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1157,7 +1159,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value indicating if the table is available (true) or not (false). If not, it means that you forgot to calibrate the table. Please refer documentation for more information. </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01509">1509</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01422">1422</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1194,7 +1196,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02337">2337</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02250">2250</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1253,7 +1255,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classupper_planner.html#a9a50c6782cfd32b869e39ea1415e0a21" title="Find the center points of all surfaces of a box obstacle and the norm vectors of all those surfaces...">findCenterOnSurfaces()</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a double result of dot product calculation </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01817">1817</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01730">1730</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1312,7 +1314,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Output is a boolean value to indicate if it is successful in padding a waypoint (true) or not (false) </dd></dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01169">1169</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l01082">1082</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1361,7 +1363,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l00070">70</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l00055">55</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1398,7 +1400,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02378">2378</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
+<p>Definition at line <a class="el" href="upper_planner_8cpp_source.html#l02291">2291</a> of file <a class="el" href="upper_planner_8cpp_source.html">upperPlanner.cpp</a>.</p>
 
 </div>
 </div>
@@ -1409,7 +1411,7 @@ normVetors: 2 is a standard vector of 3D parameters normal vector </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 16 2016 13:48:44 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 30 2016 17:21:52 for reaching-with-avoidance by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.12
 </small></address>

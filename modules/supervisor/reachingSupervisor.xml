@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="yarpmanifest.xsl"?>
+
+<module>
+  <name>reaching-supervisor</name>
+  <doxygen-group></doxygen-group>
+  <description>Module to handle the communcation between reaching-planner and reactController</description>
+  <copypolicy>Released under the terms of the GNU GPL v2.0</copypolicy>
+  <version>1.0</version>
+  
+  <description-long>
+    This module contains rpc service for user interface (see service part)
+
+    To correctly use the module with iCub Simulator, do the following:
+	- Launch iCub Simulator, i.e typing **iCub_SIM** in a *terminal*
+	- Launch <a href="https://github.com/robotology/react-control"> <b>reactController</b></a> module form a new *terminal*
+	- Launch <a href="http://robotology-playground.github.io/reaching-planner/doxygen/doc/html/group__reaching-planner.html"> <b>reaching-planner</b></a> module
+	- Launch this supervisor module
+ 	- Connect to the service port of this module, i.e. typing <b>yarp rpc "<module_name>/rpc:i"</b>
+
+    To correctly use the module with real robot, do the following:
+	- Launch  <a href="https://github.com/robotology/wysiwyd"> <b>WYSIWYD</b></a> application from *yarpmanager*
+	- Launch <a href="http://wiki.icub.org/brain/group__actionsRenderingEngine.html"><b>actionsRenderingEngine</b></a> module from a new *terminal*
+	- Connect all port in **WYSIWYD** application from *yarpmanager*
+	- Open another new *terminal*, put some objects on the table in front of the iCub face and type: 
+		+ **echo "home all" | yarp rpc /actionsRenderingEngine/cmd:io**, to move iCub to *home* pose.
+		+ **echo "calib table" | yarp rpc /actionsRenderingEngine/cmd:io**, to calibrate the table with iCub's finger.
+	- Launch <a href="https://github.com/robotology/react-control"> <b>reactController</b></a> module form a new *terminal*
+	- Launch <a href="http://robotology-playground.github.io/reaching-planner/doxygen/doc/html/group__reaching-planner.html"> <b>reaching-planner</b></a> module
+	- Launch this supervisor module
+ 	- Connect to the service port of this module, i.e. typing <b>yarp rpc "<module_name>/rpc:i"</b>
+    
+  </description-long>
+
+  <arguments>
+<!--<param default="reaching-planner" desc="Select the current context (default parameter).">context</param>-->
+
+  
+  </arguments>
+ 
+  <authors>
+    <author email="phuong.nguyen@iit.it"> NGUYEN Dong Hai Phuong </author>
+  </authors>
+
+  <data>
+  <input>
+      <!--<type>std::vector of Point</type>-->
+      <port carrier="tcp">/<i>module_name</i>/bestCartersianTrajectory:i</port>
+      <description>
+        receive trajectories of controlled points in the format:
+	<b>(((control-point <i>string_value</i>) (number-waypoints <i>int_value</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
+      </description>
+  </input>
+
+  <input>
+      <!--<type>yarp::sig::ImageOfPixelRgb</type>-->
+      <port carrier="tcp">/<i>module_name</i>/rpc:i</port>
+      <description>
+        receive user command.
+      </description>
+  </input>
+
+    <output>
+      <!--<type>yarp::sig::ImageOfPixelMono</type>-->
+      <port carrier="tcp">/reaching-planner/rpc:o</port>
+      <description>
+        send request of replanning to reaching-planner.
+      </description>
+    </output>
+
+    <output>
+      <!--<type>yarp::sig::ImageOfPixelMono</type>-->
+      <port carrier="tcp">/reaching-supervisor/particlesCartersianTrajectory:o</port>
+      <description>
+        send particled trajectories of controlled points in the format:
+	<b>(((control-point <i>string_value</i>) (number-waypoints <i>1</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
+      </description>
+    </output>
+
+  </data>
+
+  <services>
+    <server>
+      <type>reachingSupervisor_IDL</type>
+      <idl>idl.thrift</idl>
+      <port>/reaching-supervisor/rpc:i</port>
+      <description>service port</description>
+    </server>
+  </services>
+
+</module>

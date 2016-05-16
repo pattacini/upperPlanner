@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>reaching-planner: reachingSupervisor Class Reference</title>
+<title>reaching-with-avoidance: reachingSupervisor Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">reaching-planner
+   <div id="projectname">reaching-with-avoidance
    &#160;<span id="projectnumber">1.0</span>
    </div>
   </td>
@@ -42,7 +42,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -64,10 +64,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="annotated.html"><span>Data&#160;Structures</span></a></li>
+      <li><a href="classes.html"><span>Data&#160;Structure&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+      <li><a href="functions.html"><span>Data&#160;Fields</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -88,8 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="classreaching_supervisor-members.html">List of all members</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a>  </div>
   <div class="headertitle">
 <div class="title">reachingSupervisor Class Reference</div>  </div>
 </div><!--header-->
@@ -100,6 +99,7 @@ Inheritance diagram for reachingSupervisor:</div>
  <div class="center">
   <img src="classreaching_supervisor.png" usemap="#reachingSupervisor_map" alt=""/>
   <map id="reachingSupervisor_map" name="reachingSupervisor_map">
+<area href="classreaching_supervisor___i_d_l.html" alt="reachingSupervisor_IDL" shape="rect" coords="160,56,310,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -111,21 +111,108 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>configure</b>
 <tr class="memitem:a874cc39ae34d6961429989f1398305c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a874cc39ae34d6961429989f1398305c6"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
 <tr class="separator:a874cc39ae34d6961429989f1398305c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af00f89bde06fd2994dd3da8f45bd3ae1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af00f89bde06fd2994dd3da8f45bd3ae1"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>attach</b> (RpcServer &amp;source)</td></tr>
+<tr class="separator:af00f89bde06fd2994dd3da8f45bd3ae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a3558e83c66c1d14e7740ac7b34e7dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1a3558e83c66c1d14e7740ac7b34e7dd"></a>
 virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>getPeriod</b> ()</td></tr>
 <tr class="separator:a1a3558e83c66c1d14e7740ac7b34e7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9d257733d3bc2ab19587c097d79ff1b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9d257733d3bc2ab19587c097d79ff1b"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>updateModule</b> ()</td></tr>
 <tr class="separator:ad9d257733d3bc2ab19587c097d79ff1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1db2d1b93619c15e31b476b1f9ae2bb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1db2d1b93619c15e31b476b1f9ae2bb5"></a>
-Vector&#160;</td><td class="memItemRight" valign="bottom"><b>computeVelFromSegment</b> (const double &amp;speed, const Vector &amp;wp1, const Vector &amp;wp2)</td></tr>
+<tr class="memitem:a1db2d1b93619c15e31b476b1f9ae2bb5"><td class="memItemLeft" align="right" valign="top">Vector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a1db2d1b93619c15e31b476b1f9ae2bb5">computeVelFromSegment</a> (const double &amp;speed, const Vector &amp;wp1, const Vector &amp;wp2)</td></tr>
+<tr class="memdesc:a1db2d1b93619c15e31b476b1f9ae2bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the velocity vector for the motion between 2 waypoints.  <a href="#a1db2d1b93619c15e31b476b1f9ae2bb5">More...</a><br /></td></tr>
 <tr class="separator:a1db2d1b93619c15e31b476b1f9ae2bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b2cc576d421cb052c406d354c7e701b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b2cc576d421cb052c406d354c7e701b"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>computeOtherCtrlPtSpeed</b> (const double &amp;speed, const Vector &amp;wp1, const Vector &amp;wp2, const Vector &amp;wp1Other, const Vector &amp;wp2Other)</td></tr>
+<tr class="memitem:a9b2cc576d421cb052c406d354c7e701b"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a9b2cc576d421cb052c406d354c7e701b">computeOtherCtrlPtSpeed</a> (const double &amp;speed, const Vector &amp;wp1, const Vector &amp;wp2, const Vector &amp;wp1Other, const Vector &amp;wp2Other)</td></tr>
+<tr class="memdesc:a9b2cc576d421cb052c406d354c7e701b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the speed of other controlled point known speed of one controlled point.  <a href="#a9b2cc576d421cb052c406d354c7e701b">More...</a><br /></td></tr>
 <tr class="separator:a9b2cc576d421cb052c406d354c7e701b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78ed331486cbd4aa1f89833ad87262d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78ed331486cbd4aa1f89833ad87262d3"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>distWpWp</b> (const Vector &amp;wp1, const Vector &amp;wp2)</td></tr>
+<tr class="memitem:a78ed331486cbd4aa1f89833ad87262d3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a78ed331486cbd4aa1f89833ad87262d3">distWpWp</a> (const Vector &amp;wp1, const Vector &amp;wp2)</td></tr>
+<tr class="memdesc:a78ed331486cbd4aa1f89833ad87262d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the distance between 2 waypoints.  <a href="#a78ed331486cbd4aa1f89833ad87262d3">More...</a><br /></td></tr>
 <tr class="separator:a78ed331486cbd4aa1f89833ad87262d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f67931e3bba8463587cf6eaa605d6fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a2f67931e3bba8463587cf6eaa605d6fd">setTol</a> (const double &amp;_tol)</td></tr>
+<tr class="memdesc:a2f67931e3bba8463587cf6eaa605d6fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the tolerance of the internal particles generation.  <a href="#a2f67931e3bba8463587cf6eaa605d6fd">More...</a><br /></td></tr>
+<tr class="separator:a2f67931e3bba8463587cf6eaa605d6fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2cbe96d029385e628f292c4606d9691"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#ac2cbe96d029385e628f292c4606d9691">getTol</a> ()</td></tr>
+<tr class="memdesc:ac2cbe96d029385e628f292c4606d9691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the tolerance of the internal particles generation.  <a href="#ac2cbe96d029385e628f292c4606d9691">More...</a><br /></td></tr>
+<tr class="separator:ac2cbe96d029385e628f292c4606d9691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabd58f380c3c9eb853f30ea2810a3ca2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#aabd58f380c3c9eb853f30ea2810a3ca2">setSpeedEE</a> (const double &amp;_speedEE)</td></tr>
+<tr class="memdesc:aabd58f380c3c9eb853f30ea2810a3ca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the speed of the End-Effector motion.  <a href="#aabd58f380c3c9eb853f30ea2810a3ca2">More...</a><br /></td></tr>
+<tr class="separator:aabd58f380c3c9eb853f30ea2810a3ca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeed422b99ce2e40b4046941708ef3407"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#aeed422b99ce2e40b4046941708ef3407">getSpeedEE</a> ()</td></tr>
+<tr class="memdesc:aeed422b99ce2e40b4046941708ef3407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the speed of the End-Effector motion.  <a href="#aeed422b99ce2e40b4046941708ef3407">More...</a><br /></td></tr>
+<tr class="separator:aeed422b99ce2e40b4046941708ef3407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48220d80713a4c6da9e35ba23d1962c9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a48220d80713a4c6da9e35ba23d1962c9">setVerbosity</a> (const int &amp;_verbosity)</td></tr>
+<tr class="memdesc:a48220d80713a4c6da9e35ba23d1962c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the verbosity value.  <a href="#a48220d80713a4c6da9e35ba23d1962c9">More...</a><br /></td></tr>
+<tr class="separator:a48220d80713a4c6da9e35ba23d1962c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add32948abece2ba2875e9939c99e45f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#add32948abece2ba2875e9939c99e45f2">getVerbosity</a> ()</td></tr>
+<tr class="memdesc:add32948abece2ba2875e9939c99e45f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the verbosity value.  <a href="#add32948abece2ba2875e9939c99e45f2">More...</a><br /></td></tr>
+<tr class="separator:add32948abece2ba2875e9939c99e45f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a314943f52e4bf41f5f79ae37546c8ac8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a314943f52e4bf41f5f79ae37546c8ac8">setDeadline</a> (const double &amp;_deadline)</td></tr>
+<tr class="memdesc:a314943f52e4bf41f5f79ae37546c8ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the planning time for each local planner.  <a href="#a314943f52e4bf41f5f79ae37546c8ac8">More...</a><br /></td></tr>
+<tr class="separator:a314943f52e4bf41f5f79ae37546c8ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78e83331e562b8cf8031a6cf7f1d93f7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a78e83331e562b8cf8031a6cf7f1d93f7">getDeadline</a> ()</td></tr>
+<tr class="memdesc:a78e83331e562b8cf8031a6cf7f1d93f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the setting localPlanningTime of each local planner.  <a href="#a78e83331e562b8cf8031a6cf7f1d93f7">More...</a><br /></td></tr>
+<tr class="separator:a78e83331e562b8cf8031a6cf7f1d93f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e2d446ca316f7e5df60c0fe20f2323"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#ad5e2d446ca316f7e5df60c0fe20f2323">setGlobDeadline</a> (const double &amp;_globDeadline)</td></tr>
+<tr class="memdesc:ad5e2d446ca316f7e5df60c0fe20f2323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the globalPlanningTime time of the whole planner.  <a href="#ad5e2d446ca316f7e5df60c0fe20f2323">More...</a><br /></td></tr>
+<tr class="separator:ad5e2d446ca316f7e5df60c0fe20f2323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcc64c402a4db9964b046cc3324d7079"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#adcc64c402a4db9964b046cc3324d7079">getGlobDeadline</a> ()</td></tr>
+<tr class="memdesc:adcc64c402a4db9964b046cc3324d7079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the globalPlanningTime of the planner.  <a href="#adcc64c402a4db9964b046cc3324d7079">More...</a><br /></td></tr>
+<tr class="separator:adcc64c402a4db9964b046cc3324d7079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab03fa673def5a1a1f9f1722ff17166e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#ab03fa673def5a1a1f9f1722ff17166e2">setTarget</a> (const string &amp;_target)</td></tr>
+<tr class="memdesc:ab03fa673def5a1a1f9f1722ff17166e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the targetName for the planner.  <a href="#ab03fa673def5a1a1f9f1722ff17166e2">More...</a><br /></td></tr>
+<tr class="separator:ab03fa673def5a1a1f9f1722ff17166e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1593daeac2ff8cae0eb4e521b39d0583"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a1593daeac2ff8cae0eb4e521b39d0583">getTarget</a> ()</td></tr>
+<tr class="memdesc:a1593daeac2ff8cae0eb4e521b39d0583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the targetName of the planner.  <a href="#a1593daeac2ff8cae0eb4e521b39d0583">More...</a><br /></td></tr>
+<tr class="separator:a1593daeac2ff8cae0eb4e521b39d0583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a613bbfde86387da80c6dd81075c44e9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a613bbfde86387da80c6dd81075c44e9d">sendCmd2Planner</a> ()</td></tr>
+<tr class="memdesc:a613bbfde86387da80c6dd81075c44e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends planning request to the planner.  <a href="#a613bbfde86387da80c6dd81075c44e9d">More...</a><br /></td></tr>
+<tr class="separator:a613bbfde86387da80c6dd81075c44e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc1820c153838e448c57bc2e2ade9fc0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#afc1820c153838e448c57bc2e2ade9fc0">set_tol</a> (const double _tol)</td></tr>
+<tr class="separator:afc1820c153838e448c57bc2e2ade9fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a6356fb64e5238cd3350cc6d444609"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a61a6356fb64e5238cd3350cc6d444609">get_tol</a> ()</td></tr>
+<tr class="separator:a61a6356fb64e5238cd3350cc6d444609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea3e168aa3251506c11495d6126c7038"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#aea3e168aa3251506c11495d6126c7038">set_speedEE</a> (const double _speedEE)</td></tr>
+<tr class="separator:aea3e168aa3251506c11495d6126c7038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeb95483a1d2ce93c2c80e83d8010d73"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#afeb95483a1d2ce93c2c80e83d8010d73">get_speedEE</a> ()</td></tr>
+<tr class="separator:afeb95483a1d2ce93c2c80e83d8010d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a554f20b5b80659a966bfff2974356367"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a554f20b5b80659a966bfff2974356367">set_verbosity</a> (const int32_t _verbosity)</td></tr>
+<tr class="separator:a554f20b5b80659a966bfff2974356367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a937125d124fc601f5a2768d444653f1e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a937125d124fc601f5a2768d444653f1e">get_verbosity</a> ()</td></tr>
+<tr class="separator:a937125d124fc601f5a2768d444653f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57fe92f2beabbf8559f483c4e84d6abf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a57fe92f2beabbf8559f483c4e84d6abf">set_deadline</a> (const double _deadline)</td></tr>
+<tr class="separator:a57fe92f2beabbf8559f483c4e84d6abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf5ce08d4b3ac037fedd4ed91f4f8c8d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#acf5ce08d4b3ac037fedd4ed91f4f8c8d">get_deadline</a> ()</td></tr>
+<tr class="separator:acf5ce08d4b3ac037fedd4ed91f4f8c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7eb00d9915584ab3a4ec2cd6535ebe4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#ac7eb00d9915584ab3a4ec2cd6535ebe4">set_glob_deadline</a> (const double _globDeadline)</td></tr>
+<tr class="separator:ac7eb00d9915584ab3a4ec2cd6535ebe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d00f9ddfe610a309e4b40fde353a079"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a7d00f9ddfe610a309e4b40fde353a079">get_glob_deadline</a> ()</td></tr>
+<tr class="separator:a7d00f9ddfe610a309e4b40fde353a079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18111470d86e02b8456014432d22c2ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18111470d86e02b8456014432d22c2ce"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>set_target</b> (const string &amp;_target)</td></tr>
+<tr class="separator:a18111470d86e02b8456014432d22c2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f9ca82987397e8bd8d63f550814d355"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a5f9ca82987397e8bd8d63f550814d355">get_target</a> ()</td></tr>
+<tr class="separator:a5f9ca82987397e8bd8d63f550814d355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c47db3e816b88bbf33b4791982c15b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor.html#a9c47db3e816b88bbf33b4791982c15b6">run_planner</a> (const double _deadline)</td></tr>
+<tr class="separator:a9c47db3e816b88bbf33b4791982c15b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2d620c869031cea9308c5a1d2a0752b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor___i_d_l.html#ad2d620c869031cea9308c5a1d2a0752b">set_target</a> (const std::string &amp;_target)</td></tr>
+<tr class="separator:ad2d620c869031cea9308c5a1d2a0752b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac6464832583770ee615f96b65ecdc78"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor___i_d_l.html#aac6464832583770ee615f96b65ecdc78">stop</a> ()</td></tr>
+<tr class="separator:aac6464832583770ee615f96b65ecdc78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacf09caca31ec90032ab8edf7a5a7da0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classreaching_supervisor___i_d_l.html#aacf09caca31ec90032ab8edf7a5a7da0">stop</a> ()</td></tr>
+<tr class="separator:aacf09caca31ec90032ab8edf7a5a7da0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e541de8b9aa6a0acc29b40259b5fc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8e541de8b9aa6a0acc29b40259b5fc2"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>read</b> (yarp::os::ConnectionReader &amp;connection)</td></tr>
+<tr class="separator:ad8e541de8b9aa6a0acc29b40259b5fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a924946d122fb6335564e3caf9f0d528e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a924946d122fb6335564e3caf9f0d528e"></a>
+virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>read</b> (yarp::os::ConnectionReader &amp;connection)</td></tr>
+<tr class="separator:a924946d122fb6335564e3caf9f0d528e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07e8e96812b0299323d064486a3bde8e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07e8e96812b0299323d064486a3bde8e"></a>
+virtual std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>help</b> (const std::string &amp;functionName=&quot;--all&quot;)</td></tr>
+<tr class="separator:a07e8e96812b0299323d064486a3bde8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56fdb1f4bbf04d18bd418cbc0613f730"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56fdb1f4bbf04d18bd418cbc0613f730"></a>
+virtual std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>help</b> (const std::string &amp;functionName=&quot;--all&quot;)</td></tr>
+<tr class="separator:a56fdb1f4bbf04d18bd418cbc0613f730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -144,9 +231,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>numberWaypoint</b></td
 <tr class="memitem:a4e9d4ce9da718d141aca8490919830b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e9d4ce9da718d141aca8490919830b7"></a>
 vector&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ctrlPointsNames</b></td></tr>
 <tr class="separator:a4e9d4ce9da718d141aca8490919830b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f032b7aafba3121b8d0b86bd0e13ba1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f032b7aafba3121b8d0b86bd0e13ba1"></a>
-<a class="el" href="classmotion_plan.html">motionPlan</a>&#160;</td><td class="memItemRight" valign="bottom"><b>planPortIn</b></td></tr>
-<tr class="separator:a1f032b7aafba3121b8d0b86bd0e13ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19a683e39de41887762f0091c68e50c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19a683e39de41887762f0091c68e50c2"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>rate</b></td></tr>
 <tr class="separator:a19a683e39de41887762f0091c68e50c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +240,27 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>verbosity</b></td></tr
 <tr class="memitem:abeef7b8377d646792bc98d2a98688e6e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abeef7b8377d646792bc98d2a98688e6e"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>tol</b></td></tr>
 <tr class="separator:abeef7b8377d646792bc98d2a98688e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f032b7aafba3121b8d0b86bd0e13ba1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f032b7aafba3121b8d0b86bd0e13ba1"></a>
+<a class="el" href="classmotion_plan.html">motionPlan</a>&#160;</td><td class="memItemRight" valign="bottom"><b>planPortIn</b></td></tr>
+<tr class="separator:a1f032b7aafba3121b8d0b86bd0e13ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa21d0207d6f3aa73043c92d620213b2f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa21d0207d6f3aa73043c92d620213b2f"></a>
+<a class="el" href="classmotion_plan.html">motionPlan</a>&#160;</td><td class="memItemRight" valign="bottom"><b>planPortIn1</b></td></tr>
+<tr class="separator:aa21d0207d6f3aa73043c92d620213b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a222316d8ada8bf7691ec728a9f304e5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a222316d8ada8bf7691ec728a9f304e5e"></a>
+RpcServer&#160;</td><td class="memItemRight" valign="bottom"><b>rpcSrvr</b></td></tr>
+<tr class="separator:a222316d8ada8bf7691ec728a9f304e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41a42ecf67e7795818d764a7cb7eced3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41a42ecf67e7795818d764a7cb7eced3"></a>
+RpcClient&#160;</td><td class="memItemRight" valign="bottom"><b>rpc2Planner</b></td></tr>
+<tr class="separator:a41a42ecf67e7795818d764a7cb7eced3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0450e8b34a177de2968213a3b9efe426"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0450e8b34a177de2968213a3b9efe426"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>targetName</b></td></tr>
+<tr class="separator:a0450e8b34a177de2968213a3b9efe426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afeb589e47b2cda8901ccd59ae9efadbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afeb589e47b2cda8901ccd59ae9efadbd"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>localPlanningTime</b></td></tr>
+<tr class="separator:afeb589e47b2cda8901ccd59ae9efadbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a370958d8c81564fcdd2d9c24517cf4dc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a370958d8c81564fcdd2d9c24517cf4dc"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>globalPlanningTime</b></td></tr>
+<tr class="separator:a370958d8c81564fcdd2d9c24517cf4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57435062724e9c70b2d61d949ee06410"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57435062724e9c70b2d61d949ee06410"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>indexCurSegment</b></td></tr>
 <tr class="separator:a57435062724e9c70b2d61d949ee06410"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,15 +291,923 @@ vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>spe
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00071">71</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/<a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a></li>
-<li>/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/<a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a></li>
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00072">72</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9b2cc576d421cb052c406d354c7e701b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::computeOtherCtrlPtSpeed </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp1Other</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp2Other</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the speed of other controlled point known speed of one controlled point. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>double value of controlled point speed </td></tr>
+    <tr><td class="paramname">wp1</td><td>yarp Vector of waypoint coordinate of the waypoint 1 of this segment </td></tr>
+    <tr><td class="paramname">wp2</td><td>yarp Vector of waypoint coordinate of the waypoint 2 of this segment </td></tr>
+    <tr><td class="paramname">wp1Other</td><td>yarp Vector of waypoint coordinate of the waypoint 1 of other segment </td></tr>
+    <tr><td class="paramname">wp2Other</td><td>yarp Vector of waypoint coordinate of the waypoint 2 of other segment </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>: double value of the speed of other controlled point </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00297">297</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1db2d1b93619c15e31b476b1f9ae2bb5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Vector reachingSupervisor::computeVelFromSegment </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the velocity vector for the motion between 2 waypoints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>double value of controlled point speed </td></tr>
+    <tr><td class="paramname">wp1</td><td>yarp Vector of waypoint coordinate of the waypoint 1 of the segment </td></tr>
+    <tr><td class="paramname">wp2</td><td>yarp Vector of waypoint coordinate of the waypoint 2 of the segment </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>: yarp Vector of the velocity of controlled point </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00290">290</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78ed331486cbd4aa1f89833ad87262d3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::distWpWp </td>
+          <td>(</td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Vector &amp;&#160;</td>
+          <td class="paramname"><em>wp2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find the distance between 2 waypoints. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wp1</td><td>3D yarp Vector of 3D coordinate of a waypoint 1 </td></tr>
+    <tr><td class="paramname">wp2</td><td>3D yarp Vector of 3D coordinate of a waypoint 2 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>: a double value of the distance. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00307">307</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acf5ce08d4b3ac037fedd4ed91f4f8c8d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::get_deadline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the planning time of each local planner </p><dl class="section return"><dt>Returns</dt><dd>the current setting planning time of each local planner </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a0f01bf80e6033ea39717b501d7018967">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00282">282</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d00f9ddfe610a309e4b40fde353a079"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::get_glob_deadline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the global planning time of the planner </p><dl class="section return"><dt>Returns</dt><dd>the current setting global planning time of the planner </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a3453aef955eb70b7c9e50a9f2febf587">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00292">292</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afeb95483a1d2ce93c2c80e83d8010d73"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::get_speedEE </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the speed of End-Effector movement </p><dl class="section return"><dt>Returns</dt><dd>the current setting speed of End-Effector </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a723e89d7867e3a1a8f97efb992ec682f">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00262">262</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f9ca82987397e8bd8d63f550814d355"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string reachingSupervisor::get_target </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the setting target of the planner </p><dl class="section return"><dt>Returns</dt><dd>the current setting target of the planner </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#ad9b578e5a0c4cfe8e4452e60d16f324c">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00302">302</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a61a6356fb64e5238cd3350cc6d444609"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::get_tol </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets the tolerance. </p><dl class="section return"><dt>Returns</dt><dd>the current tolerance value. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#ac61266c5b5bbbba1d6fe3fe168ec12f3">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00252">252</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a937125d124fc601f5a2768d444653f1e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int reachingSupervisor::get_verbosity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Gets verbosity. </p><dl class="section return"><dt>Returns</dt><dd>the verbosity of the controller </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a76cd11fe954fa14f4089b43354ea9826">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00272">272</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a78e83331e562b8cf8031a6cf7f1d93f7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::getDeadline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the setting localPlanningTime of each local planner. </p>
+<dl class="section return"><dt>Returns</dt><dd>Double value of the localPlanningTime </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00376">376</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adcc64c402a4db9964b046cc3324d7079"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::getGlobDeadline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the globalPlanningTime of the planner. </p>
+<dl class="section return"><dt>Returns</dt><dd>Double value of the globalPlanningTime </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00392">392</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aeed422b99ce2e40b4046941708ef3407"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::getSpeedEE </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the speed of the End-Effector motion. </p>
+<dl class="section return"><dt>Returns</dt><dd>double value of the End-Effector speed </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>speedEE </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00346">346</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1593daeac2ff8cae0eb4e521b39d0583"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string reachingSupervisor::getTarget </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the targetName of the planner. </p>
+<dl class="section return"><dt>Returns</dt><dd>String value of the targetName of the planner </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00403">403</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2cbe96d029385e628f292c4606d9691"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double reachingSupervisor::getTol </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the tolerance of the internal particles generation. </p>
+<dl class="section return"><dt>Returns</dt><dd>double value of the tolerance </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00330">330</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="add32948abece2ba2875e9939c99e45f2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int reachingSupervisor::getVerbosity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gets the verbosity value. </p>
+<dl class="section return"><dt>Returns</dt><dd>Integer value of the verbosity </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00360">360</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9c47db3e816b88bbf33b4791982c15b6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::run_planner </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>_deadline</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Send planning request to reaching-planner </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_deadline</td><td>planning time for each local planner </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a96c3cb0ae88b8638b78d622a73513681">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00307">307</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a613bbfde86387da80c6dd81075c44e9d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::sendCmd2Planner </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sends planning request to the planner. </p>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00408">408</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a57fe92f2beabbf8559f483c4e84d6abf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::set_deadline </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>_deadline</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets planning time for each local planner </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_deadline</td><td>planning time </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#ac86f2368093c2e7b09a0dcdef6463bcd">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00277">277</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac7eb00d9915584ab3a4ec2cd6535ebe4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::set_glob_deadline </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>_globDeadline</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets global planning time for the planner </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_globDeadline</td><td>global planning time </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a8eb9a4545526021a599f4a8708dbfbbd">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00287">287</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aea3e168aa3251506c11495d6126c7038"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::set_speedEE </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>_speedEE</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets End-Effector Speed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_speedEE</td><td>the speed of the End-Effector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#af153c3dd6b358526b6265a24cf7e7d0d">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00257">257</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2d620c869031cea9308c5a1d2a0752b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor_IDL::set_target </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_target</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets target for the planner </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_target</td><td>string value target </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="_c_make_files_2yarpidl__thrift_2reaching_supervisor___i_d_l_8cpp_source.html#l00539">539</a> of file <a class="el" href="_c_make_files_2yarpidl__thrift_2reaching_supervisor___i_d_l_8cpp_source.html">reachingSupervisor_IDL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afc1820c153838e448c57bc2e2ade9fc0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::set_tol </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>_tol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets tolerance. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_tol</td><td>the solver exits if norm(x_d-x)&lt;tol. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#aeea4f11d574ad448c1ef9e1bb17c1577">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00247">247</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a554f20b5b80659a966bfff2974356367"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::set_verbosity </td>
+          <td>(</td>
+          <td class="paramtype">const int32_t&#160;</td>
+          <td class="paramname"><em>_verbosity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets verbosity. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_verbosity</td><td>the verbosity of the controller </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classreaching_supervisor___i_d_l.html#a1e1d5137b25b68a54c5baa7d27f70c53">reachingSupervisor_IDL</a>.</p>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8h_source.html#l00267">267</a> of file <a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a314943f52e4bf41f5f79ae37546c8ac8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setDeadline </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>_deadline</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the planning time for each local planner. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_deadline</td><td>double value of the planning time to set </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00365">365</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5e2d446ca316f7e5df60c0fe20f2323"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setGlobDeadline </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>_globDeadline</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the globalPlanningTime time of the whole planner. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_globDeadline</td><td>double value of the global planning time </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00381">381</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aabd58f380c3c9eb853f30ea2810a3ca2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setSpeedEE </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>_speedEE</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the speed of the End-Effector motion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_speedEE</td><td>double value of the End-Effector speed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>speedEE </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00335">335</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab03fa673def5a1a1f9f1722ff17166e2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setTarget </td>
+          <td>(</td>
+          <td class="paramtype">const string &amp;&#160;</td>
+          <td class="paramname"><em>_target</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the targetName for the planner. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_target</td><td>string value for the targetName </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00397">397</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2f67931e3bba8463587cf6eaa605d6fd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setTol </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>_tol</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the tolerance of the internal particles generation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_tol</td><td>double value of the tolerance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00320">320</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a48220d80713a4c6da9e35ba23d1962c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor::setVerbosity </td>
+          <td>(</td>
+          <td class="paramtype">const int &amp;&#160;</td>
+          <td class="paramname"><em>_verbosity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the verbosity value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_verbosity</td><td>integer value of the verbosity </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="reaching_supervisor_8cpp_source.html#l00351">351</a> of file <a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aacf09caca31ec90032ab8edf7a5a7da0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool reachingSupervisor_IDL::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Disables the controller and switches to position mode </p><dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aac6464832583770ee615f96b65ecdc78"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool reachingSupervisor_IDL::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Disables the controller and switches to position mode </p><dl class="section return"><dt>Returns</dt><dd>true/false on success/failure. </dd></dl>
+
+<p>Definition at line <a class="el" href="_c_make_files_2yarpidl__thrift_2reaching_supervisor___i_d_l_8cpp_source.html#l00569">569</a> of file <a class="el" href="_c_make_files_2yarpidl__thrift_2reaching_supervisor___i_d_l_8cpp_source.html">reachingSupervisor_IDL.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/include/<a class="el" href="reaching_supervisor_8h_source.html">reachingSupervisor.h</a></li>
+<li>/home/pnguyen/icub_workspace/reaching-planner/modules/supervisor/src/<a class="el" href="reaching_supervisor_8cpp_source.html">reachingSupervisor.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 16 2016 13:48:44 for reaching-planner by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 30 2016 17:21:52 for reaching-with-avoidance by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.12
 </small></address>
