@@ -30,14 +30,15 @@ aux_source_directory(. SRC_LIST)
 #		${CMAKE_CURRENT_SOURCE_DIR}/lib/plan/motionPlan.h
 #		${CMAKE_CURRENT_SOURCE_DIR}/lib/plan/motionPlan.cpp)
 
-set (incldue_files	${CMAKE_CURRENT_SOURCE_DIR}/include/singlePlanner.h
+set (include_files	${CMAKE_CURRENT_SOURCE_DIR}/include/singlePlanner.h
 		 	${CMAKE_CURRENT_SOURCE_DIR}/include/upperPlanner.h)
 
 set (source_files 	${CMAKE_CURRENT_SOURCE_DIR}/src/singlePlanner.cpp
 		 	${CMAKE_CURRENT_SOURCE_DIR}/src/upperPlanner.cpp
 		 	${CMAKE_CURRENT_SOURCE_DIR}/src/plannerModule.cpp)
 
-include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(	${CMAKE_CURRENT_SOURCE_DIR}
+			${CMAKE_CURRENT_SOURCE_DIR}/include)
 #		    	${CMAKE_CURRENT_SOURCE_DIR}/lib/plan
 #		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star
 #                   	${YARP_INCLUDE_DIRS}

@@ -57,6 +57,7 @@
 #include "motionPlan.h"
 #include "particleThread.h"
 #include "particleWaypointThread.h"
+#include "multipleParticleThread.h"
 
 using namespace std;
 using namespace yarp::sig;
@@ -70,10 +71,11 @@ using namespace iCub::iKin;
 class reachingSupervisor : public RFModule
 {
 protected:
-    string                        name;
-    int                           nDim;
-    deque<waypointTrajectory> listTrajectories;
+    string                      name;
+    int                         nDim;
+    deque<waypointTrajectory>   listTrajectories;
     int                         numberWaypoint;
+    vector<string>              ctrlPointsNames;
 
     motionPlan planPortIn;
 
@@ -86,6 +88,8 @@ protected:
 //    particleThread        *tempWaypoint;
 //    particleThread        *tempWaypointEE;
 //    particleThread        *tempWaypointEB;
+
+    multipleParticleThread          *tempWaypoint;
 
     particleWaypointThread        *tempWaypointEE;
     particleWaypointThread        *tempWaypointEB;

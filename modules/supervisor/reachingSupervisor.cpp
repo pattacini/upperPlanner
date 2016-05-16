@@ -29,10 +29,10 @@ reachingSupervisor::reachingSupervisor()
 {
     name        =  "reaching-supervisor";
     nDim        =                      3;
-    rate        =                     10;   // in milisecond
+    rate        =                    100;   // in milisecond
     verbosity   =                      0;
     timeToFinishSegment =              1;
-    tol         =                  0.001;
+    tol         =                  0.005;   //0.001 with 10ms
 
     speedEE     =                    0.1;
     speedLink.clear();
@@ -70,8 +70,10 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
 //    tempWaypointEE = new particleThread(rate,name,verbosity);
 //    tempWaypointEB = new particleThread(rate,name,verbosity);
 
-    tempWaypointEE = new particleWaypointThread(rate,"EE",verbosity,tol);
-    tempWaypointEB = new particleWaypointThread(rate,"EB",verbosity,tol);
+//    tempWaypointEE = new particleWaypointThread(rate,"EE",verbosity,tol);
+//    tempWaypointEB = new particleWaypointThread(rate,"EB",verbosity,tol);
+
+    tempWaypoint = new multipleParticleThread(rate,name,verbosity,tol);
 
     finishedCurSegment = true;
     numberWaypoint = 0;
@@ -92,10 +94,14 @@ bool reachingSupervisor::updateModule()
     if (planPortIn.gotNewMsg())
     {
         listTrajectories.clear();
+        ctrlPointsNames.clear();
         indexCurSegment=0;
         finishedCurSegment = true;
-        tempWaypointEE->stop();
-        tempWaypointEB->stop();
+//        tempWaypointEE->stop();
+//        tempWaypointEB->stop();
+
+        //multi-waypoints
+        tempWaypoint->stop();
 
         printf("===============================\n");
         printf("updateModule() reachingSupervisor\n");
@@ -147,6 +153,14 @@ bool reachingSupervisor::updateModule()
 
 //        }
 
+        ctrlPointsNames.clear();
+        for (int i=0; i<listTrajectories.size(); i++)
+        {
+            string tempCtrlPtName = listTrajectories[i].getCtrlPointName();
+            ctrlPointsNames.push_back(tempCtrlPtName);
+        }
+        tempWaypoint->setCtrlPointsNames(ctrlPointsNames);
+
         numberWaypoint = listTrajectories[0].getNbWaypoint();
         if (indexCurSegment<numberWaypoint-1)
         {
@@ -156,6 +170,10 @@ bool reachingSupervisor::updateModule()
 
             Vector x_0EE(nDim,0.0), x_0EB(nDim,0.0), x_dEE(nDim,0.0), x_dEB(nDim,0.0);
             Vector velEE(nDim,0.0), velEB(nDim,0.0);
+
+            vector<Vector> x_0, vel;
+            vector<Vector> x_d;
+
             x_0EE = tempTrajectoryEE[indexCurSegment];
             x_dEE = tempTrajectoryEE[indexCurSegment+1];
 
@@ -164,15 +182,23 @@ bool reachingSupervisor::updateModule()
 
             speedEB = computeOtherCtrlPtSpeed(speedEE,x_0EE,x_dEE,x_0EB,x_dEB);
 
+            velEE = computeVelFromSegment(speedEE,x_0EE,x_dEE);
+            velEB = computeVelFromSegment(speedEB,x_0EB,x_dEB);
+
+            //multi-waypoints
+            x_0.push_back(x_0EE);
+            x_0.push_back(x_0EB);
+            vel.push_back(velEE);
+            vel.push_back(velEB);
+            x_d.push_back(x_dEE);
+            x_d.push_back(x_dEB);
+
 //            printf("x_0EE = %s\n", x_0EE.toString().c_str());
 //            printf("x_dEE = %s\n", x_dEE.toString().c_str());
 //            printf("x_0EB = %s\n", x_0EB.toString().c_str());
 //            printf("x_dEB = %s\n", x_dEB.toString().c_str());
 
 //            printf("speedEE = %f \t speedEB = %f \n", speedEE, speedEB);
-
-            velEE = computeVelFromSegment(speedEE,x_0EE,x_dEE);
-            velEB = computeVelFromSegment(speedEB,x_0EB,x_dEB);
 
 //            printf("velEE = %s\n", velEE.toString().c_str());
 //            printf("velEB = %s\n", velEB.toString().c_str());
@@ -183,35 +209,66 @@ bool reachingSupervisor::updateModule()
             {
                 printf("check finishedCurSegment 1\n");
 
-                tempWaypointEE->stop();
-                tempWaypointEB->stop();
+//                tempWaypointEE->stop();
+//                tempWaypointEB->stop();
+
+                //multi-waypoints
+                tempWaypoint->stop();
 
                 printf("check finishedCurSegment 2\n");
-                tempWaypointEE->setupNewParticle(x_0EE,velEE);
+//                tempWaypointEE->setupNewParticle(x_0EE,velEE);
                 printf("check finishedCurSegment 2a\n");
-                tempWaypointEB->setupNewParticle(x_0EB,velEB);
+//                tempWaypointEB->setupNewParticle(x_0EB,velEB);
+
+                //multi-waypoints
+                tempWaypoint->setupNewParticle(x_0,vel);
+
 
                 printf("check finishedCurSegment 3\n");
-                tempWaypointEE->setLastWaypoint(x_dEE);
-                tempWaypointEB->setLastWaypoint(x_dEB);
+//                tempWaypointEE->setLastWaypoint(x_dEE);
+//                tempWaypointEB->setLastWaypoint(x_dEB);
+
+                //multi-waypoints
+                tempWaypoint->setLastWaypoint(x_d);
 
                 printf("check finishedCurSegment 4\n");
-                tempWaypointEE->start();
-                tempWaypointEB->start();
+//                tempWaypointEE->start();
+//                tempWaypointEB->start();
 
+                //multi-waypoints
+                tempWaypoint->start();
                 printf("check finishedCurSegment 5\n");
             }
 
-            Vector x_nEE = tempWaypointEE->getParticle();
-            Vector x_nEB = tempWaypointEB->getParticle();
+            printf("getParticle()\n");
+//            Vector x_nEE = tempWaypointEE->getParticle();
+//            Vector x_nEB = tempWaypointEB->getParticle();
+
+            //multi-waypoints
+            vector<Vector> x_n = tempWaypoint->getParticle();
+            printf("check getParticle()\n");
 
     //        printf("x_nEE = %s\n", x_nEE.toString().c_str());
     //        printf("x_nEB = %s\n", x_nEB.toString().c_str());
-            printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_nEE-x_dEE), norm(x_nEB-x_dEB));
+
+//            printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_nEE-x_dEE), norm(x_nEB-x_dEB));
+            printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_n[0]-x_d[0]), norm(x_n[1]-x_d[1]));
+
     //        if (finishedCurSegment = ((norm(x_nEE-x_dEE)<=tol) && (norm(x_nEB-x_dEB)<=tol)))
     //        if (finishedCurSegment = ((distWpWp(x_nEE,x_dEE)<=tol) && (distWpWp(x_nEB,x_dEB)<=tol)))
     //        if (finishedCurSegment=(!tempWaypointEE->checkRunning()&&!tempWaypointEB->checkRunning()))
-            if ((tempWaypointEE->checkFinished()&&tempWaypointEB->checkFinished()))
+
+//            if ((tempWaypointEE->checkFinished()&&tempWaypointEB->checkFinished()))
+//            {
+//                finishedCurSegment = true;
+//                printf("reaching waypoint %d-th & finish current segment \n",indexCurSegment+1);
+//                indexCurSegment++;
+//            }
+//            else
+//                finishedCurSegment = false;
+
+
+            if ((tempWaypoint->checkFinished()))
             {
                 finishedCurSegment = true;
                 printf("reaching waypoint %d-th & finish current segment \n",indexCurSegment+1);
@@ -219,14 +276,15 @@ bool reachingSupervisor::updateModule()
             }
             else
                 finishedCurSegment = false;
+            printf("check checkFinished()\n");
+            printf("==========================\n");
         }
-
-
-
         else if (indexCurSegment>=numberWaypoint-1)
         {
-            tempWaypointEE->stop();
-            tempWaypointEB->stop();
+//            tempWaypointEE->stop();
+//            tempWaypointEB->stop();
+
+            tempWaypoint->stop();
             listTrajectories.clear();
             printf("Finish trajectory. Waiting...\n");
         }

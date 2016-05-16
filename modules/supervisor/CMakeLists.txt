@@ -8,6 +8,7 @@ aux_source_directory(. SRC_LIST)
 
 
 set (include_files	${CMAKE_CURRENT_SOURCE_DIR}/reachingSupervisor.h
+			${CMAKE_CURRENT_SOURCE_DIR}/multipleParticleThread.h
 #			${CMAKE_CURRENT_SOURCE_DIR}/particleWaypointThread.h
 #			${CMAKE_CURRENT_SOURCE_DIR}/particleThread.h)
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/include/upperPlanner.h)
@@ -15,6 +16,7 @@ set (include_files	${CMAKE_CURRENT_SOURCE_DIR}/reachingSupervisor.h
 
 set (source_files 	${CMAKE_CURRENT_SOURCE_DIR}/reachingSupervisor.cpp
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/supervisorModule.cpp
+			${CMAKE_CURRENT_SOURCE_DIR}/multipleParticleThread.cpp
 			${CMAKE_CURRENT_SOURCE_DIR}/particleWaypointThread.cpp)
 #			${CMAKE_CURRENT_SOURCE_DIR}/particleThread.cpp)
 #		 	${CMAKE_CURRENT_SOURCE_DIR}/src/plannerModule.cpp)
