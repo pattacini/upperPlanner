@@ -366,12 +366,14 @@ bool upperPlanner::configure(ResourceFinder &rf){
     {
         replan = true;   // Remember to clear after running planner
         planningTime = .10;
+        planningTimeGlob = 100.0;
         initBatchSummary();
     }
     else if (running_mode == "sigle")
     {
         replan = false;
         planningTime = 1.0;
+        planningTimeGlob = 15.0;
     }
 
     bestTrajEE.clear();
@@ -605,12 +607,21 @@ bool upperPlanner::updateModule()
             start = clock();
 
             // 4.Planning for End-Effector
+            int countPlanningEE = 0;
+            double planningTimeEE = planningTime;
             do
             {
+                countPlanningEE++;
+                if (countPlanningEE >= 5)
+                {
+                    planningTimeEE*=2;
+                    countPlanningEE = 0;
+                    printf("Increase planningTimeEE into: %f\n", planningTimeEE);
+                }
                 singlePlanner plannerEE(verbosity,name,robot,running_mode,"End-effector");
                 plannerEE.setRegionOperating(workspace);    // World frame
                 plannerEE.setGoal(goal);                  // World frame
-                plannerEE.setDeadline(planningTime);        // World frame
+                plannerEE.setDeadline(planningTimeEE);        // World frame
                 plannerEE.setObstacles(obsSet);             // World frame
 
 

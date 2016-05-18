@@ -96,6 +96,7 @@ void motionPlan::setNewMsg(const bool &value)
 
 void motionPlan::onRead(Bottle &inPlan)
 {
+    yInfo("onRead()\n");
     clearTrajectory();
     haveNewMsg = true;
 
@@ -118,7 +119,7 @@ void motionPlan::onRead(Bottle &inPlan)
                 if (Bottle* inListTrajectory = inPlan.get(i).asList())
                 {
                     string ctrlPtName = inListTrajectory->find("control-point").asString();
-                    printf("ctrlPtName= %s\n", ctrlPtName.c_str());
+                    printf("\tctrlPtName= %s\n", ctrlPtName.c_str());
                     waypointTrajectory wpTraject;
                     wpTraject.setCtrlPointName(ctrlPtName);
 
@@ -128,11 +129,25 @@ void motionPlan::onRead(Bottle &inPlan)
                         numberWaypoint = tempMsg;
 //                        printf("numberWaypoint = %d\n",numberWaypoint);
                     }
+                    else
+                    {
+                        printf("Cannot find number-waypoints parameters in received message!");
+                        haveNewMsg = false;
+                        printf("Break out of onRead()\n");
+                        break;
+                    }
 
                     if (int tempMsg = inListTrajectory->find("number-dimension").asInt())
                     {
                         numberDimension = tempMsg;
 //                        printf("numberDimension = %d\n",numberDimension);
+                    }
+                    else
+                    {
+                        printf("Cannot find number-dimension parameters in received message!");
+                        haveNewMsg = false;
+                        printf("Break out of onRead()\n");
+                        break;
                     }
 
                     trajectory.clear();
@@ -149,15 +164,32 @@ void motionPlan::onRead(Bottle &inPlan)
                                     waypoint[k]=coordinate->get(k).asDouble();
 //                                    printf("waypoint[%d]= %f\n",k,waypoint[k]);
                                 }
+                                printf("\t%s = %s\n",wpName.c_str(),waypoint.toString(3,3).c_str());
                                 trajectory.push_back(waypoint);
                             }
                         }
+                        else
+                        {
+                            printf("Cannot find %s parameters in received message!", wpName.c_str());
+                            haveNewMsg = false;
+                            printf("Break out of onRead()\n");
+                            break;
+                        }
+
 
                     }
-                    wpTraject.setWaypoints(trajectory);
-//                    listTrajectory.push_back(wpTraject);
-                    addTrajectory(wpTraject);
-
+                    if (trajectory.size()>0)
+                    {
+                        wpTraject.setWaypoints(trajectory);
+    //                    listTrajectory.push_back(wpTraject);
+                        addTrajectory(wpTraject);
+                        yInfo("Finish onRead()\n");
+                    }
+                    else
+                    {
+                        yInfo("Finish onRead() without obtaining trajectory from message\n");
+                        break;
+                    }
                 }
 
             }

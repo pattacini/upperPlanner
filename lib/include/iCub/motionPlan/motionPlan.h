@@ -38,7 +38,7 @@ public:
      */
     waypointTrajectory()
     {
-        numberDimension = 0;
+        numberDimension = 3;
         numberWaypoints = 0;
         waypoints.clear();
     }

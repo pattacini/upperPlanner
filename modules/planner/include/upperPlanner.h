@@ -74,6 +74,9 @@ using namespace iCub::iKin;
 typedef Planner<State,Trajectory,System> planner_t;
 typedef Vertex<State,Trajectory,System> vertex_t;
 
+/**
+ * @brief The trajOutPort class to send the trajectory out
+ */
 class trajOutPort : public BufferedPort<Bottle>
 {
 protected:
@@ -167,9 +170,10 @@ protected:
     // Variables for Batch operation
     unsigned int countReplan;
     unsigned int maxReplan;
-    bool    success;       // Flag to indicate the plan is sucessful or not (Batch Summary only)
-    double  solvingTime; // Total time for each whole planner of all control points
-    double  planningTime;// Deadline for planner
+    bool    success;            // Flag to indicate the plan is sucessful or not (Batch Summary only)
+    double  solvingTime;        // Total time for each whole planner of all control points
+    double  planningTime;       // Deadline for local planner
+    double  planningTimeGlob;   // Global deadline for the whole planner
 
     // Flag to know if the torso shall be used or not
     bool    useTorso;

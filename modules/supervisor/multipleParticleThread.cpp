@@ -48,7 +48,7 @@ void multipleParticleThread::run()
         for (int i=0; i< numberCtrlPoints; i++)
         {
 //        printf("check\n");
-//        LockGuard lg(mutex);
+
 
             if (distWpWp(x_n[i],x_d[i])<=tol)
             {
@@ -72,16 +72,23 @@ void multipleParticleThread::run()
         particlesPortOut.clearTrajectory();
         for (int i=0; i<ctrlPointsNames.size();i++)
         {
-            if (ctrlPointsNames[i]!="")
-            {
-                vector<Vector> trajectory;
-                trajectory.push_back(x_n[i]);
-                waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
-                particlesPortOut.addTrajectory(wpTraj);
-            }
+            if (ctrlPointsNames[i]=="End-Effector" || ctrlPointsNames[i]=="Elbow")
+                if (ctrlPointsNames[i]!="Elbow")
+                {
+                    vector<Vector> trajectory;
+                    if (x_n[i].size()==nDim)
+                        trajectory.push_back(x_n[i]);
+                    waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
+                    particlesPortOut.addTrajectory(wpTraj);
+                }
         }
-        particlesPortOut.sendPlan();
 
+        if (particlesPortOut.getListTrajectory().size()>0)
+        {
+            deque<waypointTrajectory> wpTrajectory = particlesPortOut.getListTrajectory();
+            if (wpTrajectory[0].getNbWaypoint()>0)
+                particlesPortOut.sendPlan();
+        }
     }
 }
 

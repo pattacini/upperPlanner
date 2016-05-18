@@ -62,7 +62,7 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if (rf.check("rate"))
     {
         rate = rf.find("rate").asDouble();
-        yInfo("[%s] rate set to %i", name.c_str(), rate);
+        yInfo("[%s] rate set to %i ms", name.c_str(), rate);
     }
     else yInfo("[%s] Could not find rate option in the config file; using %i as default", name.c_str(), rate);
 
@@ -78,7 +78,7 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if (rf.check("speedEE"))
     {
         speedEE = rf.find("speedEE").asDouble();
-        yInfo("[%s] speedEE set to %f", name.c_str(), speedEE);
+        yInfo("[%s] speedEE set to %f m/s", name.c_str(), speedEE);
     }
     else yInfo("[%s] Could not find speedEE option in the config file; using %f as default", name.c_str(), speedEE);
 
@@ -245,9 +245,10 @@ bool reachingSupervisor::updateModule()
         {
             tempWaypoint->stop();
             listTrajectories.clear();
-            printf("Finish trajectory. Waiting...\n");
+            printf("Finish trajectory. Waiting for new plan...\n");
         }
     }
+
 
 
     return true;
