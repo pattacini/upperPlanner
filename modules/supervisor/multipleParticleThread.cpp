@@ -80,7 +80,7 @@ void multipleParticleThread::run()
                     if (x_n[i].size()==nDim)
                     {
                         trajectory.push_back(x_n[i]);
-                        printf("[multipleThread] x_n[%d] = %s\n", i, x_d[i].toString().c_str());
+//                        printf("[multipleThread] x_n[%d] = %s\n", i, x_d[i].toString().c_str());
                     }
                     waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
                     particlesPortOut.addTrajectory(wpTraj);

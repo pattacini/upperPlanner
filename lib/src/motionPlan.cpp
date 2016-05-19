@@ -126,7 +126,6 @@ void motionPlan::onRead(Bottle &inPlan)
             for (int i=0; i<numberCtrlPoints; i++)
             {
                 printf("\ti = %d\n",i);
-//                Bottle* inListTrajectory = inPlan->get(i).asList();
                 if (Bottle* inListTrajectory = inPlan.get(i).asList())
                 {
                     string ctrlPtName = inListTrajectory->find("control-point").asString();
@@ -138,7 +137,6 @@ void motionPlan::onRead(Bottle &inPlan)
                     if (int tempMsg = inListTrajectory->find("number-waypoints").asInt())
                     {
                         numberWaypoint = tempMsg;
-//                        printf("numberWaypoint = %d\n",numberWaypoint);
                     }
                     else
                     {
@@ -151,7 +149,6 @@ void motionPlan::onRead(Bottle &inPlan)
                     if (int tempMsg = inListTrajectory->find("number-dimension").asInt())
                     {
                         numberDimension = tempMsg;
-//                        printf("numberDimension = %d\n",numberDimension);
                     }
                     else
                     {
@@ -173,7 +170,6 @@ void motionPlan::onRead(Bottle &inPlan)
                                 for (int k=0; k<numberDimension; k++)
                                 {
                                     waypoint[k]=coordinate->get(k).asDouble();
-//                                    printf("waypoint[%d]= %f\n",k,waypoint[k]);
                                 }
                                 printf("\t%s = %s\n",wpName.c_str(),waypoint.toString(3,3).c_str());
                                 trajectory.push_back(waypoint);
