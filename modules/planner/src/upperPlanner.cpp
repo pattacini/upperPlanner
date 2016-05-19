@@ -52,21 +52,6 @@ upperPlanner::upperPlanner()
     }
 }
 
-//bool upperPlanner::re_plan(const double& _deadline)
-//{
-//    yInfo("");
-//    yInfo("[upperPlanner] received 'replan' command at new deadline of %f",_deadline);
-//    printf("[upperPlanner] received 'replan' command at new deadline of %f",_deadline);
-//    return replan = true;
-////    return restartPlanner();
-//}
-
-//bool upperPlanner::restartPlanner()
-//{
-//    return replan = true;
-
-//}
-
 int upperPlanner::printMessage(const int l, const char *f, ...) const
 {
     if (verbosity>=l)
@@ -819,102 +804,6 @@ bool upperPlanner::updateModule()
                     bestTrajRootHalfElbow.push_back(lastRootHalfElbow);
                     printf("Number of waypoints of End-effector 's path: %d\n", (int)bestTrajEE.size());
                     printf("Number of waypoints of Half Elbow 's path: %d\n", (int)bestTrajHalfElbow.size());
-
-                    /*
-        //            // Creating a Control point in the Forearm at middle of EE and Elbow
-        //            double sizeGoalHalfElbow = lForearm;
-        //            Vector goalHalfElbow(6,sizeGoalHalfElbow);
-        //            int indexLastTrajEE = bestTrajEE.size()-1;
-        //            for (int i=0; i<nDim; i++)
-        //                goalHalfElbow[i] = bestTrajEE[indexLastTrajEE][i];
-
-        //            // Calculating expanded obstacle set for the Elbow
-        //    //        obsSetExpandedElbow = expandObstacle(bestTrajEE,obsSet,lForearm);
-
-        //            obsSetExpandedHalfElbow = expandObstacle(bestTrajEE,obsSet,lForearm/2.0);
-
-
-        //            printf("!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-        //            printf("!!!                    !!!\n");
-        //            printf("!!! HALF-ELBOW PLANNER !!!\n");
-        //            printf("!!!                    !!!\n");
-        //            printf("!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-
-        //    //        Vector workspace(6,0.0);
-        //            workspace[3]=xReaching-lForearm/2.0;
-        //            workspace[4]=20.0/10.0;
-        //            workspace[5]=zReaching-lForearm/2.0;
-
-        //            plannerHalfElbow.setRegionOperating(workspace);
-        //            plannerHalfElbow.setGoal(goalHalfElbow);
-        //            plannerHalfElbow.setDeadline(planningTime);
-        //            plannerHalfElbow.setObstacles(obsSet);  //Add "real" obstacle set to the planner of Elbow
-
-        //            plannerHalfElbow.setObstacles(obsSetExpandedHalfElbow);
-
-
-        //            convertPosFromRootToSimFoR(xHalfElbow,startPoseHalfElbow);
-        //            plannerHalfElbow.setStart(startPoseHalfElbow);
-
-        //            plannerHalfElbow.executeTrajectory(bestTrajHalfElbow,bestTrajRootHalfElbow, "yellow");
-
-        //            // 4.c Planning for Elbow
-
-        //            if (bestTrajHalfElbow.size()>0)
-        //            {
-        //                // Calculating goal region of the Elbow based on the last reaching point of the End-Effector
-        //                double sizeGoalElbow = lForearm;
-        //                Vector goalElbow(6,sizeGoalElbow);
-        //                int indexLastTrajHalfElbow = bestTrajHalfElbow.size()-1;
-        //                for (int i=0; i<nDim; i++)
-        //                    goalElbow[i] = bestTrajHalfElbow[indexLastTrajHalfElbow][i];
-
-        //                obsSetExpandedElbow = expandObstacle(bestTrajHalfElbow,obsSet,lForearm/2.0);
-        //                obsSetExpandedElbow_fromHalf = expandObstacle(bestTrajHalfElbow,obsSetExpandedHalfElbow,lForearm/2.0);
-
-        //                printf("!!!!!!!!!!!!!!!!!!!!!\n");
-        //                printf("!!!               !!!\n");
-        //                printf("!!! ELBOW PLANNER !!!\n");
-        //                printf("!!!               !!!\n");
-        //                printf("!!!!!!!!!!!!!!!!!!!!!\n");
-
-        ////                Vector workspace(6,0.0);
-        //                workspace[3]=xReaching-lForearm;
-        //                workspace[4]=20.0/10.0;
-        //                workspace[5]=zReaching-lForearm;
-
-        //                plannerElbow.setRegionOperating(workspace);
-        //                plannerElbow.setGoal(goalElbow);
-        //                plannerElbow.setDeadline(planningTime);
-        //                plannerElbow.setObstacles(obsSet);  //Add "real" obstacle set to the planner of Elbow
-
-        //                plannerElbow.setObstacles(obsSetExpandedElbow);
-        //                plannerElbow.setObstacles(obsSetExpandedElbow_fromHalf);
-
-        //                convertPosFromRootToSimFoR(xElbow,startPoseElbow);
-        //                plannerElbow.setStart(startPoseElbow);
-
-        //                plannerElbow.executeTrajectory(bestTrajElbow,bestTrajRootElbow, "magenta");
-
-                    */
-
-    //                if (running_mode == "single")
-    //                {
-    //                    // 5.Sending message of Trajectory through port
-    //                    EEPortOut.setTrajectory(bestTrajRootEE);
-    //                    EEPortOut.sendTrajectory();
-
-    //                    HalfElbowPortOut.setTrajectory(bestTrajRootHalfElbow);
-    //                    HalfElbowPortOut.sendTrajectory();
-
-    //                    // 6. Display Trajectory
-
-    //                    displayTraj(bestTrajEE,"blue");
-    //                    displayTraj(bestTrajHalfElbow,"yellow");
-    //                }
-
-        //            // Replan
-        //            replan = false;
                 }
 
 
@@ -944,7 +833,6 @@ bool upperPlanner::updateModule()
                     if (bestTrajEE.size()!=0)
                         success = true;
 
-        //            displayTraj(bestTrajElbow,"purple");
                     printf("=============================\n");
                     printf("ELBOW CHECKING\n");
                     printf("\tCheck elbow position \n");
@@ -1021,54 +909,61 @@ bool upperPlanner::updateModule()
                 logBatchSummary();
             }
             else if (running_mode== "single")
-        {
-            logTrajectory(name, solvingTime);
-            // 5.Sending message of Trajectory through port
-            EEPortOut.setTrajectory(bestTrajRootEE);
-            EEPortOut.sendTrajectory();
-
-            HalfElbowPortOut.setTrajectory(bestTrajRootHalfElbow);
-            HalfElbowPortOut.sendTrajectory();
-
-            planPortOut.clearTrajectory();
-            waypointTrajectory EE("End-Effector",bestTrajRootEE);
-//            waypointTrajectory HE("Half-Elbow",bestTrajRootHalfElbow);
-            waypointTrajectory EB("Elbow",bestTrajRootElbow);
-            planPortOut.addTrajectory(EE);
-//            planPortOut.addTrajectory(HE);
-            planPortOut.addTrajectory(EB);
-            planPortOut.sendPlan();
-
-            // Using class motionPlan
-
-
-            // 6. Display Trajectory
-
-            displayTraj(bestTrajEE,"blue");
-            displayTraj(bestTrajHalfElbow,"yellow");
-            displayTraj(bestTrajElbow,"purple");
-
-            if (visualizeObjectsInGui)
             {
-                displayWorkspaceGui();
-    //            displayWpsGui(bestTrajRootEE, "End-Effector", "blue");
-    //            displayWpsGui(bestTrajRootHalfElbow, "Half-Elbow", "yellow");
-    //            displayWpsGui(bestTrajRootElbow, "Elbow", "purple");
+                logTrajectory(name, solvingTime);
 
-    //            initShowTrajGui("End","blue");
-                initShowTrajGui("EE","blue");
-                initShowTrajGui("HE","yellow");
-                initShowTrajGui("E","purple");
+                // 5. Display Trajectory
 
-    //            updateTrajGui(bestTrajRootEE, "End");
-                updateTrajGui(bestTrajRootEE, "EE");
-                updateTrajGui(bestTrajRootHalfElbow, "HE");
-                updateTrajGui(bestTrajRootElbow, "E");
+                displayTraj(bestTrajEE,"blue");
+                displayTraj(bestTrajHalfElbow,"yellow");
+                displayTraj(bestTrajElbow,"purple");
+
+                if (visualizeObjectsInGui)
+                {
+                    displayWorkspaceGui();
+
+                    initShowTrajGui("EE","blue");
+                    initShowTrajGui("HE","yellow");
+                    initShowTrajGui("E","purple");
+
+                    updateTrajGui(bestTrajRootEE, "EE");
+                    updateTrajGui(bestTrajRootHalfElbow, "HE");
+                    updateTrajGui(bestTrajRootElbow, "E");
+                }
+
+                // 6.Sending message of Trajectory through port
+                EEPortOut.setTrajectory(bestTrajRootEE);
+                EEPortOut.sendTrajectory();
+
+                HalfElbowPortOut.setTrajectory(bestTrajRootHalfElbow);
+                HalfElbowPortOut.sendTrajectory();
+
+                // For safety reason, asking for permission before execution the plan
+                string execution;
+                cout<<"Do you want to execute the plan (yes/no)"<<endl;
+                getline(cin,execution);
+
+                if (execution == "yes")
+                {
+                    printf("EXECUTING PLAN\n");
+                    // Sending trajectories sing class motionPlan
+                    planPortOut.clearTrajectory();
+                    waypointTrajectory EE("End-Effector",bestTrajRootEE);
+        //            waypointTrajectory HE("Half-Elbow",bestTrajRootHalfElbow);
+                    waypointTrajectory EB("Elbow",bestTrajRootElbow);
+                    planPortOut.addTrajectory(EE);
+        //            planPortOut.addTrajectory(HE);
+                    planPortOut.addTrajectory(EB);
+                    planPortOut.sendPlan();
+                }
+                else
+                {
+                    printf("DISCARD PLAN\n");
+                }
+
+
+                replan = false;
             }
-
-
-            replan = false;
-        }
 
         }
         else
@@ -2355,9 +2250,9 @@ void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
     cmdGui.addString("trajectory");
     cmdGui.addString(ctrlPoint.c_str());    // trajectory identifier
 //    cmdGui.addString(ctrlPoint.c_str());              // trajectory name
-    cmdGui.addString("");              // trajectory name
-    cmdGui.addInt(512);                // max samples in circular queue
-    cmdGui.addDouble(30.0);             // lifetime of samples
+    cmdGui.addString("");               // trajectory name
+    cmdGui.addInt(512);                 // max samples in circular queue
+    cmdGui.addDouble(300.0);             // lifetime of samples
     if (color =="red")             // color
     {
         cmdGui.addInt(255);cmdGui.addInt(0);cmdGui.addInt(0); //red

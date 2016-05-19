@@ -29,7 +29,7 @@ reachingSupervisor::reachingSupervisor()
 {
     name        =  "reaching-supervisor";
     nDim        =                      3;
-    rate        =                    100;   // in milisecond
+    rate        =                    50;   // in milisecond
     verbosity   =                      0;
     timeToFinishSegment =              1;
     tol         =                  0.005;   //0.001 with 10ms
@@ -124,7 +124,7 @@ bool reachingSupervisor::updateModule()
         tempWaypoint->stop();
 
         printf("===============================\n");
-        printf("updateModule() reachingSupervisor\n");
+        printf("[%s] updateModule()\n", name.c_str());
         planPortIn.setNewMsg(false);
 
 
@@ -133,18 +133,18 @@ bool reachingSupervisor::updateModule()
         if (listTraject.size()>0)
         {
 
-            printf("Got some thing. listTrajectory.size()= %d\n",(int) listTraject.size());
+            printf("\tGot some thing. listTrajectory.size()= %d\n",(int) listTraject.size());
 
             for (int i=0; i<listTraject.size(); i++)
             {
 
-                printf("numberWaypoint = %d\n",numberWaypoint);
+                printf("\tnumberWaypoint = %d\n",numberWaypoint);
                 string tempCtrlPtName = listTraject[i].getCtrlPointName();
-                printf("CtrlPointName = %s\n",tempCtrlPtName.c_str());
+                printf("\tCtrlPointName = %s\n",tempCtrlPtName.c_str());
                 vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
                 for (int j=0; j<tempTrajectory.size(); j++)
                 {
-                    printf("\tWaypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
+                    printf("\t\tWaypoint[%d] = %f, %f, %f\n",j,tempTrajectory[j][0],tempTrajectory[j][1],tempTrajectory[j][2]);
                 }
             }
         }
@@ -176,7 +176,7 @@ bool reachingSupervisor::updateModule()
         numberWaypoint = listTrajectories[0].getNbWaypoint();
         if (indexCurSegment<numberWaypoint-1)
         {
-            printf("indexCurSegment =%d\n", indexCurSegment);
+            printf("\tindexCurSegment =%d\n", indexCurSegment);
             vector<Vector> tempTrajectoryEE = listTrajectories[0].getWaypoints();
             vector<Vector> tempTrajectoryEB = listTrajectories[1].getWaypoints();
 
@@ -206,7 +206,7 @@ bool reachingSupervisor::updateModule()
             x_d.push_back(x_dEB);
 
 
-            printf("finishedCurSegment =%d \n",finishedCurSegment);
+            printf("\tfinishedCurSegment =%d \n",finishedCurSegment);
             if (finishedCurSegment)
             {
                 printf("check finishedCurSegment 1\n");

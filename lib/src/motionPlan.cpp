@@ -37,6 +37,16 @@ deque<waypointTrajectory>& motionPlan::getListTrajectory()
     return listTrajectory;
 }
 
+void motionPlan::setListTrajectory(const deque<waypointTrajectory>& _listTraject)
+{
+//    listTrajectory = _listTraject;
+    listTrajectory.clear();
+    for (int i=0; i< _listTraject.size(); i++)
+    {
+        addTrajectory(_listTraject[i]);
+    }
+}
+
 void motionPlan::sendPlan()
 {
     Bottle &outPlan = prepare();
@@ -97,7 +107,7 @@ void motionPlan::setNewMsg(const bool &value)
 void motionPlan::onRead(Bottle &inPlan)
 {
     yInfo("onRead()\n");
-    clearTrajectory();
+//    clearTrajectory();
     haveNewMsg = true;
 
 
@@ -105,16 +115,17 @@ void motionPlan::onRead(Bottle &inPlan)
     {
 //        Bottle* inListTrajectories = inPlan->get(0).asList();
         int numberCtrlPoints = inPlan.size();
-        printf("numberCtrlPoints= %d\n",numberCtrlPoints);
+        printf("\tnumberCtrlPoints = %d\n",numberCtrlPoints);
 //        if (inListTrajectories != NULL)
 //        {
 
             vector<Vector> trajectory;
             int numberWaypoint, numberDimension;
+            deque<waypointTrajectory> _listTraject;
 
             for (int i=0; i<numberCtrlPoints; i++)
             {
-                printf("i= %d\n",i);
+                printf("\ti = %d\n",i);
 //                Bottle* inListTrajectory = inPlan->get(i).asList();
                 if (Bottle* inListTrajectory = inPlan.get(i).asList())
                 {
@@ -181,9 +192,10 @@ void motionPlan::onRead(Bottle &inPlan)
                     if (trajectory.size()>0)
                     {
                         wpTraject.setWaypoints(trajectory);
-    //                    listTrajectory.push_back(wpTraject);
-                        addTrajectory(wpTraject);
-                        yInfo("Finish onRead()\n");
+                        _listTraject.push_back(wpTraject);
+//                        listTrajectory.push_back(wpTraject);
+//                        addTrajectory(wpTraject);
+//                        yInfo("Finish onRead()\n");
                     }
                     else
                     {
@@ -192,6 +204,12 @@ void motionPlan::onRead(Bottle &inPlan)
                     }
                 }
 
+            }
+            if (_listTraject.size()==numberCtrlPoints)
+            {
+                clearTrajectory();
+                setListTrajectory(_listTraject);
+                yInfo("Finish onRead()\n");
             }
 
     }

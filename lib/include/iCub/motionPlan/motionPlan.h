@@ -160,11 +160,16 @@ public:
 
     /**
      * @brief Gets waypointTrajectory in the plan
-     * @return A waypointTrajectory
+     * @return A standard deque of set of waypointTrajectory
      * @see waypointTrajectory
      */
     deque<waypointTrajectory>& getListTrajectory(); //Change to reference
 
+    /**
+     * @brief Sets waypointTrajectory for the plan
+     * @param _listTraject: a standard deque of a set of waypointTrajectory
+     */
+    void setListTrajectory(const deque<waypointTrajectory>& _listTraject);
     /**
      * @brief Sends waypointTrajectory through the port set to plan
      * @see waypointTrajectory

@@ -73,14 +73,19 @@ void multipleParticleThread::run()
         for (int i=0; i<ctrlPointsNames.size();i++)
         {
             if (ctrlPointsNames[i]=="End-Effector" || ctrlPointsNames[i]=="Elbow")
-                if (ctrlPointsNames[i]!="Elbow")
+            {
+                if (ctrlPointsNames[i]!="")
                 {
                     vector<Vector> trajectory;
                     if (x_n[i].size()==nDim)
+                    {
                         trajectory.push_back(x_n[i]);
+                        printf("[multipleThread] x_n[%d] = %s\n", i, x_d[i].toString().c_str());
+                    }
                     waypointTrajectory wpTraj(ctrlPointsNames[i],trajectory);
                     particlesPortOut.addTrajectory(wpTraj);
                 }
+            }
         }
 
         if (particlesPortOut.getListTrajectory().size()>0)
@@ -89,6 +94,8 @@ void multipleParticleThread::run()
             if (wpTrajectory[0].getNbWaypoint()>0)
                 particlesPortOut.sendPlan();
         }
+        else
+            printf("[multipleThread] nothing will be sent!");
     }
 }
 
