@@ -78,6 +78,7 @@ protected:
     vector<string>              ctrlPointsNames;
 
     motionPlan planPortIn;
+    motionPlan planPortIn1;
 
     int rate;
     int verbosity;

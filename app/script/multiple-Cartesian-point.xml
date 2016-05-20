@@ -1,28 +1,9 @@
 <application>
 <name>Multiple-Cartesian-Point Controller and Planner</name>
 
-        <dependencies>
-        <port>/icubSim/left_arm/state:o</port>
-        <!--<port>/icubSim/right_arm/state:o</port>
-        <port>/icubSim/left_leg/state:o</port>
-        <port>/icubSim/right_leg/state:o</port>-->
-        </dependencies>
-
-        <module>
-                <name>iCub_SIM</name>
-                <node>localhost</node>
-                <tag>icubSim</tag>
-        </module>
-
-        <module>
-                <name>iCubGui</name>
-                <node>localhost</node>
-                <tag>iCubGui</tag>
-        </module>
-
         <module>
                 <name>yarpmotorgui</name>
-                <node>localhost</node>
+                <node>icub21</node>
                 <tag>motorgui</tag>
         </module>
 	
@@ -58,31 +39,6 @@
 		<wait>5.0</wait>
 	</ensure>
 
-	<module>
-		<name>yarp read /read1</name>
-		<port>/read1</port>
-		<node>localhost</node>
-		<tag>read1</tag>
-
-	</module>
-
-	<module>
-		<name>yarp read /read2</name>
-		<port>/read2</port>
-		<node>localhost</node>
-		<tag>read2</tag>
-
-	</module>
-
-	<connection>
-		<from>/reaching-planner/End-Effector/bestCartesianTrajectory:o</from>
-        	<to>/read1</to>
-    	</connection>
-
-	<connection>
-		<from>/reaching-planner/Half-Elbow/bestCartesianTrajectory:o</from>
-        	<to>/read2</to>
-    	</connection>
 
 	<connection>
 		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>

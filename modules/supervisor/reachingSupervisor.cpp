@@ -95,6 +95,10 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
 
     string portParticle = "/"+name+"/particlesCartesianTrajectory:o";
 
+    string port2planner1 = "/"+name+"/bestCartesianTrajectory1:i";
+    if (!planPortIn1.open(port2planner1.c_str()))
+        yError("[%s] Unable to open port << port2planner1 << endl",name.c_str());
+
     //****Particle Thread******************************************************************
 
     // hard coded
