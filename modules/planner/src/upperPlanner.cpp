@@ -943,6 +943,7 @@ bool upperPlanner::updateModule()
                 cout<<"Do you want to execute the plan (yes/no)"<<endl;
                 getline(cin,execution);
 
+
                 if (execution == "yes")
                 {
                     printf("EXECUTING PLAN\n");
@@ -1000,10 +1001,16 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
         replan = true;
         if (command.size()==2)
             planningTime = command.get(1).asDouble();
-        else
+        else if (command.size()==1)
             planningTime = 1.0;
+        else if (command.size()==3)
+        {
+            planningTime = command.get(1).asDouble();
+            targetName = command.get(2).asString();
+        }
         reply.addDouble(planningTime);
-        reply.addString("seconds!!!");
+        reply.addString("seconds, and targetName of");
+        reply.addString(targetName);
     }
     else
     {
