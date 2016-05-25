@@ -58,6 +58,7 @@
 #include "particleThread.h"
 #include "particleWaypointThread.h"
 #include "multipleParticleThread.h"
+#include "reachingSupervisor_IDL.h"
 
 using namespace std;
 using namespace yarp::sig;
@@ -68,7 +69,7 @@ using namespace iCub::ctrl;
 using namespace iCub::iKin;
 
 
-class reachingSupervisor : public RFModule
+class reachingSupervisor : public RFModule, public reachingSupervisor_IDL
 {
 protected:
     string                      name;
@@ -77,8 +78,9 @@ protected:
     int                         numberWaypoint;
     vector<string>              ctrlPointsNames;
 
-    motionPlan planPortIn;
-    motionPlan planPortIn1;
+    motionPlan  planPortIn;
+    motionPlan  planPortIn1;
+    RpcServer   rpcSrvr;
 
     int rate;
     int verbosity;
@@ -107,7 +109,7 @@ public:
 
     virtual bool close();
 
-//    virtual bool attach (RpcServer&);
+    virtual bool attach (RpcServer &source);
 
     virtual double getPeriod();
 
@@ -115,14 +117,107 @@ public:
 
 
     /************************************************************************/
+    /**
+     * @brief Computes the velocity vector for the motion between 2 waypoints
+     * @param speed: double value of controlled point speed
+     * @param wp1: yarp Vector of waypoint coordinate of the waypoint 1 of the segment
+     * @param wp2: yarp Vector of waypoint coordinate of the waypoint 2 of the segment
+     * @return: yarp Vector of the velocity of controlled point
+     */
     Vector computeVelFromSegment(const double& speed, const Vector& wp1, const Vector& wp2);
 
+    /**
+     * @brief Computes the speed of other controlled point known speed of one controlled point
+     * @param speed: double value of controlled point speed
+     * @param wp1: yarp Vector of waypoint coordinate of the waypoint 1 of this segment
+     * @param wp2: yarp Vector of waypoint coordinate of the waypoint 2 of this segment
+     * @param wp1Other: yarp Vector of waypoint coordinate of the waypoint 1 of other segment
+     * @param wp2Other: yarp Vector of waypoint coordinate of the waypoint 2 of other segment
+     * @return: double value of the speed of other controlled point
+     */
     double computeOtherCtrlPtSpeed(const double& speed, const Vector &wp1, const Vector &wp2,
                                                         const Vector &wp1Other, const Vector &wp2Other);
 
+    /**
+    * @brief Find the distance between 2 waypoints
+    * @param wp1: 3D yarp Vector of 3D coordinate of a waypoint 1
+    * @param wp2: 3D yarp Vector of 3D coordinate of a waypoint 2
+    * @return: a double value of the distance.
+    */
     double distWpWp(const Vector &wp1, const Vector &wp2);
 
+    /**
+     * @brief Sets the tolerance of the internal particles generation
+     * @param _tol: double value of the tolerance
+     * @return true/false on success/failure.
+     */
+    bool setTol(const double &_tol);
 
+    /**
+     * @brief Gets the tolerance of the internal particles generation
+     * @return double value of the tolerance
+     */
+    double getTol();
+
+    /**
+     * @brief Sets the speed of the End-Effector motion
+     * @param _speedEE: double value of the End-Effector speed
+     * @return true/false on success/failure.
+     * @see speedEE
+     */
+    bool setSpeedEE(const double &_speedEE);
+
+    /**
+     * @brief Gets the speed of the End-Effector motion
+     * @return double value of the End-Effector speed
+     * @see speedEE
+     */
+    double getSpeedEE();
+
+    /**
+     * @brief Sets the verbosity value
+     * @param _verbosity: integer value of the verbosity
+     * @return true/false on success/failure.
+     */
+    bool setVerbosity(const int &_verbosity);
+
+    /**
+     * @brief Gets the verbosity value
+     * @return Integer value of the verbosity
+     */
+    int getVerbosity();
+
+    /************************************************************************/
+    // Thrift methods
+    bool set_tol(const double _tol)
+    {
+        return setTol(_tol);
+    }
+
+    double get_tol()
+    {
+        return getTol();
+    }
+
+    bool set_speedEE(const double _speedEE)
+    {
+        return setSpeedEE(_speedEE);
+    }
+
+    double get_speedEE()
+    {
+        return getSpeedEE();
+    }
+
+    bool set_verbosity(const int32_t _verbosity)
+    {
+        return setVerbosity(_verbosity);
+    }
+
+    int get_verbosity()
+    {
+        return getVerbosity();
+    }
 };
 
 #endif // REACHINGSUPERVISOR_H

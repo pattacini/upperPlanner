@@ -99,6 +99,10 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if (!planPortIn1.open(port2planner1.c_str()))
         yError("[%s] Unable to open port << port2planner1 << endl",name.c_str());
 
+    //****RPC Service port ****************************************************************
+    rpcSrvr.open(("/"+name+"/rpc:i").c_str());
+    attach(rpcSrvr);
+
     //****Particle Thread******************************************************************
 
     // hard coded
@@ -267,6 +271,11 @@ bool reachingSupervisor::close()
     return true;
 }
 
+bool reachingSupervisor::attach(RpcServer &source)
+{
+    return this->yarp().attachAsServer(source);
+}
+
 Vector reachingSupervisor::computeVelFromSegment(const double &speed, const Vector &wp1, const Vector &wp2)
 {
     Vector vel(nDim,0.0);
@@ -296,3 +305,50 @@ double reachingSupervisor::distWpWp(const Vector &wp1, const Vector &wp2)
     }
     return distance;
 }
+
+bool reachingSupervisor::setTol(const double &_tol)
+{
+    if (_tol>=0.0)
+    {
+        tol=_tol;
+        return true;
+    }
+    return false;
+}
+
+double reachingSupervisor::getTol()
+{
+    return tol;
+}
+
+bool reachingSupervisor::setSpeedEE(const double &_speedEE)
+{
+    if (_speedEE>=0.0)
+    {
+        speedEE = _speedEE;
+        return true;
+    }
+    else
+        return false;
+}
+
+double reachingSupervisor::getSpeedEE()
+{
+    return speedEE;
+}
+
+bool reachingSupervisor::setVerbosity(const int &_verbosity)
+{
+    if (_verbosity>=0)
+        verbosity=_verbosity;
+    else
+        verbosity=0;
+    return true;
+}
+
+int reachingSupervisor::getVerbosity()
+{
+    return verbosity;
+}
+
+

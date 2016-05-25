@@ -5,6 +5,7 @@
 project(reaching-supervisor)
 aux_source_directory(. SRC_LIST)
 
+include(YarpIDL)
 
 set (include_files	${CMAKE_CURRENT_SOURCE_DIR}/include/reachingSupervisor.h
 			${CMAKE_CURRENT_SOURCE_DIR}/include/multipleParticleThread.h
@@ -17,12 +18,18 @@ set (source_files 	${CMAKE_CURRENT_SOURCE_DIR}/src/reachingSupervisor.cpp
 			${CMAKE_CURRENT_SOURCE_DIR}/src/particleWaypointThread.cpp
 			${CMAKE_CURRENT_SOURCE_DIR}/src/particleThread.cpp)
 
+set(idl_files    reachingSupervisor.thrift)
+
+yarp_add_idl(IDL_GEN_FILES reachingSupervisor.thrift)
+
+source_group("IDL Files" FILES ${idl_files})
+
 include_directories(	${CMAKE_CURRENT_SOURCE_DIR}
 			${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files})# ${local_lib_files}) 
+add_executable(${PROJECT_NAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files} ${IDL_GEN_FILES} ${idl_files})# ${local_lib_files})
 target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ctrlLib)
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)
