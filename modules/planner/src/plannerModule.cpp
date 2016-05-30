@@ -45,9 +45,9 @@ int main(int argc, char *argv[])
 
     if (rf.check("help"))
     {
-        yInfo("");
+        yInfo(" ");
         yInfo("Options:");
-        yInfo("");
+        yInfo(" ");
         yInfo("   --context                 path:   where to find the called resource");
         yInfo("   --from                    from:   the name of the .ini file.");
         yInfo("   --name                    name:   the name of the module (default reaching-planner).");
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
         yInfo("   --targetName              string: reaching object (default Octopus).");
         yInfo("   --disableTorso            string: on/off the torso (default off), other is on.");
         yInfo("   --visualizeObjectsInSim   string: on/off visualizing objects in simulator (default on), other is off.");
-        yInfo("");
+        yInfo(" ");
         return 0;
     }
 

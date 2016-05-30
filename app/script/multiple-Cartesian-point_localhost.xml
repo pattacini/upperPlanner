@@ -74,19 +74,15 @@
 
 	</module>
 
-	<connection>
-		<from>/reaching-planner/End-Effector/bestCartesianTrajectory:o</from>
-        	<to>/read1</to>
-    	</connection>
-
-	<connection>
-		<from>/reaching-planner/Half-Elbow/bestCartesianTrajectory:o</from>
-        	<to>/read2</to>
-    	</connection>
 
 	<connection>
 		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>
         	<to>/reactController/streamedWholeBodyTargets:i</to>
+    	</connection>
+
+	<connection>
+		<from>/reaching-supervisor/reaching-planner/rpc:o</from>
+        	<to>/reaching-planner/rpc:i</to>
     	</connection>
 
 	<connection>

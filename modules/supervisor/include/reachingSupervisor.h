@@ -72,19 +72,29 @@ using namespace iCub::iKin;
 class reachingSupervisor : public RFModule, public reachingSupervisor_IDL
 {
 protected:
+    // Internal variables
     string                      name;
     int                         nDim;
     deque<waypointTrajectory>   listTrajectories;
     int                         numberWaypoint;
     vector<string>              ctrlPointsNames;
 
+    int         rate;
+    int         verbosity;
+    double      tol;
+
+    // Port variables
     motionPlan  planPortIn;
     motionPlan  planPortIn1;
     RpcServer   rpcSrvr;
+    RpcClient   rpc2Planner;
 
-    int rate;
-    int verbosity;
-    double tol;
+
+
+    // Planning variables
+    string      targetName;
+    double      localPlanningTime;
+    double      globalPlanningTime;
 
     int                 indexCurSegment;
     bool             finishedCurSegment;
@@ -187,6 +197,20 @@ public:
      */
     int getVerbosity();
 
+    bool setDeadline(const double &_deadline);
+
+    double getDeadline();
+
+    bool setGlobDeadline(const double &_globDeadline);
+
+    double getGlobDeadline();
+
+    bool setTarget(const string &_target);
+
+    string getTarget();
+
+    bool sendCmd2Planner();
+
     /************************************************************************/
     // Thrift methods
     bool set_tol(const double _tol)
@@ -217,6 +241,42 @@ public:
     int get_verbosity()
     {
         return getVerbosity();
+    }
+
+    bool set_deadline(const double _deadline)
+    {
+        return setDeadline(_deadline);
+    }
+
+    double get_deadline()
+    {
+        return getDeadline();
+    }
+
+    bool set_glob_deadline(const double _globDeadline)
+    {
+        return setGlobDeadline(_globDeadline);
+    }
+
+    double get_glob_deadline()
+    {
+        return getGlobDeadline();
+    }
+
+    bool set_target(const string &_target)
+    {
+        return setTarget(_target);
+    }
+
+    string get_target()
+    {
+        return getTarget();
+    }
+
+    bool run_planner(const double _deadline)
+    {
+        setDeadline(_deadline);
+        return sendCmd2Planner();
     }
 };
 

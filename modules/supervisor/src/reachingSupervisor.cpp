@@ -36,6 +36,10 @@ reachingSupervisor::reachingSupervisor()
 
     speedEE     =                    0.1;
     speedLink.clear();
+
+    localPlanningTime   =            1.0;
+    globalPlanningTime  =           10.0;
+    targetName          =      "Octopus";
 }
 
 bool reachingSupervisor::configure(ResourceFinder &rf)
@@ -85,14 +89,21 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     //****Normal communication port *******************************************************
     planPortIn.useCallback();
 
-    string port2planner = "/"+name+"/bestCartesianTrajectory:i";
-    if (!planPortIn.open(port2planner.c_str()))
-        yError("[%s] Unable to open port << port2planner << endl",name.c_str());
+    // Output port to send command to Planner
+    string portToPlanner = "/"+name+"/reaching-planner/rpc:o";
+    if (!rpc2Planner.open(portToPlanner.c_str()))
+        yError("[%s] Unable to open port << portToPlanner << endl",name.c_str());
 
-    string portPlanner = "/reaching-planner/bestCartesianTrajectory:o";
-    if(Network::connect(portPlanner.c_str(),port2planner.c_str()))
-        printf("[%s] can connect to receive motion plan\n",name.c_str());
+    // Input port from the Planner
+    string portFromPlanner = "/"+name+"/bestCartesianTrajectory:i";
+    if (!planPortIn.open(portFromPlanner.c_str()))
+        yError("[%s] Unable to open port << portFromPlanner << endl",name.c_str());
 
+    string portOfPlanner = "/reaching-planner/bestCartesianTrajectory:o";
+    if(Network::connect(portOfPlanner.c_str(),portFromPlanner.c_str()))
+        yInfo("[%s] can connect to receive motion plan\n",name.c_str());
+
+    // Output port to Controller, used to transfer information to multiple particle generation
     string portParticle = "/"+name+"/particlesCartesianTrajectory:o";
 
     string port2planner1 = "/"+name+"/bestCartesianTrajectory1:i";
@@ -351,4 +362,54 @@ int reachingSupervisor::getVerbosity()
     return verbosity;
 }
 
+bool reachingSupervisor::setDeadline(const double &_deadline)
+{
+    if (_deadline >= 0.0)
+    {
+        localPlanningTime = _deadline;
+        return true;
+    }
+    else
+        return false;
+}
 
+double reachingSupervisor::getDeadline()
+{
+    return localPlanningTime;
+}
+
+bool reachingSupervisor::setGlobDeadline(const double &_globDeadline)
+{
+    if (_globDeadline >= 0.0)
+    {
+        globalPlanningTime = _globDeadline;
+        return true;
+    }
+    else
+        return false;
+}
+
+double reachingSupervisor::getGlobDeadline()
+{
+    return globalPlanningTime;
+}
+
+bool reachingSupervisor::setTarget(const string &_target)
+{
+    targetName = _target;
+    return true;
+}
+
+string reachingSupervisor::getTarget()
+{
+    return targetName;
+}
+
+bool reachingSupervisor::sendCmd2Planner()
+{
+    Bottle cmd;
+    cmd.addString("replan");
+    cmd.addDouble(localPlanningTime);
+    cmd.addString(targetName);
+    return rpc2Planner.write(cmd);
+}

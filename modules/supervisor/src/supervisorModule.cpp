@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
 
     if (rf.check("help"))
     {
-        yInfo("");
+        yInfo(" ");
         yInfo("Options:");
-        yInfo("");
+        yInfo(" ");
         yInfo("   --context     path:   where to find the called resource");
         yInfo("   --from        from:   the name of the .ini file.");
         yInfo("   --name        name:   the name of the module (default reactController).");
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         yInfo("   --verbosity   int:    verbosity level (default 0).");
         yInfo("   --tolerance   double: tolerance of particles generator (default 0.005m).");
         yInfo("   --speedEE     double: speed of the End-Effector (default 0.1m/s).");
-        yInfo("");
+        yInfo(" ");
         return 0;
     }
 

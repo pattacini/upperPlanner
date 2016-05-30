@@ -20,14 +20,6 @@
         </module>   
 
         <module>
-                <name>reaching-planner</name>
-		<parameters>--name reaching-planner1</parameters>
-                <node>localhost</node>
-                <tag>planner</tag>
-        </module>    
-
-	
-        <module>
                 <name>reaching-supervisor</name>
                 <node>localhost</node>
                 <tag>supervisor</tag>
@@ -43,6 +35,11 @@
 	<connection>
 		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>
         	<to>/reactController/streamedWholeBodyTargets:i</to>
+    	</connection>
+
+	<connection>
+		<from>/reaching-supervisor/reaching-planner/rpc:o</from>
+        	<to>/reaching-planner/rpc:i</to>
     	</connection>
 
 	<connection>

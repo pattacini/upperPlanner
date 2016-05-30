@@ -38,11 +38,15 @@ service reachingSupervisor_IDL
   */
   bool set_speedEE(1:double _speedEE);
 
+  /**
+  * Gets the speed of End-Effector movement
+  * @return the current setting speed of End-Effector
+  */
   double get_speedEE();
 
   /**
   * Sets verbosity.
-  * @param _verbosity  the verbosity of the controller
+  * @param _verbosity: the verbosity of the controller
   * @return true/false on success/failure.
   */
   bool set_verbosity(1:i32 _verbosity);  
@@ -52,6 +56,52 @@ service reachingSupervisor_IDL
   * @return the verbosity of the controller
   */
   i32 get_verbosity();  
+
+  /**
+  * Sets planning time for each local planner
+  * @param _deadline: planning time 
+  * @return true/false on success/failure.
+  */
+  bool set_deadline(1:double _deadline);
+
+  /**
+  * Gets the planning time of each local planner
+  * @return the current setting planning time of each local planner
+  */
+  double get_deadline();
+
+  /**
+  * Sets global planning time for the planner
+  * @param _globDeadline: global planning time 
+  * @return true/false on success/failure.
+  */
+  bool set_glob_deadline(1:double _globDeadline);
+
+  /**
+  * Gets the global planning time of the planner
+  * @return the current setting global planning time of the planner
+  */
+  double get_glob_deadline();
+
+  /**
+  * Sets target for the planner
+  * @param _target: string value target
+  * @return true/false on success/failure.
+  */
+  bool set_target(1:string _target);
+
+  /**
+  * Gets the setting target of the planner
+  * @return the current setting target of the planner
+  */
+  string get_target();
+
+  /**
+  * Send planning request to reaching-planner
+  * @param _deadline  planning time for each local planner
+  * @return true/false on success/failure.
+  */
+  bool run_planner(1:double _deadline);
    
   /**
   * Disables the controller and switches to position mode
