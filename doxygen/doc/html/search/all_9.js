@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['motionplan',['motionPlan',['../classmotion_plan.html',1,'motionPlan'],['../classmotion_plan.html#a7b316186eda965acfc82a212c04667a7',1,'motionPlan::motionPlan()']]],
-  ['multipleparticlethread',['multipleParticleThread',['../classmultiple_particle_thread.html',1,'']]]
+  ['numvertices',['numVertices',['../class_r_r_tstar_1_1_planner.html#ae22532c4b2619f18c7c28b6781617b82',1,'RRTstar::Planner']]]
 ];

@@ -29,12 +29,12 @@ var searchData=
   ['settarget',['setTarget',['../classreaching_supervisor.html#ab03fa673def5a1a1f9f1722ff17166e2',1,'reachingSupervisor']]],
   ['settol',['setTol',['../classreaching_supervisor.html#a2f67931e3bba8463587cf6eaa605d6fd',1,'reachingSupervisor']]],
   ['settolerence',['setTolerence',['../classmultiple_particle_thread.html#a9387e37f68be9c65c20bcd564e2062c1',1,'multipleParticleThread']]],
-  ['setupnewparticle',['setupNewParticle',['../classmultiple_particle_thread.html#a0c155556b44f577e8a27bddc2620f7df',1,'multipleParticleThread::setupNewParticle()'],['../classparticle_thread.html#a92f047359f1fb22e708faaa4cc257c03',1,'particleThread::setupNewParticle()']]],
+  ['setupnewparticle',['setupNewParticle',['../classmultiple_particle_thread.html#a0c155556b44f577e8a27bddc2620f7df',1,'multipleParticleThread']]],
   ['setverbosity',['setVerbosity',['../classreaching_supervisor.html#a48220d80713a4c6da9e35ba23d1962c9',1,'reachingSupervisor']]],
   ['setwaypoints',['setWaypoints',['../classwaypoint_trajectory.html#aaa3c608ff91c2d63806375bb9a7a5d3e',1,'waypointTrajectory']]],
   ['singleplanner',['singlePlanner',['../classsingle_planner.html#a309d624e920201292373ba5afb914dfc',1,'singlePlanner']]],
   ['state',['State',['../class_single_integrator_1_1_state.html#ab91bb1dd5aa6260ab2a456581daf9ec2',1,'SingleIntegrator::State::State()'],['../class_single_integrator_1_1_state.html#a9972c9875845bf16a1fd9559ad7f8c70',1,'SingleIntegrator::State::State(const State &amp;stateIn)']]],
   ['stop',['stop',['../classreaching_supervisor___i_d_l.html#aac6464832583770ee615f96b65ecdc78',1,'reachingSupervisor_IDL::stop()'],['../classreaching_supervisor___i_d_l.html#aacf09caca31ec90032ab8edf7a5a7da0',1,'reachingSupervisor_IDL::stop()']]],
-  ['stopparticle',['stopParticle',['../classmultiple_particle_thread.html#aec4ac27252be28ec38179020c1442323',1,'multipleParticleThread::stopParticle()'],['../classparticle_thread.html#a2143acaefd724f294a7f67d57b85aa37',1,'particleThread::stopParticle()']]],
+  ['stopparticle',['stopParticle',['../classmultiple_particle_thread.html#aec4ac27252be28ec38179020c1442323',1,'multipleParticleThread']]],
   ['system',['System',['../class_single_integrator_1_1_system.html#ae317936c9bcf1374d61745572e0f2f8a',1,'SingleIntegrator::System']]]
 ];

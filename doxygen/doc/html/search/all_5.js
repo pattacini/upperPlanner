@@ -24,7 +24,7 @@ var searchData=
   ['getobsfromopc',['getObsFromOPC',['../classupper_planner.html#a0c8d332b31dd5e68fd197ae06407bea8',1,'upperPlanner']]],
   ['getobsidfromopc_5fname',['getObsIDFromOPC_Name',['../classupper_planner.html#acbceb49210412c94b418788f0cfabe44',1,'upperPlanner']]],
   ['getparent',['getParent',['../class_r_r_tstar_1_1_vertex.html#a8a873c199e7824909152bfab01824da5',1,'RRTstar::Vertex']]],
-  ['getparticle',['getParticle',['../classmultiple_particle_thread.html#a6ef40b41028890b0760c583dd46e78a5',1,'multipleParticleThread::getParticle()'],['../classparticle_thread.html#a8085c35d65d5096c94e0581b4edb408a',1,'particleThread::getParticle()']]],
+  ['getparticle',['getParticle',['../classmultiple_particle_thread.html#a6ef40b41028890b0760c583dd46e78a5',1,'multipleParticleThread']]],
   ['getrootstate',['getRootState',['../class_system.html#a3886ae2dd386330fcedbb80015c002d5',1,'System::getRootState()'],['../class_single_integrator_1_1_system.html#a9d814c84c26bd48c286c66352030e695',1,'SingleIntegrator::System::getRootState()']]],
   ['getrootvertex',['getRootVertex',['../class_r_r_tstar_1_1_planner.html#a61d83e1b14a5c10cd26994ede94090e4',1,'RRTstar::Planner']]],
   ['getspeedee',['getSpeedEE',['../classreaching_supervisor.html#aeed422b99ce2e40b4046941708ef3407',1,'reachingSupervisor']]],

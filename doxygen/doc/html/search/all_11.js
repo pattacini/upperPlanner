@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['vertex',['Vertex',['../class_r_r_tstar_1_1_vertex.html',1,'RRTstar']]],
-  ['vertex',['Vertex',['../class_r_r_tstar_1_1_vertex.html#a9279fe771abe476de9728bbbcf96f10e',1,'RRTstar::Vertex::Vertex()'],['../class_r_r_tstar_1_1_vertex.html#aa84a348a6d31e10631809410865fca9d',1,'RRTstar::Vertex::Vertex(const Vertex &amp;vertexIn)']]]
+  ['waypointtrajectory',['waypointTrajectory',['../classwaypoint_trajectory.html',1,'waypointTrajectory'],['../classwaypoint_trajectory.html#a513281be4a9b035ea10a7b4e7481b868',1,'waypointTrajectory::waypointTrajectory()'],['../classwaypoint_trajectory.html#a61275929cf3cf1950f8c15ac14c41ff8',1,'waypointTrajectory::waypointTrajectory(const string &amp;ctrlPtName, const vector&lt; Vector &gt; &amp;trajectory)']]]
 ];

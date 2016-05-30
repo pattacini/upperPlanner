@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['motionplan',['motionPlan',['../classmotion_plan.html',1,'']]],
-  ['multipleparticlethread',['multipleParticleThread',['../classmultiple_particle_thread.html',1,'']]]
+  ['planner',['Planner',['../class_r_r_tstar_1_1_planner.html',1,'RRTstar']]]
 ];
