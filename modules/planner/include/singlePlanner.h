@@ -67,6 +67,9 @@ using namespace iCub::iKin;
 typedef Planner<State,Trajectory,System> planner_t;
 typedef Vertex<State,Trajectory,System> vertex_t;
 
+/**
+ * @brief The singlePlanner class to create motion plan for a controlled point, e.g End-Effector, Elbow
+ */
 class singlePlanner
 {
 protected:

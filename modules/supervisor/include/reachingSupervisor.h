@@ -68,7 +68,9 @@ using namespace yarp::os;
 using namespace iCub::ctrl;
 using namespace iCub::iKin;
 
-
+/**
+ * @brief The reachingSupervisor class to create the module to supervise planning module and connect to Controller
+ */
 class reachingSupervisor : public RFModule, public reachingSupervisor_IDL
 {
 protected:

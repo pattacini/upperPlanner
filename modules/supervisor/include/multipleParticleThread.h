@@ -46,6 +46,9 @@ using namespace yarp::sig;
 using namespace yarp::os;
 using namespace iCub::ctrl;
 
+/**
+ * @brief The multipleParticleThread class to generate multiple particles for the multiple Cartesian point controller
+ */
 class multipleParticleThread : public yarp::os::RateThread
 {
 protected:

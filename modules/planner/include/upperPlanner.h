@@ -146,6 +146,9 @@ class rpcDataProcessor : public PortReader
     }
 };
 
+/**
+ * @brief The upperPlanner class to generate motion planner for multiple controlled points, e.g the Forearm with End-Effector, half Elbow and Elbow
+ */
 class upperPlanner: public yarp::os::RFModule//, public upperPlanner_IDL
 {
 protected:
