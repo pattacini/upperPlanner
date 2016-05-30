@@ -26,7 +26,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`
 	- By using rpc service to communicate with the supervisor, i.e: `yarp rpc /<supervisor_module_name>/rpc:i`
 
 ## Documentation
-Online documentation is available here: [http://robotology-playground.github.com/reaching-planner](http://robotology-playground.github.com/reaching-planner).
+Online documentation is available here: [http://robotology-playground.github.com/reaching-with-avoidance](http://robotology-playground.github.com/reaching-planner).
 
 ## License
 Material included here is Copyright of *iCub Facility - Istituto Italiano di Tecnologia*
