@@ -197,18 +197,49 @@ public:
      */
     int getVerbosity();
 
+    /**
+     * @brief Sets the planning time for each local planner
+     * @param _deadline: double value of the planning time to set
+     * @return true/false on success/failure.
+     */
     bool setDeadline(const double &_deadline);
 
+    /**
+     * @brief Gets the setting localPlanningTime of each local planner
+     * @return Double value of the localPlanningTime
+     */
     double getDeadline();
 
+    /**
+     * @brief Sets the globalPlanningTime time of the whole planner
+     * @param _globDeadline: double value of the global planning time
+     * @return true/false on success/failure.
+     */
     bool setGlobDeadline(const double &_globDeadline);
 
+    /**
+     * @brief Gets the globalPlanningTime of the planner
+     * @return Double value of the globalPlanningTime
+     */
     double getGlobDeadline();
 
+    /**
+     * @brief Sets the targetName for the planner
+     * @param _target: string value for the targetName
+     * @return true/false on success/failure.
+     */
     bool setTarget(const string &_target);
 
+    /**
+     * @brief Gets the targetName of the planner
+     * @return String value of the targetName of the planner
+     */
     string getTarget();
 
+    /**
+     * @brief Sends planning request to the planner
+     * @return true/false on success/failure.
+     */
     bool sendCmd2Planner();
 
     /************************************************************************/
