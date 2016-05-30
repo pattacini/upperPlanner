@@ -29,8 +29,6 @@
   </description-long>
 
   <arguments>
-<!--<param default="reaching-planner" desc="Select the current context (default parameter).">context</param>-->
-
   
   </arguments>
  
@@ -41,33 +39,24 @@
   <data>
   <input>
       <type>yarp::os::Bottle</type>
-      <port carrier="tcp">/reaching-planner/OPC/rpc:io</port>
+      <port carrier="tcp">/module_name/OPC/rpc:io</port>
       <description>
         receive Target, obstacles from /OPC/rpc port
       </description>
   </input>
   <input>
       <type>yarp::os::Bottle</type>
-      <port carrier="tcp">/reaching-planner/rpc:i</port>
+      <port carrier="tcp">/module_name/rpc:i</port>
       <description>
         receive trigger command.
       </description>
   </input>
     <output>
       <type>waypointTrajectory</type>
-      <port carrier="tcp">/reaching-planner/bestCartersianTrajectory:o</port>
+      <port carrier="tcp">/module_name/bestCartersianTrajectory:o</port>
       <description>
         send trajectories of controlled points in the format:
 	<b>(((control-point <i>string_value</i>) (number-waypoints <i>int_value</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
-      </description>
-    </output>
-
-    <output>
-      <type>waypointTrajectory</type>
-      <port carrier="tcp">/reaching-supervisor/particlesCartersianTrajectory:o</port>
-      <description>
-        send particled trajectories of controlled points in the format:
-	<b>(((control-point <i>string_value</i>) (number-waypoints <i>1</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
       </description>
     </output>
 

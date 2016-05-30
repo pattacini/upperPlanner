@@ -9,7 +9,7 @@ rm $DESTINATIONXML -rf
 
 # generate doxy from xml
 mkdir $DESTINATIONXML
-list=`find .. -iname reaching-planner.xml | xargs`
+list=`find ../modules -iname *.xml | xargs`
 for i in $list
 do
    filename=`basename $i`

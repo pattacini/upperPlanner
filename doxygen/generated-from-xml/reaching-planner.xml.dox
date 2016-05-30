@@ -3,7 +3,7 @@
   *
   * @ingroup  
   * \defgroup reaching-planner reaching-planner
-  * Module to generate a motion plan for an iCub arm
+  * Module to generate a motion plan for an iCub arm.
   * Version:1.0
   * \author  NGUYEN Dong Hai Phuong phuong.nguyen@iit.it
   * \n
@@ -33,27 +33,21 @@
   
   * \section inputports_sec Input Ports
   * 
-  *- /reaching-planner/OPC/rpc:io []  [default carrier:tcp]: 
+  *- /module_name/OPC/rpc:io [yarp::os::Bottle]  [default carrier:tcp]: 
         receive Target, obstacles from /OPC/rpc port
       
   *
   
-  *- /reaching-planner/rpc:i []  [default carrier:tcp]: 
+  *- /module_name/rpc:i [yarp::os::Bottle]  [default carrier:tcp]: 
         receive trigger command.
       
   *
   
   * \section outputports_sec Output Ports
   * 
-  *- /reaching-planner/bestCartersianTrajectory:o []  [default carrier:tcp]: 
+  *- /module_name/bestCartersianTrajectory:o [waypointTrajectory]  [default carrier:tcp]: 
         send trajectories of controlled points in the format:
 	<b>(((control-point <i>string_value</i>) (number-waypoints <i>int_value</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
-      
-  *
-  
-  *- /reaching-supervisor/particlesCartersianTrajectory:o []  [default carrier:tcp]: 
-        send particled trajectories of controlled points in the format:
-	<b>(((control-point <i>string_value</i>) (number-waypoints <i>1</i>) (number-dimension <i>int_value</i>) (waypoint_0 (x0 y0 z0)) waypoint_1 (x1 y1 z1)) ...) (<i> controlled point 2 </i>) ...)</b>
       
   *
   
