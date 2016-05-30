@@ -19,11 +19,11 @@
 ## Commands
 - For the operation with `reaching-planner` only:
 	- By sending commands through yarp rpc port, we can trigger the planner to generate a plan based on the environment perception,
-i.e: `yarp rpc /*<planner_module_name>*/rpc:i`
+i.e: `yarp rpc /<planner_module_name>/rpc:i`
 
-	- Command for replan: `replan *<deadline>*`, with `<deadline>` is the maximum exploration time of each planner
+	- Command for replan: `replan <deadline>`, with `<deadline>` is the maximum exploration time of each planner
 - For the operation with `reaching-supervisor`:
-	- By using rpc service to communicate with the supervisor, i.e: `yarp rpc /*<supervisor_module_name>*/rpc:i`
+	- By using rpc service to communicate with the supervisor, i.e: `yarp rpc /<supervisor_module_name>/rpc:i`
 
 ## Documentation
 Online documentation is available here: [http://robotology-playground.github.com/reaching-planner](http://robotology-playground.github.com/reaching-planner).
