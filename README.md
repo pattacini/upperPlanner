@@ -16,6 +16,8 @@
 
 ## Pipeline
 
+<img src="https://github.com/robotology-playground/reaching-planner/blob/master/misc/planner_new_trigger.bmp">
+
 ## Commands
 - For the operation with `reaching-planner` only:
 	- By sending commands through yarp rpc port, we can trigger the planner to generate a plan based on the environment perception,
