@@ -16,7 +16,7 @@
 
 ## Pipeline
 
-<img src="https://github.com/robotology-playground/reaching-planner/blob/master/misc/planner_new_trigger.bmp"/>
+<img src="https://github.com/robotology-playground/reaching-planner/blob/master/misc/planner_supervisor.bmp"/>
 
 ## Commands
 - For the operation with `reaching-planner` only:
