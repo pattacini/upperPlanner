@@ -36,6 +36,30 @@ using namespace iCub::iKin;
 int main(int argc, char *argv[])
 {
     Network yarp;
+    upperPlanner planner;
+
+    string nodeName = "/yarp_connector";
+    string sharedTopicName = "/signal2Yarp";
+
+//    yarp::os::Network network;
+    yarp::os::Node node(nodeName);   // added a Node
+
+    if (!planner.port.topic(nodeName + "/data"))              // replaced open() with topic()
+    {
+        cerr<<"Error opening port, check your yarp network\n";
+        return -1;
+    }
+
+    if (!planner.port_object.topic(nodeName + "/objects"))              // replaced open() with topic()
+    {
+        cerr<<"Error opening port, check your yarp network\n";
+        return -1;
+    }
+
+    if (!planner.sub_signalFromROS.topic(sharedTopicName)) {
+        cerr<< "Failed to subscriber to "<<sharedTopicName<<endl;
+        return -1;
+    }
 
     ResourceFinder rf;
     rf.setVerbose(true);
@@ -70,7 +94,7 @@ int main(int argc, char *argv[])
     }
 
 
-    upperPlanner planner;
+//    upperPlanner planner;
     planner.configure(rf);
 
     return planner.runModule();

@@ -19,7 +19,6 @@
 
 #include "upperPlanner.h"
 
-
 using namespace yarp;
 using namespace yarp::sig;
 using namespace yarp::os;
@@ -34,6 +33,10 @@ upperPlanner::upperPlanner()
     targetName  =         "Octopus";
     verbosity   =                 0;
     disableTorso=             false;
+
+    useROS      =             false;
+    fixEnv      =             false;
+
     maxReplan   =              1000;
     replan      =             false;
 
@@ -138,6 +141,39 @@ bool upperPlanner::configure(ResourceFinder &rf){
         yInfo("[reaching-planner] targetName set to %s", targetName.c_str());
     }
     else yInfo("[reaching-planner] Could not find targetName option in the config file; using %s as default",targetName.c_str());
+
+    //********************** USE ROS************
+    if (rf.check("useROS"))
+    {
+        if (rf.find("useROS").asString() == "on")
+        {
+            useROS = true;
+            yInfo("[reaching-planner] useROS flag set to on.");
+        }
+        else
+        {
+            useTorso = false;
+            yInfo("[reaching-planner] useROS flag set to off.");
+        }
+    }
+    else yInfo("[reaching-planner] Could not find useROS option in the config file; using %d as default",useROS);
+
+
+    //********************** FIX ENVIRONMENT************
+    if (rf.check("fixEnv"))
+    {
+        if (rf.find("fixEnv").asString() == "on")
+        {
+            fixEnv = true;
+            yInfo("[reaching-planner] fixEnv flag set to on.");
+        }
+        else
+        {
+            fixEnv = false;
+            yInfo("[reaching-planner] fixEnv flag set to off.");
+        }
+    }
+    else yInfo("[reaching-planner] Could not find fixEnv option in the config file; using %d as default",fixEnv);
 
     //********************** CONFIGS ***********************
     if (rf.check("disableTorso"))
@@ -386,6 +422,32 @@ bool upperPlanner::configure(ResourceFinder &rf){
 
     countReplan = 0;
 
+    //****ROS Communication*************************************************************************
+    nodeName = "/yarp_connector_planner";
+    sharedTopicName = "/signal2Yarp";
+
+//    yarp::os::Network network;
+//    yarp::os::Node node(nodeName);   // added a Node
+
+//    if (!port.topic(nodeName + "/data"))              // replaced open() with topic()
+//    {
+//        cerr<<"Error opening port, check your yarp network\n";
+//        return -1;
+//    }
+
+//    if (!port_object.topic(nodeName + "/objects"))              // replaced open() with topic()
+//    {
+//        cerr<<"Error opening port, check your yarp network\n";
+//        return -1;
+//    }
+
+//    if (!sub_signalFromROS.topic(sharedTopicName)) {
+//        cerr<< "Failed to subscriber to "<<sharedTopicName<<endl;
+//        return -1;
+//    }
+
+
+
     return true;
 }
 
@@ -408,12 +470,73 @@ bool upperPlanner::updateModule()
 
     clock_t start;// = clock();
 
+    // For the case of benchmarking the fixed environment, generate objects once only
+    if (fixEnv && (countReplan==0))
+    {
+
+        srand(time(NULL));
+        double scale = 10.0;
+        double sizeObject = 1.0/scale;
+        double sizeGoal = .15;
+
+        Vector goal(6,sizeGoal);    // World frame for the table
+
+        goal[0]=-1.0/scale;
+        goal[1]=5.64/scale;
+        goal[2]=3.7/scale;
+
+        obsSet.clear();
+        obsSetRoot.clear();
+        obsSetExpandedElbow.clear();
+        obsSetExpandedHalfElbow.clear();
+
+        Vector obs0(6,0.2); // robot itself in World frame
+        obs0[0]=0.0;
+        obs0[1]=0.5;
+        obs0[2]=0.0;
+        obs0[4]=1.0;
+
+        obsSet.push_back(obs0);
+
+        Vector obs1(6,0.5), obs1Root(6,0.0);; // Table in World frame
+        obs1[0] = 0.0;
+        obs1[1] = 0.5;
+        obs1[2] = 0.35;
+        obs1[3] = 0.7;
+        obs1[4] = 0.025;
+
+        obsSet.push_back(obs1);
+
+        for (int i=0; i<=10; i++)
+        {
+            Vector obs(6, sizeObject), obsRoot(6,0.0);   // World frame
+            obs[0] = (double)(rand()%8-4)/scale;
+            //obs[1] = 0.564;
+            obs[1] = 0.614;
+            obs[4] = 0.2;
+            obs[2] = (double)(rand()%4+3)/scale;
+            if ((abs(10*obs[0]-10*goal[0])>=abs(10*obs[3]-10*goal[3]))&&
+                    (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
+                    (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
+            {
+//                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
+                obsSet.push_back(obs);
+            }
+
+        }
+    }
 
     // Check if required re-plan and do if necessary; remember to clear "replan" after running
     if (replan)
     {
         bool haveTarget = false;
         success = false;    //Batch Summary only
+
+        // For cost-vs-time benchmark only
+        if (fixEnv && (countReplan%50 == 0) && (countReplan !=0) )
+        {
+            planningTime +=0.2;
+        }
 
 //        singlePlanner plannerEE(verbosity,name,robot,"End-effector");
 //        singlePlanner plannerElbow(verbosity,name, robot, "Elbow");
@@ -473,45 +596,83 @@ bool upperPlanner::updateModule()
 
 //            target = goal;
 //            convertPosFromSimToRootFoR(goal,target);
+            Vector goalRoot(6,0.0);
+            convertObjFromSimToRootFoR(goal,goalRoot);
 
             srand(time(NULL));
     //        vector<Vector> obsSet;
-            obsSet.clear();
-            obsSetExpandedElbow.clear();
-            obsSetExpandedHalfElbow.clear();
-            Vector obs0(6,0.2); // robot itself in World frame
-            obs0[0]=0.0;
-            obs0[1]=0.5;
-            obs0[2]=0.0;
-            obs0[4]=1.0;
-
-            obsSet.push_back(obs0);
-
-            Vector obs1(6,0.5); // Table in World frame
-            obs1[0] = 0.0;
-            obs1[1] = 0.5;
-            obs1[2] = 0.35;
-            obs1[3] = 0.7;
-            obs1[4] = 0.025;
-
-            obsSet.push_back(obs1);
-
-            for (int i=0; i<=10; i++)
+            if (!fixEnv)
             {
-                Vector obs(6, sizeObject);  // World frame
-                obs[0] = (double)(rand()%8-4)/scale;
-                //obs[1] = 0.564;
-                obs[1] = 0.614;
-                obs[4] = 0.2;
-                obs[2] = (double)(rand()%4+3)/scale;
-                if ((abs(10*obs[0]-10*goal[0])>=abs(10*obs[3]-10*goal[3]))&&
-                        (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
-                        (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
+                obsSet.clear();
+                obsSetRoot.clear();
+                obsSetExpandedElbow.clear();
+                obsSetExpandedHalfElbow.clear();
+
+                Vector obs0(6,0.2); // robot itself in World frame
+                obs0[0]=0.0;
+                obs0[1]=0.5;
+                obs0[2]=0.0;
+                obs0[4]=1.0;
+
+                obsSet.push_back(obs0);
+
+                Vector obs1(6,0.5), obs1Root(6,0.0);; // Table in World frame
+                obs1[0] = 0.0;
+                obs1[1] = 0.5;
+                obs1[2] = 0.35;
+                obs1[3] = 0.7;
+                obs1[4] = 0.025;
+
+                obsSet.push_back(obs1);
+                convertObjFromSimToRootFoR(obs1,obs1Root);
+                obsSetRoot.push_back(obs1Root);
+
+//            if (!fixEnv)
+//            {
+                for (int i=0; i<=10; i++)
                 {
-//                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
-                    obsSet.push_back(obs);
+                    Vector obs(6, sizeObject), obsRoot(6,0.0);   // World frame
+                    obs[0] = (double)(rand()%8-4)/scale;
+                    //obs[1] = 0.564;
+                    obs[1] = 0.614;
+                    obs[4] = 0.2;
+                    obs[2] = (double)(rand()%4+3)/scale;
+                    if ((abs(10*obs[0]-10*goal[0])>=abs(10*obs[3]-10*goal[3]))&&
+                            (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
+                            (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
+                    {
+    //                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
+                        obsSet.push_back(obs);
+                        convertObjFromSimToRootFoR(obs,obsRoot);
+                        obsSetRoot.push_back(obsRoot);  // Root frame
+                    }
+
                 }
 
+                yarp::os::Time::delay(.1);
+
+                // Send objects to ROS for benchmarking
+                if (useROS)
+            {
+                for (int i=0; i<obsSetRoot.size(); i++)
+                {
+                    sendObj2ROS("obstacle",obsSetRoot[i]);
+                }
+
+
+                SharedData_new d;
+                // d.text is a string
+                d.text="obstacles";
+
+                //d.content is a vector, let's push some data
+                d.content.push_back(obsSetRoot.size());
+
+                port.write(d);
+
+                sendObj2ROS("target",goalRoot);
+
+                yarp::os::Time::delay(.5);
+            }
             }
             //============================================================
         }
@@ -905,7 +1066,31 @@ bool upperPlanner::updateModule()
                     countReplan = 0;
                 }
                 else
-                    replan = true;
+                {
+//                    replan = true;
+                    if (useROS)
+                    {
+                        yarp_msg::SharedData_new msgROS;
+                        sub_signalFromROS.read(msgROS, false);
+                        if (msgROS.text == "finished")
+                        {
+                            replan = true;
+                            cout<< msgROS.text << ": " << msgROS.content << endl;
+                        }
+                        else if (msgROS.text == "replan")
+                        {
+                            countReplan--;
+                            replan = true;
+                            cout<< msgROS.text << ": " << msgROS.content << endl;
+                        }
+                    }
+                    else
+                        replan = true;
+                }
+
+                costEE = computeMotionDistance(bestTrajRootEE);
+                costElbow = computeMotionDistance(bestTrajRootElbow);
+
                 logBatchSummary();
             }
             else if (running_mode== "single")
@@ -941,7 +1126,7 @@ bool upperPlanner::updateModule()
                 // For safety reason, asking for permission before execution the plan
                 string execution;
                 cout<<"Do you want to execute the plan (yes/no)"<<endl;
-                getline(cin,execution);
+//                getline(cin,execution);
 
 
                 if (execution == "yes")
@@ -987,6 +1172,12 @@ bool upperPlanner::updateModule()
         printf("THE END %d\n", countReplan);
         printf("===============================\n");
 
+//        yarp_msg::SharedData_new msgROS;
+//        sub_signalFromROS.read(msgROS, false);
+//        if (msgROS.text == "finished")
+//        {
+//            cout<< msgROS.text << ": " << msgROS.content << endl;
+//        }
 
     }
     return true;
@@ -1039,6 +1230,11 @@ bool upperPlanner::close()
     HalfElbowPortOut.interrupt();
     HalfElbowPortOut.close();
 
+    port.interrupt();
+    port.close();
+    port_object.interrupt();
+    port_object.close();
+
     if (arm)
     {
         delete arm;
@@ -1049,8 +1245,43 @@ bool upperPlanner::close()
     return true;
 }
 
+double upperPlanner::computeMotionDistance(vector<Vector> &traj)
+{
+    double cost=0.0;
+    for (int i=0; i<traj.size()-1; i++)
+        cost += distWpWp(traj[i],traj[i+1]);
+
+    return cost;
+}
+
+void upperPlanner::sendObj2ROS(string typeObj, Vector obj)
+{
+    cout<<"Sending 1 object to ROS"<<endl;
+    object newObj;
+    vector<double> pos(3,0.0);
+    vector<double> dim(3,0.0);
+    for (int i=0; i<3; i++)
+    {
+        pos[i] = obj[i];
+        dim[i] = obj[i+3];
+    }
+    newObj.objectType = typeObj;
+    newObj.position = pos;
+    newObj.dimension = dim;
+    port_object.write(newObj);
+}
+
 void upperPlanner::initBatchSummary()
 {
+    ofstream logfile("batchSummaryCost.txt",ofstream::out | ofstream::trunc);
+    if (logfile.is_open())
+    {
+        logfile<<"countReplan"<<"\t";
+        logfile<<"solvingTime"<<"\t";
+        logfile<<"costEE"<<"\t";
+        logfile<<"costElbow"<<"\n";
+    }
+
     ofstream logfile1("batchSummary.txt",ofstream::out | ofstream::trunc);
     if (logfile1.is_open())
     {
@@ -1058,13 +1289,36 @@ void upperPlanner::initBatchSummary()
         logfile1<<"solvingTime"<<"\t";
         logfile1<<"waypoints"<<"\t";
         logfile1<<"success"<<"\n";
+    }
 
-
+    if (fixEnv)
+    {
+        ofstream logfile2("batchSummaryTimeCost.txt",ofstream::out | ofstream::trunc);
+        if (logfile2.is_open())
+        {
+            logfile2<<"countReplan"<<"\t";
+            logfile2<<"planningTime"<<"\t";
+            logfile2<<"solvingTime"<<"\t";
+            logfile2<<"obsSetSize"<<"\t";
+            logfile2<<"bestTrajEE.size()"<<"\t";
+            logfile2<<"success"<<"\t";
+            logfile2<<"costEE"<<"\t";
+            logfile2<<"costElbow"<<"\n";
+        }
     }
 }
 
 void upperPlanner::logBatchSummary()
 {
+    ofstream logfile("batchSummaryCost.txt",ofstream::out | ofstream::app);
+    if (logfile.is_open())
+    {
+        logfile<<countReplan<<"\t";
+        logfile<<solvingTime<<"\t";
+        logfile<<costEE<<"\t";
+        logfile<<costElbow<<"\n";
+    }
+
     ofstream logfile1("batchSummary.txt",ofstream::out | ofstream::app);
 
     if (logfile1.is_open())
@@ -1073,8 +1327,22 @@ void upperPlanner::logBatchSummary()
         logfile1<<solvingTime<<"\t";
         logfile1<<bestTrajEE.size()<<"\t";
         logfile1<<success<<"\n";
+    }
 
-
+    if (fixEnv)
+    {
+        ofstream logfile2("batchSummaryTimeCost.txt",ofstream::out | ofstream::app);
+        if (logfile2.is_open())
+        {
+            logfile2<<countReplan<<"\t";
+            logfile2<<planningTime<<"\t";
+            logfile2<<solvingTime<<"\t";
+            logfile2<<obsSet.size()<<"\t";
+            logfile2<<bestTrajEE.size()<<"\t";
+            logfile2<<success<<"\t";
+            logfile2<<costEE<<"\t";
+            logfile2<<costElbow<<"\n";
+        }
     }
 //    logfile1.close();
 }
@@ -2259,7 +2527,7 @@ void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
 //    cmdGui.addString(ctrlPoint.c_str());              // trajectory name
     cmdGui.addString("");               // trajectory name
     cmdGui.addInt(512);                 // max samples in circular queue
-    cmdGui.addDouble(300.0);             // lifetime of samples
+    cmdGui.addDouble(1200.0);             // lifetime of samples
     if (color =="red")             // color
     {
         cmdGui.addInt(255);cmdGui.addInt(0);cmdGui.addInt(0); //red

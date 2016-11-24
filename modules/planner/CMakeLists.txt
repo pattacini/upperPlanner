@@ -5,6 +5,7 @@
 project(reaching-planner)
 aux_source_directory(. SRC_LIST)
 
+set(generated_libs_dir "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set (include_files	${CMAKE_CURRENT_SOURCE_DIR}/include/singlePlanner.h
 		 	${CMAKE_CURRENT_SOURCE_DIR}/include/upperPlanner.h)
@@ -13,8 +14,19 @@ set (source_files 	${CMAKE_CURRENT_SOURCE_DIR}/src/singlePlanner.cpp
 		 	${CMAKE_CURRENT_SOURCE_DIR}/src/upperPlanner.cpp
 		 	${CMAKE_CURRENT_SOURCE_DIR}/src/plannerModule.cpp)
 
-include_directories(	${CMAKE_CURRENT_SOURCE_DIR}
-			${CMAKE_CURRENT_SOURCE_DIR}/include)
+set (msg_files	${CMAKE_CURRENT_SOURCE_DIR}/msg/object.msg
+		${CMAKE_CURRENT_SOURCE_DIR}/msg/SharedData_new.msg
+)
+
+yarp_idl_to_dir(${CMAKE_CURRENT_SOURCE_DIR}/yarp_msg/object.msg 	${generated_libs_dir})
+yarp_idl_to_dir(${CMAKE_CURRENT_SOURCE_DIR}/yarp_msg/SharedData_new.msg ${generated_libs_dir})
+
+include_directories(	${generated_libs_dir}/include/
+			${YARP_INCLUDE_DIRS}
+			${CMAKE_CURRENT_SOURCE_DIR}
+			${CMAKE_CURRENT_SOURCE_DIR}/include
+			${CMAKE_CURRENT_SOURCE_DIR}/include/yarp_msg
+)
 
 add_definitions(-D_USE_MATH_DEFINES)
 

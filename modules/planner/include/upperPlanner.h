@@ -31,6 +31,11 @@
 #include <yarp/os/ResourceFinder.h>
 #include <yarp/os/RFModule.h>
 
+#include <yarp/os/Network.h>
+#include <yarp/os/Node.h>
+#include <yarp/os/Publisher.h>
+#include <yarp/os/all.h>
+
 #include <yarp/sig/Vector.h>
 #include <yarp/sig/Matrix.h>
 
@@ -45,6 +50,10 @@
 
 #include <iCub/iKin/iKinFwd.h>
 #include <iCub/skinDynLib/common.h>
+
+// Created message to communicate with ROS
+#include "SharedData_new.h"
+#include "object.h"
 
 #include <stdarg.h>
 #include <fstream>
@@ -69,6 +78,7 @@ using namespace yarp::math;
 using namespace yarp::os;
 using namespace iCub::ctrl;
 using namespace iCub::iKin;
+using namespace yarp_msg;
 
 
 typedef Planner<State,Trajectory,System> planner_t;
@@ -166,7 +176,7 @@ protected:
     int     targetID;       // ID of the object considered as target in OPC (at /memory/rpc)
 
     RpcServer   rpcSrvr;
-    bool    replan;        // Flag to run the planner
+    bool        replan;        // Flag to run the planner
     RpcClient   rpc2OPC;        // rpc client to connect with port /OPC/rpc
     RpcClient   rpc2actReEn;
 
@@ -177,6 +187,9 @@ protected:
     double  solvingTime;        // Total time for each whole planner of all control points
     double  planningTime;       // Deadline for local planner
     double  planningTimeGlob;   // Global deadline for the whole planner
+    double  costEE;
+    double  costElbow;
+    bool    fixEnv;             // Flag to set environment fixed for cost-vs-time benchmark
 
     // Flag to know if the torso shall be used or not
     bool    useTorso;
@@ -206,6 +219,7 @@ protected:
 
     // Set of Obstacles
     vector<Vector> obsSet;
+    vector<Vector> obsSetRoot;
     vector<Vector> obsSetExpandedElbow; // Expanded obstacle set of the Elbow,
                                         // generated from obstacle set of End-Effector
                                         // Obstacle set of the Elbow is combination of
@@ -271,6 +285,16 @@ protected:
     */
     int printMessage(const int l, const char *f, ...) const;
 
+    /***************************************************************************/
+    // ROS COMMUNICATION VARIABLES:
+    bool    useROS;             // Flag to communicate with ROS
+    string  nodeName;           // Name of YARP node in ROS network
+    string  sharedTopicName;    // Name of topic of acknowledment about the status of ROS planner
+public:
+    yarp::os::Publisher<SharedData_new> port;   // changed Port to Publisher
+    yarp::os::Publisher<object> port_object;    // changed Port to Publisher
+    yarp::os::Subscriber<SharedData_new> sub_signalFromROS;
+
 public:
     // CONSTRUCTOR: rate, name, verbosity,
     //upperPlanner(int , const string & , int );
@@ -301,6 +325,15 @@ public:
 //    bool re_plan(const double& );
 
 //    bool restartPlanner(void);
+
+    double computeMotionDistance(vector<Vector>& traj);
+
+    /**
+     * @brief To send an object to ROS
+     * @param typeObj: String value to describe the type of object, target or obstacle
+     * @param obj: YARP Vector of 3D object, including 3D position and 3D dimension
+     */
+    void sendObj2ROS(string typeObj, Vector obj);
 
     /**
     * @brief Initialize the log process in batch running_mode
