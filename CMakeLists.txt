@@ -30,17 +30,8 @@ set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/rrts.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/system_single_integrator.cpp
-#		${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread/particleThread.h
-#		${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread/particleThread.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan/motionPlan.h
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/src/motionPlan.cpp)
-
-#set (incldue_files	${CMAKE_CURRENT_SOURCE_DIR}/include/singlePlanner.h
-#		 	${CMAKE_CURRENT_SOURCE_DIR}/include/upperPlanner.h)
-
-#set (source_files 	${CMAKE_CURRENT_SOURCE_DIR}/src/singlePlanner.cpp
-#		 	${CMAKE_CURRENT_SOURCE_DIR}/src/upperPlanner.cpp
-#		 	${CMAKE_CURRENT_SOURCE_DIR}/src/plannerModule.cpp)
 
 include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/include
 			${CMAKE_CURRENT_SOURCE_DIR}/lib/include/iCub/motionPlan

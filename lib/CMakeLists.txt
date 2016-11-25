@@ -14,7 +14,7 @@ set(folder_source src/motionPlan.cpp)
 
 set(folder_header include/iCub/motionPlan/motionPlan.h)
 
-#include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 source_group("Source Files" FILES ${folder_source})
 source_group("Header Files" FILES ${folder_header})
