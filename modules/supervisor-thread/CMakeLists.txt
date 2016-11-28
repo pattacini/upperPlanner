@@ -3,7 +3,6 @@
 # CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 
 project(reaching-supervisor-thread)
-#cmake_minimum_required(VERSION 2.8)
 aux_source_directory(. SRC_LIST)
 
 set (incldue_files	${CMAKE_CURRENT_SOURCE_DIR}/reachingSupervisorThread.h)
@@ -21,8 +20,8 @@ include_directories(	${CMAKE_CURRENT_SOURCE_DIR})
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files}) 
-target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} )
+add_executable(${PROJECTNAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files})
+target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES} )
 
-install (TARGETS ${PROJECT_NAME} DESTINATION bin)
+install (TARGETS ${PROJECTNAME} DESTINATION bin)
 

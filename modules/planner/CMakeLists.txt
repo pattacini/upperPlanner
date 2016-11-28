@@ -2,7 +2,10 @@
 # Author: Nguyen Dong Hai Phuong
 # CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 
-project(reaching-planner)
+#project(reaching-planner)
+
+set(PROJECTNAME reaching-planner)
+project(${PROJECTNAME})
 aux_source_directory(. SRC_LIST)
 
 set (generated_libs_dir "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -29,8 +32,8 @@ include_directories(	${generated_libs_dir}/include/
 
 add_definitions(-D_USE_MATH_DEFINES)
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files}) 
-target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES} ctrlLib iKin ${IPOPT_LIBRARIES})
+add_executable(${PROJECTNAME} ${SRC_LIST} ${lib_files} ${source_files} ${include_files})
+target_link_libraries(${PROJECTNAME} ${YARP_LIBRARIES} ctrlLib iKin ${IPOPT_LIBRARIES})
 
-install (TARGETS ${PROJECT_NAME} DESTINATION bin)
+install (TARGETS ${PROJECTNAME} DESTINATION bin)
 

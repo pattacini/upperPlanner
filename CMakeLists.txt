@@ -2,13 +2,18 @@
 # Author: Nguyen Dong Hai Phuong
 # CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
 
-project(reaching-with-avoidance)
+#project(reaching-with-avoidance)
 cmake_minimum_required(VERSION 2.8)
+
+set(PROJECTNAME reaching-with-avoidance)
+project(${PROJECTNAME})
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/lib/cmake)
+
 aux_source_directory(. SRC_LIST)
 
-find_package(YARP)
-find_package(ICUB)
-find_package(ICUBcontrib)
+find_package(YARP REQUIRED)
+find_package(ICUB REQUIRED)
+find_package(ICUBcontrib REQUIRED)
 
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
 list(APPEND CMAKE_MODULE_PATH ${ICUB_MODULE_PATH})
@@ -22,7 +27,7 @@ add_definitions(${YARP_DEFINES})   # add yarp definitions - this contains also -
 include(YarpInstallationHelpers)   # pick up yarp's cmake scripts
 
 set(main_project_path ${CMAKE_CURRENT_SOURCE_DIR})
-set(main_project_name ${PROJECT_NAME})
+set(main_project_name ${PROJECTNAME})
 
 set(lib_files 	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.c
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star/kdtree.h
@@ -38,8 +43,8 @@ include_directories(	${CMAKE_CURRENT_SOURCE_DIR}/lib/include
 			${CMAKE_CURRENT_SOURCE_DIR}/lib/src
 		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/rrt-star
 #		  	${CMAKE_CURRENT_SOURCE_DIR}/lib/particleThread
-                   	${YARP_INCLUDE_DIRS}
-                    	${ICUB_INCLUDE_DIRS})
+            ${YARP_INCLUDE_DIRS}
+            ${ICUB_INCLUDE_DIRS})
 
 
 add_subdirectory(modules)
@@ -48,6 +53,7 @@ add_subdirectory(lib)
 
 add_subdirectory(app)
 
+icubcontrib_finalize_export(${PROJECTNAME})
 icubcontrib_add_uninstall_target()
 
 #add_definitions(-D_USE_MATH_DEFINES)
