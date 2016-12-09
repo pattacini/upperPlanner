@@ -43,7 +43,7 @@ upperPlanner::upperPlanner()
     nDim        =                 3;
     lShoulder   =              0.05;
     lArm        =              0.22;
-    lForearm    =              0.16;
+    lForearm    =              0.20;    //0.16;
 
     if (robot == "icubSim")
     {
@@ -412,7 +412,9 @@ bool upperPlanner::configure(ResourceFinder &rf){
     bestTrajHalfElbow.clear();
     bestTrajRootHalfElbow.clear();
 
-    // Hard code of workspace size
+
+    //********************** WORKSPACE ***********************
+    // Hard code of workspace size from reaching estimation
     workspaceRoot.resize(6);        // Root frame
     workspaceRoot[0] = -0.024500;   // x coordinate
     workspaceRoot[1] = -0.074500;   // y coordinate
@@ -422,12 +424,45 @@ bool upperPlanner::configure(ResourceFinder &rf){
     workspaceRoot[5] = 1.00000;     // size of z coordinate
 
     workspace.resize(6);            // World frame
-    workspace[0] = 0.074500;        // x coordinate
-    workspace[1] = 0.051000;        // y coordinate
-    workspace[2] = 0.024500;        // z coordinate
-    workspace[3] = 0.84900;         // size of x coordinate
-    workspace[4] = 1.00000+1;       // size of y coordinate
-    workspace[5] = 1.05100;         // size of z coordinate
+    workspace[1] = 0.051000;            // y coordinate
+    workspace[2] = 0.024500;            // z coordinate
+    workspace[3] = 0.84900;             // size of x coordinate
+    workspace[4] = 1.00000+1;           // size of y coordinate
+    workspace[5] = 1.05100;             // size of z coordinate
+    if (part == "left_arm")
+    {
+        workspace[0] = 0.074500;        // x coordinate
+    }
+    else if (part == "right_arm")
+    {
+        workspace[0] = -0.074500;       // x coordinate
+    }
+
+    string workspacePart = "workspace_left";
+    if (part == "left_arm")
+        workspacePart = "workspace_left";
+    else if (part == "right_arm")
+        workspacePart = "workspace_right";
+
+    if (rf.check(workspacePart.c_str()))
+    {
+        Bottle *workspaceParams = rf.find(workspacePart.c_str()).asList();
+        if ((!workspaceParams->isNull()) && (workspaceParams->size()==workspace.size()))
+        {
+            for (int i=0; i<workspace.size(); i++)
+                workspace[i] = workspaceParams->get(i).asDouble();
+        }
+        else
+            yWarning("[%s] Found %s  in the config file but it is empty; using default", name.c_str(), workspacePart.c_str());
+
+    }
+    else
+    {
+         yWarning("[%s] Could not find %s  in the config file; using default", name.c_str(), workspacePart.c_str());
+    }
+
+    yInfo("[%s] Workspace for %s: \n\t%s", name.c_str(), part.c_str(), workspace.toString().c_str());
+
 
     countReplan = 0;
 
