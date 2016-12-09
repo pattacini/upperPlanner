@@ -73,31 +73,31 @@ int upperPlanner::printMessage(const int l, const char *f, ...) const
 
 bool upperPlanner::configure(ResourceFinder &rf){
 
-    printf("reaching-planner: starting...\n");
+    printf("%s: starting...\n",name.c_str());
     //******************* NAME ******************
     if (rf.check("name"))
     {
         name = rf.find("name").asString();
-        yInfo("[reaching-planner] Module name set to %s", name.c_str());
+        yInfo("[%s] Module name set to %s", name.c_str(),name.c_str());
     }
-    else yInfo("[reaching-planner] Module name set to default, i.e. %s", name.c_str());
+    else yInfo("[%s] Module name set to default, i.e. %s", name.c_str(),name.c_str());
     setName(name.c_str());
 
     //******************* ROBOT ******************
     if (rf.check("robot"))
     {
         robot = rf.find("robot").asString();
-        yInfo("[reaching-planner] Robot is: %s", robot.c_str());
+        yInfo("[%s] Robot is: %s", name.c_str(), robot.c_str());
     }
-    else yInfo("[reaching-planner] Could not find robot option in the config file; using %s as default",robot.c_str());
+    else yInfo("[%s] Could not find robot option in the config file; using %s as default", name.c_str(), robot.c_str());
 
     //******************* VERBOSE ******************
     if (rf.check("verbosity"))
     {
         verbosity = rf.find("verbosity").asInt();
-        yInfo("[reaching-planner] verbosity set to %i", verbosity);
+        yInfo("[%s] verbosity set to %i", name.c_str(), verbosity);
     }
-    else yInfo("[reaching-planner] Could not find verbosity option in the config file; using %i as default",verbosity);
+    else yInfo("[%s] Could not find verbosity option in the config file; using %i as default", name.c_str(), verbosity);
 
     //******************* PART ******************
     if (rf.check("part"))
@@ -115,32 +115,32 @@ bool upperPlanner::configure(ResourceFinder &rf){
         else if (part!="left_arm" && part!="right_arm")
         {
             part="left_arm";
-            yWarning("[reaching-planner] part was not in the admissible values. Using %s as default.",part.c_str());
+            yWarning("[%s] part was not in the admissible values. Using %s as default.", name.c_str(), part.c_str());
         }
-        yInfo("[reaching-planner] part to use is: %s", part.c_str());
+        yInfo("[%s] part to use is: %s", name.c_str(), part.c_str());
     }
-    else yInfo("[reaching-planner] Could not find part option in the config file; using %s as default",part.c_str());
+    else yInfo("[%s] Could not find part option in the config file; using %s as default", name.c_str(), part.c_str());
     //********************** MODE ***********************
     if (rf.check("running_mode"))
     {
         running_mode = rf.find("running_mode").asString();
-        yInfo("[reaching-planner] running_mode set to %s", running_mode.c_str());
+        yInfo("[%s] running_mode set to %s", name.c_str(), running_mode.c_str());
     }
-    else yInfo("[reaching-planner] Could not find running_mode option in the config file; using %s as default",running_mode.c_str());
+    else yInfo("[%s] Could not find running_mode option in the config file; using %s as default", name.c_str(), running_mode.c_str());
     //********************** NUMBER OF REPEAT PLANNING IN BATCH MODE************
     if (rf.check("maxReplan"))
     {
         maxReplan = rf.find("maxReplan").asInt();
-        yInfo("[reaching-planner] maxReplan set to %i", maxReplan);
+        yInfo("[%s] maxReplan set to %i", name.c_str(), maxReplan);
     }
-    else yInfo("[reaching-planner] Could not find maxReplan option in the config file; using %i as default",maxReplan);
+    else yInfo("[%s] Could not find maxReplan option in the config file; using %i as default", name.c_str(), maxReplan);
     //********************** TARGET************
     if (rf.check("targetName"))
     {
         targetName = rf.find("targetName").asString();
-        yInfo("[reaching-planner] targetName set to %s", targetName.c_str());
+        yInfo("[%s] targetName set to %s", name.c_str(), targetName.c_str());
     }
-    else yInfo("[reaching-planner] Could not find targetName option in the config file; using %s as default",targetName.c_str());
+    else yInfo("[%s] Could not find targetName option in the config file; using %s as default", name.c_str(), targetName.c_str());
 
     //********************** USE ROS************
     if (rf.check("useROS"))
@@ -148,15 +148,15 @@ bool upperPlanner::configure(ResourceFinder &rf){
         if (rf.find("useROS").asString() == "on")
         {
             useROS = true;
-            yInfo("[reaching-planner] useROS flag set to on.");
+            yInfo("[%s] useROS flag set to on.",name.c_str());
         }
         else
         {
             useTorso = false;
-            yInfo("[reaching-planner] useROS flag set to off.");
+            yInfo("[%s] useROS flag set to off.", name.c_str());
         }
     }
-    else yInfo("[reaching-planner] Could not find useROS option in the config file; using %d as default",useROS);
+    else yInfo("[%s] Could not find useROS option in the config file; using %d as default", name.c_str(), useROS);
 
 
     //********************** FIX ENVIRONMENT************
@@ -165,15 +165,15 @@ bool upperPlanner::configure(ResourceFinder &rf){
         if (rf.find("fixEnv").asString() == "on")
         {
             fixEnv = true;
-            yInfo("[reaching-planner] fixEnv flag set to on.");
+            yInfo("[%s] fixEnv flag set to on.",name.c_str());
         }
         else
         {
             fixEnv = false;
-            yInfo("[reaching-planner] fixEnv flag set to off.");
+            yInfo("[%s] fixEnv flag set to off.", name.c_str());
         }
     }
-    else yInfo("[reaching-planner] Could not find fixEnv option in the config file; using %d as default",fixEnv);
+    else yInfo("[%s] Could not find fixEnv option in the config file; using %d as default", name.c_str(), fixEnv);
 
     //********************** CONFIGS ***********************
     if (rf.check("disableTorso"))
@@ -181,17 +181,17 @@ bool upperPlanner::configure(ResourceFinder &rf){
         if(rf.find("disableTorso").asString()=="on"){
             disableTorso = true;
             useTorso = false;
-            yInfo("[reaching-planner] disableTorso flag set to on.");
+            yInfo("[%s] disableTorso flag set to on.", name.c_str());
         }
         else{
             disableTorso = false;
             useTorso = true;
-            yInfo("[reaching-planner] disableTorso flag set to off.");
+            yInfo("[%s] disableTorso flag set to off.", name.c_str());
         }
     }
     else
     {
-         yInfo("[reaching-planner] Could not find disableTorso flag (on/off) in the config file; using %d as default",disableTorso);
+         yInfo("[%s] Could not find disableTorso flag (on/off) in the config file; using %d as default", name.c_str(), disableTorso);
     }
     //********************** Visualizations in simulator ***********************
    if (robot == "icubSim"){
@@ -199,16 +199,16 @@ bool upperPlanner::configure(ResourceFinder &rf){
        {
            if(rf.find("visualizeObjectstInSim").asString()=="on"){
                visualizeObjectsInSim = true;
-               yInfo("[reaching-planner] visualizeObjectsInSim flag set to on.");
+               yInfo("[%s] visualizeObjectsInSim flag set to on.", name.c_str());
            }
            else{
                visualizeObjectsInSim = false;
-               yInfo("[reaching-planner] visualizeObjectsInSim flag set to off.");
+               yInfo("[%s] visualizeObjectsInSim flag set to off.", name.c_str());
            }
        }
        else
        {
-           yInfo("[reaching-planner] Could not find visualizeObjectsInSim flag (on/off) in the config file; using %d as default",visualizeObjectsInSim);
+           yInfo("[%s] Could not find visualizeObjectsInSim flag (on/off) in the config file; using %d as default", name.c_str(), visualizeObjectsInSim);
        }
    }
 
@@ -238,7 +238,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
     OptA.put("local", ("/"+name +"/"+part).c_str());
     if (!ddA.open(OptA))
     {
-        yError("[reaching-planner]Could not open %s PolyDriver!",part.c_str());
+        yError("[%s]Could not open %s PolyDriver!",name.c_str(), part.c_str());
         return false;
     }
 
@@ -256,7 +256,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
 
     if (!okA)
     {
-        yError("[reaching-planner]Problems acquiring %s interfaces!!!!",part.c_str());
+        yError("[%s]Problems acquiring %s interfaces!!!!", name.c_str(), part.c_str());
         return false;
     }
 
@@ -268,7 +268,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
     OptT.put("local", ("/"+name +"/torso").c_str());
     if (!ddT.open(OptT))
     {
-        yError("[reaching-planner]Could not open torso PolyDriver!");
+        yError("[%s]Could not open torso PolyDriver!", name.c_str());
         return false;
     }
 
@@ -286,7 +286,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
 
     if (!okT)
     {
-        yError("[reaching-planner]Problems acquiring torso interfaces!!!!");
+        yError("[%s]Problems acquiring torso interfaces!!!!", name.c_str());
         return false;
     }
 
@@ -296,7 +296,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
         string port2icubsim = "/" + name + "/sim:o";
         //cout<<port2icubsim<<endl;
         if (!portToSimWorld.open(port2icubsim.c_str())) {
-           yError("[reaching-planner] Unable to open port << port2icubsim << endl");
+           yError("[%s] Unable to open port << port2icubsim << endl", name.c_str());
         }
         std::string port2world = "/icubSim/world";
         yarp::os::Network::connect(port2icubsim, port2world.c_str());
@@ -332,7 +332,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
     //**** visualizing targets and collision points in iCubGui ***************************
     string port2iCubGui = "/" + name + "/gui:o";
     if (!portToGui.open(port2iCubGui.c_str())) {
-       yError("[reaching-planner] Unable to open port << port2iCubGui << endl");
+       yError("[%s] Unable to open port << port2iCubGui << endl", name.c_str());
     }
     std::string portGuiObject = "/iCubGui/objects";     // World frame
     yarp::os::Network::connect(port2iCubGui.c_str(), portGuiObject.c_str());
@@ -350,21 +350,29 @@ bool upperPlanner::configure(ResourceFinder &rf){
     rpcSrvr.open(("/"+name+"/rpc:i").c_str());
     attach(rpcSrvr);
 
+    // Retrive objects from OPC
     string port2OPC = "/" + name + "/OPC/rpc:io";
     if (!rpc2OPC.open(port2OPC.c_str()))
     {
-        yError("[reaching-planner] Unable to open port << port2OPC << endl");
+        yError("[%s] Unable to open port << port2OPC << endl", name.c_str());
     }
 //    string portOPCrpc = "/objectsPropertiesCollector/rpc";
 //    string portOPCrpc = "/memory/rpc";
+
+    // Need to move to connection in xml file application
     string portOPCrpc = "/OPC/rpc"; // For WYSIWYD
     Network::connect(port2OPC.c_str(), portOPCrpc.c_str());
 
+    // TODO: add port to /iolReachingCalibrator/rpc --> calibrated objects
+
+    // Table height
     string port2actReEn = "/" + name + "/actionsRenderingEngine/get:io";
     if (!rpc2actReEn.open(port2actReEn.c_str()))
     {
-        yError("[reaching-planner] Unable to open port << port2actReEn << endl");
+        yError("[%s] Unable to open port << port2actReEn << endl", name.c_str());
     }
+
+    // Need to move to connection in xml file application
     string port_actReEnrpc = "/actionsRenderingEngine/get:io"; // For WYSIWYD
     Network::connect(port2actReEn.c_str(), port_actReEnrpc.c_str());
 
@@ -404,6 +412,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
     bestTrajHalfElbow.clear();
     bestTrajRootHalfElbow.clear();
 
+    // Hard code of workspace size
     workspaceRoot.resize(6);        // Root frame
     workspaceRoot[0] = -0.024500;   // x coordinate
     workspaceRoot[1] = -0.074500;   // y coordinate
@@ -412,13 +421,13 @@ bool upperPlanner::configure(ResourceFinder &rf){
     workspaceRoot[4] = 0.84900;     // size of y coordinate
     workspaceRoot[5] = 1.00000;     // size of z coordinate
 
-    workspace.resize(6);        // World frame
-    workspace[0] = 0.074500;   // x coordinate
-    workspace[1] = 0.051000;   // y coordinate
-    workspace[2] = 0.024500;    // z coordinate
-    workspace[3] = 0.84900;     // size of x coordinate
-    workspace[4] = 1.00000+1;     // size of y coordinate
-    workspace[5] = 1.05100;     // size of z coordinate
+    workspace.resize(6);            // World frame
+    workspace[0] = 0.074500;        // x coordinate
+    workspace[1] = 0.051000;        // y coordinate
+    workspace[2] = 0.024500;        // z coordinate
+    workspace[3] = 0.84900;         // size of x coordinate
+    workspace[4] = 1.00000+1;       // size of y coordinate
+    workspace[5] = 1.05100;         // size of z coordinate
 
     countReplan = 0;
 
@@ -690,7 +699,6 @@ bool upperPlanner::updateModule()
             convertObjFromRootToSimFoR(targetRoot,targetSim);
             goal = targetSim;
             printf("targetRoot: %f, %f, %f, %f, %f, %f\n",targetRoot[0], targetRoot[1], targetRoot[2],targetRoot[3], targetRoot[4], targetRoot[5]);
-//            printf("goal: %f, %f, %f, %f, %f, %f\n",goal[0], goal[1], goal[2],goal[3], goal[4], goal[5]);
 
             // Obtain table
             printf("Get table from actionsRenderingEngine!!!\n");
@@ -716,7 +724,6 @@ bool upperPlanner::updateModule()
             for (int i=0; i<obstacleIDsOPC.size(); i++)
             {
                 printf ("\tid [%d]=%d\n",i,obstacleIDsOPC[i]);
-//                Vector obstacle = getObsFromOPC(obstacleIDsOPC[i]);
                 Vector obstacle(6,0.0), obstacleSim(6,0.0);
                 if (getObsFromOPC(obstacleIDsOPC[i],obstacle))
                 {
@@ -766,8 +773,8 @@ bool upperPlanner::updateModule()
                 }
                 singlePlanner plannerEE(verbosity,name,robot,running_mode,"End-effector");
                 plannerEE.setRegionOperating(workspace);    // World frame
-                plannerEE.setGoal(goal);                  // World frame
-                plannerEE.setDeadline(planningTimeEE);        // World frame
+                plannerEE.setGoal(goal);                    // World frame
+                plannerEE.setDeadline(planningTimeEE);      // World frame
                 plannerEE.setObstacles(obsSet);             // World frame
 
 
@@ -825,9 +832,9 @@ bool upperPlanner::updateModule()
                         printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 
                         Vector workspaceHalfElbow = workspace;
-                        workspaceHalfElbow[3]=workspace[3]-lForearm/2.0;
-        //                workspaceHalfElbow[4]=workspace[4]-lForearm/2.0;
-                        workspaceHalfElbow[5]=workspace[5]-lForearm/2.0;
+                        workspaceHalfElbow[3]=workspace[3]-2*lForearm/2.0;  // Multiply 2 because the workspace consider dimension of every axis
+                        workspaceHalfElbow[4]=workspace[4]-2*lForearm/2.0;
+                        workspaceHalfElbow[5]=workspace[5]-2*lForearm/2.0;
 
                         bool replanPadWaypoint = false;
                         vector<Vector> paddingWaypoints, paddingRootWaypoints;
@@ -1214,7 +1221,7 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
 
 bool upperPlanner::close()
 {
-    printf("[reaching-planner]: stopping...\n");
+    printf("[%s]: stopping...\n", name.c_str());
 
     delete encsA; encsA = NULL;
     delete encsT; encsT = NULL;
@@ -1241,7 +1248,7 @@ bool upperPlanner::close()
         arm=0;
     }
 
-    printf("Done, goodbye from [reaching-planner]\n");
+    printf("Done, goodbye from [%s]\n", name.c_str());
     return true;
 }
 
