@@ -187,6 +187,7 @@ protected:
     double  solvingTime;        // Total time for each whole planner of all control points
     double  planningTime;       // Deadline for local planner
     double  planningTimeGlob;   // Global deadline for the whole planner
+    bool    interruptFlag;      // Flag to interrup planner if the time is over the planningTimeGlob
     double  costEE;
     double  costElbow;
     bool    fixEnv;             // Flag to set environment fixed for cost-vs-time benchmark
