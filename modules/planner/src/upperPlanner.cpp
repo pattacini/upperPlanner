@@ -30,7 +30,7 @@ upperPlanner::upperPlanner()
     name        ="reaching-planner";
     part        =        "left_arm";
     running_mode=          "single";
-    targetName  =         "Octopus";
+    targetName  =         "octopus";
     verbosity   =                 0;
     disableTorso=             false;
 
@@ -424,11 +424,11 @@ bool upperPlanner::configure(ResourceFinder &rf){
     workspaceRoot[5] = 1.00000;     // size of z coordinate
 
     workspace.resize(6);            // World frame
-    workspace[1] = 0.051000;            // y coordinate
-    workspace[2] = 0.024500;            // z coordinate
-    workspace[3] = 0.84900;             // size of x coordinate
-    workspace[4] = 1.00000+1;           // size of y coordinate
-    workspace[5] = 1.05100;             // size of z coordinate
+    workspace[1] = 0.051000;        // y coordinate
+    workspace[2] = 0.024500;        // z coordinate
+    workspace[3] = 0.84900;         // size of x coordinate
+    workspace[4] = 1.00000+1;       // size of y coordinate
+    workspace[5] = 1.05100;         // size of z coordinate
     if (part == "left_arm")
     {
         workspace[0] = 0.074500;        // x coordinate
@@ -465,6 +465,7 @@ bool upperPlanner::configure(ResourceFinder &rf){
 
 
     countReplan = 0;
+    rpcCmd = "";
 
     //****ROS Communication*************************************************************************
     nodeName = "/yarp_connector_planner";
@@ -632,7 +633,6 @@ bool upperPlanner::updateModule()
         // New codes for obstacles and target
         if (robot == "icubSim")
         {
-
             haveTarget = true;
             goal[0]=-1.0/scale; //-3.0/scale; //-10.0/scale;
             goal[1]=5.64/scale; //6.0/scale; //7.0/scale;
@@ -671,8 +671,6 @@ bool upperPlanner::updateModule()
                 convertObjFromSimToRootFoR(obs1,obs1Root);
                 obsSetRoot.push_back(obs1Root);
 
-//            if (!fixEnv)
-//            {
                 for (int i=0; i<=10; i++)
                 {
                     Vector obs(6, sizeObject), obsRoot(6,0.0);   // World frame
@@ -697,26 +695,26 @@ bool upperPlanner::updateModule()
 
                 // Send objects to ROS for benchmarking
                 if (useROS)
-            {
-                for (int i=0; i<obsSetRoot.size(); i++)
                 {
-                    sendObj2ROS("obstacle",obsSetRoot[i]);
+                    for (int i=0; i<obsSetRoot.size(); i++)
+                    {
+                        sendObj2ROS("obstacle",obsSetRoot[i]);
+                    }
+
+
+                    SharedData_new d;
+                    // d.text is a string
+                    d.text="obstacles";
+
+                    //d.content is a vector, let's push some data
+                    d.content.push_back(obsSetRoot.size());
+
+                    port.write(d);
+
+                    sendObj2ROS("target",goalRoot);
+
+                    yarp::os::Time::delay(.5);
                 }
-
-
-                SharedData_new d;
-                // d.text is a string
-                d.text="obstacles";
-
-                //d.content is a vector, let's push some data
-                d.content.push_back(obsSetRoot.size());
-
-                port.write(d);
-
-                sendObj2ROS("target",goalRoot);
-
-                yarp::os::Time::delay(.5);
-            }
             }
             //============================================================
         }
@@ -786,6 +784,17 @@ bool upperPlanner::updateModule()
 
             // Convert to World (simulator) frame
 
+        }
+
+        if (rpcCmd == "planPos")
+        {
+            Vector rpcCmdPosSim;
+            Vector fakeDims(3,0.05);
+            convertPosFromRootToSimFoR(rpcCmdPos,rpcCmdPosSim);
+            goal.setSubvector(0,rpcCmdPosSim);
+            goal.setSubvector(3,fakeDims);
+
+            yInfo("[%s] goal is set as received position %s",name.c_str(), goal.toString().c_str());
         }
 
         if (haveTarget)
@@ -1181,7 +1190,7 @@ bool upperPlanner::updateModule()
                 // For safety reason, asking for permission before execution the plan
                 string execution = "no";
                 cout<<"Do you want to execute the plan (yes/no)"<<endl;
-                getline(cin,execution);
+//                getline(cin,execution);
 
 
                 if (execution == "yes")
@@ -1246,6 +1255,7 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
     cout<<"Got something, echo is on"<< endl;
     if (command.get(0).asString()=="replan")
     {
+        rpcCmd = "replan";
         reply.addVocab(ack);
         replan = true;
         if (command.size()==2)
@@ -1266,11 +1276,12 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
     }
     else if (command.get(0).asString()=="planPos")
     {
+        rpcCmd = "planPos";
         if (command.size()>=4)
         {
             reply.addVocab(ack);
-            replan = true;
-            Vector pos(3,0.0);      // Robot frame
+
+            Vector pos(3,0.0);      // Root frame
             if (command.size()==4)
             {
                 for (int i=0; i<pos.size(); i++)
@@ -1291,11 +1302,15 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
 
             if (planningTime<=0)
                 planningTime = 1.0;
-
+            rpcCmdPos = pos;
             reply.addDouble(planningTime);
+            replan = true;
         }
         else
+        {
             reply.addVocab(nack);
+            replan = false;
+        }
 
     }
 

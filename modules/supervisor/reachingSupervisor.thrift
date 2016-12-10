@@ -102,6 +102,14 @@ service reachingSupervisor_IDL
   * @return true/false on success/failure.
   */
   bool run_planner(1:double _deadline);
+
+  /**
+  * Send position planning request to reaching-planner
+  * @param _targetPos Vector of 3D position of the target
+  * @param _deadline  planning time for each local planner
+  * @return true/false on success/failure.
+  */
+  bool run_planner_pos(1:Vector _targetPos, 2:double _deadline);
    
   /**
   * Disables the controller and switches to position mode

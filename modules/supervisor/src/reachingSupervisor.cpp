@@ -413,3 +413,13 @@ bool reachingSupervisor::sendCmd2Planner()
     cmd.addString(targetName);
     return rpc2Planner.write(cmd);
 }
+
+bool reachingSupervisor::sendCmd2PlannerPos(const Vector &targetPos)
+{
+    Bottle cmd;
+    cmd.addString("planPos");
+    for (int i=0; i<targetPos.size(); i++)
+        cmd.addDouble(targetPos[i]);
+    cmd.addDouble(localPlanningTime);
+    return rpc2Planner.write(cmd);
+}

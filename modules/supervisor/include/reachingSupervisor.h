@@ -239,10 +239,18 @@ public:
     string getTarget();
 
     /**
-     * @brief Sends planning request to the planner
+     * @brief Sends planning request to the planner with targetName
      * @return true/false on success/failure.
+     * @see targetName
      */
     bool sendCmd2Planner();
+
+    /**
+     * @brief Sends position planning request to the planner
+     * @targetPos Vector of 3D position of target
+     * @return true/false on success/failure.
+     */
+    bool sendCmd2PlannerPos(const Vector &targetPos);
 
     /************************************************************************/
     // Thrift methods
@@ -310,6 +318,13 @@ public:
     {
         setDeadline(_deadline);
         return sendCmd2Planner();
+    }
+
+
+    bool run_planner_pos(const Vector &_targetPos, const double _deadline)
+    {
+        setDeadline(_deadline);
+        return sendCmd2PlannerPos(_targetPos);
     }
 };
 

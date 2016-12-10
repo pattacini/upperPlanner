@@ -230,7 +230,11 @@ protected:
 
     // Goal
     Vector target;
+    Vector rpcCmdPos;   // Position received from rpc command <-- planPos
 //    Vector startPos;
+
+    // Received Command
+    string rpcCmd;      // String store rpcCmd
 
     // Manipulator
     iCubArm *arm;
