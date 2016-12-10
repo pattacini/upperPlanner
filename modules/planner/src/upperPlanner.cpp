@@ -1056,9 +1056,22 @@ bool upperPlanner::updateModule()
                             printf("\t\tSegment %d of the Elbow's path is collided\n", i);
                         }
                     }
+
+                    printf("\tCheck elbow position inside the workspace \n");
+                    for (int i=0; i<bestTrajElbow.size(); i++)
+                    {
+                        double dist2D_EB_yAxis = sqrt(pow(bestTrajElbow[i][0],2.0)+pow(bestTrajElbow[i][2],2.0));
+                        printf("\t\tDistance of Elbow to y-axis: %f\n", dist2D_EB_yAxis);
+                        if (dist2D_EB_yAxis>workspace[3]/2.0)
+//                        if (distWpWp(bestTrajElbow[i],workspace.subVector(0,2))>workspace[3]/2.0)
+                        {
+                            success = false;
+                            printf("\t\tElbow's waypoint %d is too far away\n", i);
+                        }
+                    }
                 }
 
-                // Replan if there is collision in Elbow
+                // Replan if there is collision in Elbow or too far away
                 if (!success)
                 {
                     printf("===============================\n");
@@ -1166,7 +1179,7 @@ bool upperPlanner::updateModule()
                 HalfElbowPortOut.sendTrajectory();
 
                 // For safety reason, asking for permission before execution the plan
-                string execution;
+                string execution = "no";
                 cout<<"Do you want to execute the plan (yes/no)"<<endl;
                 getline(cin,execution);
 
@@ -1227,10 +1240,13 @@ bool upperPlanner::updateModule()
 
 bool upperPlanner::respond(const Bottle &command, Bottle &reply)
 {
+    int ack=Vocab::encode("ack");
+    int nack=Vocab::encode("nack");
+
     cout<<"Got something, echo is on"<< endl;
     if (command.get(0).asString()=="replan")
     {
-        reply.addString("Starting planner with deadline of ");
+        reply.addVocab(ack);
         replan = true;
         if (command.size()==2)
             planningTime = command.get(1).asDouble();
@@ -1241,13 +1257,51 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
             planningTime = command.get(1).asDouble();
             targetName = command.get(2).asString();
         }
+
+        if (planningTime<=0)
+            planningTime = 1.0;
+
         reply.addDouble(planningTime);
-        reply.addString("seconds, and targetName of");
         reply.addString(targetName);
     }
+    else if (command.get(0).asString()=="planPos")
+    {
+        if (command.size()>=4)
+        {
+            reply.addVocab(ack);
+            replan = true;
+            Vector pos(3,0.0);      // Robot frame
+            if (command.size()==4)
+            {
+                for (int i=0; i<pos.size(); i++)
+                    pos[i] = command.get(i+1).asDouble();
+                yInfo("Got position %s",pos.toString().c_str());
+                planningTime = 1.0;
+            }
+
+            else if (command.size()==5)
+            {
+                for (int i=0; i<pos.size(); i++)
+                    pos[i] = command.get(i+1).asDouble();
+                planningTime = command.get(4).asDouble();
+            }
+
+            for (int i=0; i<pos.size(); i++)
+                reply.addDouble(pos[i]);
+
+            if (planningTime<=0)
+                planningTime = 1.0;
+
+            reply.addDouble(planningTime);
+        }
+        else
+            reply.addVocab(nack);
+
+    }
+
     else
     {
-        reply.addString("Command does not exist. Waiting a command...");
+        reply.addVocab(nack);
         replan = false;
     }
     return true;
