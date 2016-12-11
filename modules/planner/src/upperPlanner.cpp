@@ -354,27 +354,40 @@ bool upperPlanner::configure(ResourceFinder &rf){
     string port2OPC = "/" + name + "/OPC/rpc:io";
     if (!rpc2OPC.open(port2OPC.c_str()))
     {
-        yError("[%s] Unable to open port << port2OPC << endl", name.c_str());
+        yError("[%s] Unable to open port %s.", name.c_str(),port2OPC.c_str());
     }
 //    string portOPCrpc = "/objectsPropertiesCollector/rpc";
 //    string portOPCrpc = "/memory/rpc";
 
     // Need to move to connection in xml file application
     string portOPCrpc = "/OPC/rpc"; // For WYSIWYD
-    Network::connect(port2OPC.c_str(), portOPCrpc.c_str());
+    if (Network::connect(port2OPC.c_str(), portOPCrpc.c_str()))
+        yInfo("[%s] connected to OPC",name.c_str());
+    else
+        yWarning("[%s] didn't connect to OPC",name.c_str());
 
-    // TODO: add port to /iolReachingCalibrator/rpc --> calibrated objects
+    // Port to /iolReachingCalibrator/rpc --> calibrated objects
+    string port2calib = "/" + name + "/iolReachingCalibration/rpc";
+    if (!rpc2calib.open(port2calib.c_str()))
+    {
+        yError("[%s] Unable to open port %s.", name.c_str(),port2calib.c_str());
+    }
+
+    if(Network::connect(port2calib.c_str(),"/iolReachingCalibration/rpc"))
+        yInfo("[%s] connected to calibrator",name.c_str());
+    else
+        yWarning("[%s] didn't connect to calibrator",name.c_str());
 
     // Table height
-    string port2actReEn = "/" + name + "/actionsRenderingEngine/get:io";
-    if (!rpc2actReEn.open(port2actReEn.c_str()))
+    string port2ARE = "/" + name + "/actionsRenderingEngine/get:io";
+    if (!rpc2ARE.open(port2ARE.c_str()))
     {
-        yError("[%s] Unable to open port << port2actReEn << endl", name.c_str());
+        yError("[%s] Unable to open port %s.", name.c_str(),port2ARE.c_str());
     }
 
     // Need to move to connection in xml file application
-    string port_actReEnrpc = "/actionsRenderingEngine/get:io"; // For WYSIWYD
-    Network::connect(port2actReEn.c_str(), port_actReEnrpc.c_str());
+    string port_ARE = "/actionsRenderingEngine/get:io"; // For WYSIWYD
+    Network::connect(port2ARE.c_str(), port_ARE.c_str());
 
     //   rpcDataProcessor processor;
     //   rpcSrvr.setReader(processor);
@@ -730,8 +743,12 @@ bool upperPlanner::updateModule()
             Vector targetRoot(2*nDim,0.0), targetSim(2*nDim,0.0);
 
             // Obtain target
-            haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);
-            convertObjFromRootToSimFoR(targetRoot,targetSim);
+            haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);   // target from OPC
+            targetCenterRoot = targetRoot.subVector(0,2);                       // center of target from OPC
+            getCalibObj(targetCenterRoot);                                      // calibrated center of target from iolReachingCalibration
+            targetRoot.setSubvector(0,targetCenterRoot);
+
+            convertObjFromRootToSimFoR(targetRoot,targetSim);                   // convert to sim
             goal = targetSim;
             printf("targetRoot: %f, %f, %f, %f, %f, %f\n",targetRoot[0], targetRoot[1], targetRoot[2],targetRoot[3], targetRoot[4], targetRoot[5]);
 
@@ -760,9 +777,14 @@ bool upperPlanner::updateModule()
             {
                 printf ("\tid [%d]=%d\n",i,obstacleIDsOPC[i]);
                 Vector obstacle(6,0.0), obstacleSim(6,0.0);
-                if (getObsFromOPC(obstacleIDsOPC[i],obstacle))
-                {
-                    convertObjFromRootToSimFoR(obstacle,obstacleSim);
+                Vector obstacleCenter(3,0.0);
+                if (getObsFromOPC(obstacleIDsOPC[i],obstacle))          // obstacle from OPC
+                {                    
+                    obstacleCenter = obstacle.subVector(0,2);           // center of target from OPC
+                    getCalibObj(obstacleCenter);                        // calibrated center of target from iolReachingCalibration
+                    obstacle.setSubvector(0,obstacleCenter);
+
+                    convertObjFromRootToSimFoR(obstacle,obstacleSim);   // convert to sim
                     obsSet.push_back(obstacleSim);
                     printf("obstacle: %f, %f, %f, %f, %f, %f\n",obstacle[0], obstacle[1], obstacle[2],obstacle[3], obstacle[4], obstacle[5]);
                 }
@@ -1345,7 +1367,21 @@ bool upperPlanner::respond(const Bottle &command, Bottle &reply)
         }
 
     }
-
+    else if (command.get(0).asString()=="setTargetName")
+    {
+        rpcCmd == "setTargetName";
+        if (command.size()==2)
+        {
+            targetName = command.get(1).asString();
+            reply.addVocab(ack);
+            reply.addString(targetName);
+        }
+        else
+        {
+            reply.addVocab(nack);
+            reply.addString(targetName);
+        }
+    }
     else
     {
         reply.addVocab(nack);
@@ -1368,6 +1404,12 @@ bool upperPlanner::close()
     upperTrajectPortOut.close();
     rpcSrvr.interrupt();
     rpcSrvr.close();
+    rpc2ARE.interrupt();
+    rpc2ARE.close();
+    rpc2calib.interrupt();
+    rpc2calib.close();
+    rpc2OPC.interrupt();
+    rpc2OPC.close();
     EEPortOut.interrupt();
     EEPortOut.close();
     HalfElbowPortOut.interrupt();
@@ -1377,6 +1419,8 @@ bool upperPlanner::close()
     port.close();
     port_object.interrupt();
     port_object.close();
+    portToGui.interrupt();
+    portToGui.close();
 
     if (arm)
     {
@@ -1661,7 +1705,6 @@ bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, V
                             {
                                 for (int i=0; i<3; i++)
                                 {
-    //                                centerIn3D[i]=b1->get(i).asDouble();
                                     objectIn3D[i]=b1->get(i).asDouble();
                                 }
 
@@ -1833,17 +1876,12 @@ bool upperPlanner::getObsFromOPC(const int &idObject, Vector &obstacle)
 bool upperPlanner::getTableHeightFromOPC(double &tableHeight)
 {
     bool isPresent = false;
-
     Bottle cmd,reply;
-
     cmd.addVocab(Vocab::encode("get"));
     cmd.addVocab(Vocab::encode("table"));
-//    cmd.addString("table");
 
-//    cmd.addString("get table");
+    rpc2ARE.write(cmd,reply);
 
-    rpc2actReEn.write(cmd,reply);
-//    cout << reply.toString()<<endl;
     if (reply.size()>=1)
     {
         if (isPresent=reply.check("table_height"))
@@ -1856,6 +1894,30 @@ bool upperPlanner::getTableHeightFromOPC(double &tableHeight)
 
     return isPresent;
 
+}
+
+void upperPlanner::getCalibObj(Vector &object)
+{
+    string hand="";
+    if (part == "left_arm")
+        hand = "left";
+    else if (part == "right_arm")
+        hand = "right";
+
+    // apply 3D correction
+    if (rpc2calib.getOutputCount()>0)
+    {
+        Bottle cmd,reply;
+        cmd.addString("get_location_nolook");
+        cmd.addString("iol-"+hand);
+        cmd.addDouble(target[0]);
+        cmd.addDouble(target[1]);
+        cmd.addDouble(target[2]);
+        rpc2calib.write(cmd,reply);
+        object[0]=reply.get(1).asDouble();
+        object[1]=reply.get(2).asDouble();
+        object[2]=reply.get(3).asDouble();
+    }
 }
 
 vector<Vector> findCorner(const Vector &obstacle)

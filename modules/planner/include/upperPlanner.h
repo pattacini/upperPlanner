@@ -176,9 +176,10 @@ protected:
     int     targetID;       // ID of the object considered as target in OPC (at /memory/rpc)
 
     RpcServer   rpcSrvr;
-    bool        replan;        // Flag to run the planner
-    RpcClient   rpc2OPC;        // rpc client to connect with port /OPC/rpc
-    RpcClient   rpc2actReEn;
+    bool        replan;         // Flag to run the planner
+    RpcClient   rpc2OPC;        // rpc client to connect to port /OPC/rpc
+    RpcClient   rpc2ARE;        // rpc client to connect to port /actionsRenderingEngine/get:io
+    RpcClient   rpc2calib;      // rpc client to connect to port /iolReachingCalibration/rpc
 
     // Variables for Batch operation
     unsigned int countReplan;
@@ -403,6 +404,12 @@ public:
      * @return Output is a boolean value indicating if the table is available (true) or not (false). If not, it means that you forgot to calibrate the table. Please refer documentation for more information.
      */
     bool getTableHeightFromOPC(double &tableHeight);
+
+    /**
+     * @brief Get calibrated position of object from iolReachingCalibration
+     * @param object: Vector of 3D position of object
+     */
+    void getCalibObj(Vector &object);
 
     /**
     * @brief Expanding the size of all obstacles closed to any waypoints of a trajectory to prevent waypoints of the trajectory of the next controlled point to be assigned in "bad" position
