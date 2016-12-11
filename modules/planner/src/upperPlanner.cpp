@@ -34,6 +34,7 @@ upperPlanner::upperPlanner()
     verbosity   =                 0;
     disableTorso=             false;
 
+    planForElbow=              true;
     useROS      =             false;
     fixEnv      =             false;
 
@@ -141,6 +142,22 @@ bool upperPlanner::configure(ResourceFinder &rf){
         yInfo("[%s] targetName set to %s", name.c_str(), targetName.c_str());
     }
     else yInfo("[%s] Could not find targetName option in the config file; using %s as default", name.c_str(), targetName.c_str());
+    //********************** PLANNING FOR ELBOW************
+    if (rf.check("planForElbow"))
+    {
+        if (rf.find("planForElbow").asString()== "on")
+        {
+            planForElbow = true;
+            yInfo("[%s] planForElbow set to on.", name.c_str());
+        }
+        else
+        {
+            planForElbow = false;
+            yInfo("[%s] planForElbow set to off.", name.c_str());
+        }
+
+    }
+    else yInfo("[%s] Could not find planForElbow option in the config file; using %d as default", name.c_str(), planForElbow);
 
     //********************** USE ROS************
     if (rf.check("useROS"))
@@ -881,7 +898,7 @@ bool upperPlanner::updateModule()
             vector<Vector> bestTrajRootEE_temp = bestTrajRootEE;
 
             // Repeat planning for Half-Elbow if there is collision in Elbow
-            if (!interruptFlag)
+            if (!interruptFlag && planForElbow)
             {
                 do
                 {
@@ -1158,13 +1175,15 @@ bool upperPlanner::updateModule()
                 while (!success);
             }
 
+            // For the case of no planning for Elbow: planForElbow = false
+            if (!planForElbow && bestTrajEE.size()>=0)
+                success = true;
+
+            // Summary and Log information
             clock_t finish = clock();
-
             solvingTime = ((double)(finish-start))/CLOCKS_PER_SEC;
-
             printf("===============================\n");
             printf("SUMMARY\n");
-
             printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
             printf("!!!  Solving time : %f  !!!\n", solvingTime);
             printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
@@ -1254,9 +1273,12 @@ bool upperPlanner::updateModule()
                         // Sending trajectories sing class motionPlan
                         planPortOut.clearTrajectory();
                         waypointTrajectory EE("End-Effector",bestTrajRootEE);
-                        waypointTrajectory EB("Elbow",bestTrajRootElbow);
                         planPortOut.addTrajectory(EE);
-                        planPortOut.addTrajectory(EB);
+                        if (planForElbow)
+                        {
+                            waypointTrajectory EB("Elbow",bestTrajRootElbow);
+                            planPortOut.addTrajectory(EB);
+                        }
                         planPortOut.sendPlan();
                     }
                     else

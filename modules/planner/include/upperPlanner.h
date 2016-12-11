@@ -214,6 +214,7 @@ protected:
     // Best trajectory for Elbow
     vector<Vector> bestTrajElbow;
     vector<Vector> bestTrajRootElbow;
+    bool planForElbow;
 
     // Best trajectory for Half of Elbow
     vector<Vector> bestTrajHalfElbow;

@@ -44,10 +44,10 @@ void multipleParticleThread::run()
         vector<Vector> x_n = getParticle();
         vector<Vector> x_d = lastWaypoints;
 
-        int countRunning = 1, countFinished = 1;
+        int countRunning = 0, countFinished = 0;
         for (int i=0; i< numberCtrlPoints; i++)
         {
-//        printf("check\n");
+//        printf("[multipleParticleThread] run() check\n");
 
 
             if (distWpWp(x_n[i],x_d[i])<=tol)

@@ -157,7 +157,7 @@ bool reachingSupervisor::updateModule()
             for (int i=0; i<listTraject.size(); i++)
             {
 
-                printf("\tnumberWaypoint = %d\n",numberWaypoint);
+                printf("\tnumberWaypoint = %d\n",listTraject[0].getNbWaypoint());
                 string tempCtrlPtName = listTraject[i].getCtrlPointName();
                 printf("\tCtrlPointName = %s\n",tempCtrlPtName.c_str());
                 vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
@@ -197,7 +197,7 @@ bool reachingSupervisor::updateModule()
         {
             printf("\tindexCurSegment =%d\n", indexCurSegment);
             vector<Vector> tempTrajectoryEE = listTrajectories[0].getWaypoints();
-            vector<Vector> tempTrajectoryEB = listTrajectories[1].getWaypoints();
+
 
             Vector x_0EE(nDim,0.0), x_0EB(nDim,0.0), x_dEE(nDim,0.0), x_dEB(nDim,0.0);
             Vector velEE(nDim,0.0), velEB(nDim,0.0);
@@ -208,22 +208,28 @@ bool reachingSupervisor::updateModule()
             x_0EE = tempTrajectoryEE[indexCurSegment];
             x_dEE = tempTrajectoryEE[indexCurSegment+1];
 
-            x_0EB = tempTrajectoryEB[indexCurSegment];
-            x_dEB = tempTrajectoryEB[indexCurSegment+1];
-
-            speedEB = computeOtherCtrlPtSpeed(speedEE,x_0EE,x_dEE,x_0EB,x_dEB);
-
             velEE = computeVelFromSegment(speedEE,x_0EE,x_dEE);
-            velEB = computeVelFromSegment(speedEB,x_0EB,x_dEB);
 
             //multi-waypoints
             x_0.push_back(x_0EE);
-            x_0.push_back(x_0EB);
             vel.push_back(velEE);
-            vel.push_back(velEB);
             x_d.push_back(x_dEE);
-            x_d.push_back(x_dEB);
 
+            // Elbow setting
+            if (listTrajectories.size()==2)
+            {
+                vector<Vector> tempTrajectoryEB = listTrajectories[1].getWaypoints();
+                x_0EB = tempTrajectoryEB[indexCurSegment];
+                x_dEB = tempTrajectoryEB[indexCurSegment+1];
+
+                speedEB = computeOtherCtrlPtSpeed(speedEE,x_0EE,x_dEE,x_0EB,x_dEB);
+
+                velEB = computeVelFromSegment(speedEB,x_0EB,x_dEB);
+
+                x_0.push_back(x_0EB);
+                vel.push_back(velEB);
+                x_d.push_back(x_dEB);
+            }
 
             printf("\tfinishedCurSegment =%d \n",finishedCurSegment);
             if (finishedCurSegment)
@@ -247,7 +253,10 @@ bool reachingSupervisor::updateModule()
             vector<Vector> x_n = tempWaypoint->getParticle();
             printf("check getParticle()\n");
 
-            printf("norm(x_nEE-x_dEE) = %f\t norm(x_nEB-x_dEB) = %f\n", norm(x_n[0]-x_d[0]), norm(x_n[1]-x_d[1]));
+            for (int i=0; i<x_n.size(); i++)
+            {
+                printf("norm(x_n[%d]-x_d[%d]) = %f\n", i, i, norm(x_n[i]-x_d[i]));
+            }
 
             if ((tempWaypoint->checkFinished()))
             {
