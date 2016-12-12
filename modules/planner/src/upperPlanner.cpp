@@ -760,14 +760,17 @@ bool upperPlanner::updateModule()
             Vector targetRoot(2*nDim,0.0), targetSim(2*nDim,0.0);
 
             // Obtain target
-            haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);   // target from OPC
-            targetCenterRoot = targetRoot.subVector(0,2);                       // center of target from OPC
-            getCalibObj(targetCenterRoot);                                      // calibrated center of target from iolReachingCalibration
-            targetRoot.setSubvector(0,targetCenterRoot);
+            if (rpcCmd == "planPos")  //Remove when finishing debug the getCalibObj
+            {
 
-            convertObjFromRootToSimFoR(targetRoot,targetSim);                   // convert to sim
-            goal = targetSim;
-            printf("targetRoot: %f, %f, %f, %f, %f, %f\n",targetRoot[0], targetRoot[1], targetRoot[2],targetRoot[3], targetRoot[4], targetRoot[5]);
+                haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);   // target from OPC
+                targetCenterRoot = targetRoot.subVector(0,2);                       // center of target from OPC
+                getCalibObj(targetCenterRoot);                                      // calibrated center of target from iolReachingCalibration
+                targetRoot.setSubvector(0,targetCenterRoot);
+                convertObjFromRootToSimFoR(targetRoot,targetSim);                   // convert to sim
+                goal = targetSim;
+                printf("targetRoot: %f, %f, %f, %f, %f, %f\n",targetRoot[0], targetRoot[1], targetRoot[2],targetRoot[3], targetRoot[4], targetRoot[5]);
+            }
 
             // Obtain table
             printf("Get table from actionsRenderingEngine!!!\n");
@@ -808,6 +811,15 @@ bool upperPlanner::updateModule()
 
             }
 
+            vector<Vector> handsRoot;
+            if (getHandFromOPC(handsRoot))
+            {
+                for (int i=0; i<handsRoot.size(); i++)
+                {
+                    yInfo("hand %d coordinate: %s", i,handsRoot[i].toString().c_str());
+                }
+            }
+
 //            targetCenterRoot = targetRoot.subVector(0,2);
 //            convertPosFromRootToSimFoR(targetCenterRoot,targetCenterSim);
 //            goal.setSubvector(0,targetCenterSim);
@@ -834,6 +846,7 @@ bool upperPlanner::updateModule()
             convertPosFromRootToSimFoR(rpcCmdPos,rpcCmdPosSim);
             goal.setSubvector(0,rpcCmdPosSim);
             goal.setSubvector(3,fakeDims);
+            haveTarget = true;
 
             yInfo("[%s] goal is set as received position %s",name.c_str(), goal.toString().c_str());
         }
@@ -1666,6 +1679,101 @@ void upperPlanner::processRpcCommand()
 
 }
 
+bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
+{
+    Vector objectIn3D(6,0.07);  // Hand size
+    Vector centerIn3D(3,0.0);
+    bool isPresent = false;
+    int idAgent;
+
+    Bottle cmd,reply;
+    cmd.addVocab(Vocab::encode("ask"));
+    Bottle &content=cmd.addList();
+    Bottle &cond_1=content.addList();
+    cond_1.addString("entity");
+    cond_1.addString("==");
+    cond_1.addString("agent");
+
+    rpc2OPC.write(cmd,reply);
+    if (reply.size()>1)
+    {
+        if(reply.get(0).asVocab()==Vocab::encode("ack"))
+        {
+            if (Bottle *b=reply.get(1).asList())
+            {
+                if (Bottle *b1=b->get(1).asList())
+                {
+                    cmd.clear();
+                    idAgent=b1->get(0).asInt();
+                    cmd.addVocab(Vocab::encode("get"));
+                    Bottle &info=cmd.addList();
+                    Bottle &info2=info.addList();
+                    info2.addString("id");
+                    info2.addInt(idAgent);
+
+                }
+                else
+                    yError("uncorrect reply from OPC 2!");
+            }
+            else
+                yError("uncorrect reply from OPC!");
+
+            Bottle reply;
+            rpc2OPC.write(cmd,reply);
+            if (reply.size()>1)
+            {
+                if (reply.get(0).asVocab()==Vocab::encode("ack"))
+                {
+                    if (Bottle *b=reply.get(1).asList())
+                    {
+                        if ((b->find("isPresent").asInt())==1)
+                        {
+                            isPresent = true;
+
+                            if (Bottle *b1=b->find("body").asList())
+                            {
+                                if (Bottle *b2=b1->find("handLeft").asList())
+                                {
+                                    for (int i=0; i<3; i++)
+                                    {
+                                        objectIn3D[i]=b2->get(i).asDouble();
+                                    }
+                                    handsRoot.push_back(objectIn3D);
+                                }
+                                else if (Bottle *b2=b1->find("handRight").asList())
+                                {
+                                    for (int i=0; i<3; i++)
+                                    {
+                                        objectIn3D[i]=b2->get(i).asDouble();
+                                    }
+                                    handsRoot.push_back(objectIn3D);
+                                }
+                                else
+                                    yWarning("no hand is recognized!!!");
+
+                            }
+                            else
+                                yError("body field not found in the OPC reply!");
+                        }
+                    }
+                    else
+                        yError("uncorrect reply structure received!");
+                }
+                else
+                    yError("Failure in reply for agent id!");
+            }
+            else
+                yError("no agent id provided by OPC!!");
+        }
+        else
+            yError("Failure in reply for agent id!");
+    }
+    else
+        yError("reply size for agent less than 1!");
+
+    return isPresent;
+}
+
 bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, Vector &objectRoot)
 {
     Vector objectIn3D(6,0.0);
@@ -1706,7 +1814,7 @@ bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, V
 
                 }
                 else
-                    yError("no object id provided by OPC!");
+                    yError("uncorrect reply from OPC 2!");
             }
             else
                 yError("uncorrect reply from OPC!");
@@ -1764,7 +1872,7 @@ bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, V
                     yError("Failure in reply for object 2D point!");
             }
             else
-                yError("reply size for 3D point less than 1!");
+                yError("no object id provided by OPC!!");
         }
         else
             yError("Failure in reply for object id!");
@@ -1929,12 +2037,14 @@ void upperPlanner::getCalibObj(Vector &object)
     // apply 3D correction
     if (rpc2calib.getOutputCount()>0)
     {
+
         Bottle cmd,reply;
+
         cmd.addString("get_location_nolook");
         cmd.addString("iol-"+hand);
-        cmd.addDouble(target[0]);
-        cmd.addDouble(target[1]);
-        cmd.addDouble(target[2]);
+        cmd.addDouble(object[0]);
+        cmd.addDouble(object[1]);
+        cmd.addDouble(object[2]);
         rpc2calib.write(cmd,reply);
         object[0]=reply.get(1).asDouble();
         object[1]=reply.get(2).asDouble();

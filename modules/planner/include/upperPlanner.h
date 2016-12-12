@@ -376,6 +376,13 @@ public:
     void processRpcCommand();
 
     /**
+    * @brief Get information (coordinate and dimension) of partner's hands from /OPC/rpc port of WYSIWYD application
+    * @param handRoot is the 6 parameter yarp Vector of hand's 3D coordinate and 3D dimension
+    * @return Output is a boolean value indicating if a hand is available (true) or not (false)
+    */
+    bool getHandFromOPC(vector<Vector> &handsRoot);
+
+    /**
     * @brief Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD application
     * @param objectName: string value of name of the object wanted to obtain information, i.e targetName (Octopus, box, etc.)
     * @param idObject: int value output of the id of the object wanted to obtain information, which is stored in /OPC
