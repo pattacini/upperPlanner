@@ -1189,7 +1189,7 @@ bool upperPlanner::updateModule()
             }
 
             // For the case of no planning for Elbow: planForElbow = false
-            if (!planForElbow && bestTrajEE.size()>=0)
+            if (!planForElbow && bestTrajEE.size()>0)
                 success = true;
 
             // Summary and Log information
