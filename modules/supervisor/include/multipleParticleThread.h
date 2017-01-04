@@ -118,6 +118,12 @@ public:
     bool stopParticle();
 
     /**
+    * @brief Resume the particle motion after stopParticle().
+    * @return true/false on success/failure.
+    **/
+    bool resumeParticle();
+
+    /**
     * @brief Resets the particle at a given state
     * @param  _x_0: a standard vector of 3D yarp Vectors of particles' positions
     * @return true/false on success/failure.

@@ -252,6 +252,18 @@ public:
      */
     bool sendCmd2PlannerPos(const Vector &targetPos);
 
+    /**
+     * @brief Resumes generating particles to finish the motion plan after stopCtrl()
+     * @return true/false on success/failure.
+     */
+    bool resumeCtrl();
+
+    /**
+     * @brief Stops generating particles
+     * @return true/false on success/failure.
+     */
+    bool stopCtrl();
+
     /************************************************************************/
     // Thrift methods
     bool set_tol(const double _tol)
@@ -325,6 +337,16 @@ public:
     {
         setDeadline(_deadline);
         return sendCmd2PlannerPos(_targetPos);
+    }
+
+    bool resume()
+    {
+        return resumeCtrl();
+    }
+
+    bool stop()
+    {
+        return stopCtrl();
     }
 };
 

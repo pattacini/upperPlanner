@@ -146,6 +146,13 @@ bool multipleParticleThread::stopParticle()
     return true;
 }
 
+bool multipleParticleThread::resumeParticle()
+{
+    LockGuard lg(mutex);
+    isRunning = true;
+    return true;
+}
+
 bool multipleParticleThread::resetParticle(const vector<Vector> &_x_0)
 {
     LockGuard lg(mutex);

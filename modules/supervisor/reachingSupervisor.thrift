@@ -110,9 +110,15 @@ service reachingSupervisor_IDL
   * @return true/false on success/failure.
   */
   bool run_planner_pos(1:Vector _targetPos, 2:double _deadline);
+
+  /**
+  * Resume the particle generator after stop()
+  * @return true/false on success/failure.
+  **/
+  bool resume();
    
   /**
-  * Disables the controller and switches to position mode
+  * Disables the particle generator
   * @return true/false on success/failure.
   **/
   bool stop();

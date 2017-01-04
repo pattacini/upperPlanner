@@ -432,3 +432,13 @@ bool reachingSupervisor::sendCmd2PlannerPos(const Vector &targetPos)
     cmd.addDouble(localPlanningTime);
     return rpc2Planner.write(cmd);
 }
+
+bool reachingSupervisor::resumeCtrl()
+{
+    return tempWaypoint->resumeParticle();
+}
+
+bool reachingSupervisor::stopCtrl()
+{
+    return tempWaypoint->stopParticle();
+}
