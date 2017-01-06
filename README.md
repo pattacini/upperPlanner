@@ -44,22 +44,27 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 	- Connect all modules.
 	- Open a terminal and connect to *reactController*: `yarp rpc /reactController/rpc:i`.
 	- Make *reactController* receive references from *supervisor*: `set_streaming_xd`.
-	- Open a terminal and connect to *reaching-supervior* as described in [Commands](## Commands) 
-	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](## Documentation). Some useful rpc commands can be listed here:
+	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/devel#commands) 
+	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](https://github.com/robotology-playground/reaching-planner/tree/devel#documentation). Some useful rpc commands can be listed here:
 
-		`run_planner <deadline>`, to plan and move arm to a target in *objectsPropertiesCollector* that shown in front of robot. Target can be modified by `set_target <name>`
-		`run_planner_pos <Vector of 3D position> <deadline>`, to plan and move arm to a position. 
-		`stop`, to stop moving the arm.
-		`resume`, to continue moving the arm after stopping.
+		- `run_planner <deadline>`, to plan and move arm to a target in *objectsPropertiesCollector* that shown in front of robot. Target can be modified by `set_target <name>`
+		- `run_planner_pos <Vector of 3D position> <deadline>`, to plan and move arm to a position. 
+		- `stop`, to stop moving the arm.
+		- `resume`, to continue moving the arm after stopping.
 
 	- In order to see the effect of **PPS**, open a terminal and connect to *opcPopulater*:
-		```yarp rpc /opcPopulater/rpc
-		populateSpecific3```
-	Then open a terminal and connect to *OPC* to modulate objects' name an position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
-		```yarp rpc /OPC/rpc
+		```
+		yarp rpc /opcPopulater/rpc
+		populateSpecific3
+		```
+
+	- Then open a terminal and connect to *OPC* to modulate objects' name an position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
+		```
+		yarp rpc /OPC/rpc
 		set ((id 2) (name hand))
 		set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05))
-		set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))```		
+		set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))
+		```		
 	
 
 
