@@ -42,7 +42,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 - How to run:
 	- Run all modules in scripted application. Remember running the `iCub_SIM` first for simulation case.
 	- Connect all modules.
-	- Open a terminal and connect to *reactController* and make *reactController* receive references from *supervisor*: 
+	- Open a terminal and connect to *reactController* and make *reactController* receive references from *supervisor*:
 		```
 		yarp rpc /reactController/rpc:i
 		set_streaming_xd
