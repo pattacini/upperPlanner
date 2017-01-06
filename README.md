@@ -42,8 +42,11 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 - How to run:
 	- Run all modules in scripted application. Remember running the `iCub_SIM` first for simulation case.
 	- Connect all modules.
-	- Open a terminal and connect to *reactController*: `yarp rpc /reactController/rpc:i`.
-	- Make *reactController* receive references from *supervisor*: `set_streaming_xd`.
+	- Open a terminal and connect to *reactController* and make *reactController* receive references from *supervisor*: 
+		```
+		yarp rpc /reactController/rpc:i	
+		set_streaming_xd
+		```
 	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/devel#commands) 
 	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](https://github.com/robotology-playground/reaching-planner/tree/devel#documentation). Some useful rpc commands can be listed here:
 
