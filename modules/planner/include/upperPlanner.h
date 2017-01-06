@@ -192,6 +192,7 @@ protected:
     double  costEE;
     double  costElbow;
     bool    fixEnv;             // Flag to set environment fixed for cost-vs-time benchmark
+    bool    generateObstacles;  // Flag to generate obstacle randomly
 
     // Flag to know if the torso shall be used or not
     bool    useTorso;

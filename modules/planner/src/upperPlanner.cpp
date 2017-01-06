@@ -37,6 +37,7 @@ upperPlanner::upperPlanner()
     planForElbow=              true;
     useROS      =             false;
     fixEnv      =             false;
+    generateObstacles =        true;
 
     maxReplan   =              1000;
     replan      =             false;
@@ -191,6 +192,22 @@ bool upperPlanner::configure(ResourceFinder &rf){
         }
     }
     else yInfo("[%s] Could not find fixEnv option in the config file; using %d as default", name.c_str(), fixEnv);
+
+    //********************** GENERATE OBSTACLES ************
+    if (rf.check("generateObstacles"))
+    {
+        if (rf.find("generateObstacles").asString() == "on")
+        {
+            generateObstacles = true;
+            yInfo("[%s] generateObstacles flag set to on.",name.c_str());
+        }
+        else
+        {
+            generateObstacles = false;
+            yInfo("[%s] generateObstacles flag set to off.", name.c_str());
+        }
+    }
+    else yInfo("[%s] Could not find generateObstacles option in the config file; using %d as default", name.c_str(), generateObstacles);
 
     //********************** CONFIGS ***********************
     if (rf.check("disableTorso"))
@@ -599,8 +616,8 @@ bool upperPlanner::updateModule()
 //                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
                 obsSet.push_back(obs);
             }
-
         }
+
     }
 
     // Check if required re-plan and do if necessary; remember to clear "replan" after running
@@ -703,25 +720,25 @@ bool upperPlanner::updateModule()
                 convertObjFromSimToRootFoR(obs1,obs1Root);
                 obsSetRoot.push_back(obs1Root);
 
-                for (int i=0; i<=10; i++)
-                {
-                    Vector obs(6, sizeObject), obsRoot(6,0.0);   // World frame
-                    obs[0] = (double)(rand()%8-4)/scale;
-                    //obs[1] = 0.564;
-                    obs[1] = 0.614;
-                    obs[4] = 0.2;
-                    obs[2] = (double)(rand()%4+3)/scale;
-                    if ((abs(10*obs[0]-10*goal[0])>=abs(10*obs[3]-10*goal[3]))&&
-                            (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
-                            (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
+                if (generateObstacles)
+                    for (int i=0; i<=10; i++)
                     {
-    //                    convertPosFromSimToRootFoR(obs,obs);    // Root frame
-                        obsSet.push_back(obs);
-                        convertObjFromSimToRootFoR(obs,obsRoot);
-                        obsSetRoot.push_back(obsRoot);  // Root frame
-                    }
+                        Vector obs(6, sizeObject), obsRoot(6,0.0);   // World frame
+                        obs[0] = (double)(rand()%8-4)/scale;
+                        //obs[1] = 0.564;
+                        obs[1] = 0.614;
+                        obs[4] = 0.2;
+                        obs[2] = (double)(rand()%4+3)/scale;
+                        if ((abs(10*obs[0]-10*goal[0])>=abs(10*obs[3]-10*goal[3]))&&
+                                (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5]))&&
+                                (abs(10*obs[2]-10*goal[2])>=abs(10*obs[5]-10*goal[5])))
+                        {
 
-                }
+                            obsSet.push_back(obs);
+                            convertObjFromSimToRootFoR(obs,obsRoot);
+                            obsSetRoot.push_back(obsRoot);  // Root frame
+                        }
+                    }
 
                 yarp::os::Time::delay(.1);
 
