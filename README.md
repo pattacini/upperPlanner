@@ -44,7 +44,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 	- Connect all modules.
 	- Open a terminal and connect to *reactController* and make *reactController* receive references from *supervisor*: 
 		```
-		yarp rpc /reactController/rpc:i	
+		yarp rpc /reactController/rpc:i
 		set_streaming_xd
 		```
 	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/devel#commands) 
