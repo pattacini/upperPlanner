@@ -102,7 +102,6 @@ void multipleParticleThread::run()
 void multipleParticleThread::threadRelease()
 {
     mIntegrator.clear();
-
 }
 
 bool multipleParticleThread::setupNewParticle(const vector<Vector> &_x_0, const vector<Vector> &_vel)

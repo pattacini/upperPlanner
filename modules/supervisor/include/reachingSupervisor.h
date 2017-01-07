@@ -80,6 +80,7 @@ protected:
     deque<waypointTrajectory>   listTrajectories;
     int                         numberWaypoint;
     vector<string>              ctrlPointsNames;
+    double                      lengthEE;   // Length of trajectory of End-Effector
 
     int         rate;
     int         verbosity;
@@ -90,6 +91,7 @@ protected:
     motionPlan  planPortIn1;
     RpcServer   rpcSrvr;
     RpcClient   rpc2Planner;
+    bool        gotPlan;
 
 
 
@@ -333,10 +335,27 @@ public:
     }
 
 
-    bool run_planner_pos(const Vector &_targetPos, const double _deadline)
+    double run_planner_pos(const Vector &_targetPos, const double _deadline)
     {
         setDeadline(_deadline);
-        return sendCmd2PlannerPos(_targetPos);
+        if (sendCmd2PlannerPos(_targetPos))
+        {
+            double start = yarp::os::Time::now();
+            double stop;
+            while (!gotPlan && (stop-start<=globalPlanningTime))
+            {
+                yarp::os::Time::delay(_deadline);
+                stop = yarp::os::Time::now();
+            }
+            gotPlan = false;
+
+            if (stop-start<=globalPlanningTime)
+                return lengthEE/speedEE;
+            else
+                return -1.0;
+        }
+        else
+            return -1.0;
     }
 
     bool resume()

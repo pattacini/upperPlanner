@@ -1294,8 +1294,9 @@ bool upperPlanner::updateModule()
                     // For safety reason, asking for permission before execution the plan
                     string execution = "no";
                     cout<<"Do you want to execute the plan (yes/no)"<<endl;
-                    getline(cin,execution);
+//                    getline(cin,execution);
 
+                    execution = "yes";
 
                     if (execution == "yes")
                     {

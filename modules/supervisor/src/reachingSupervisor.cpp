@@ -29,7 +29,7 @@ reachingSupervisor::reachingSupervisor()
 {
     name        =  "reaching-supervisor";
     nDim        =                      3;
-    rate        =                    50;   // in milisecond
+    rate        =                     50;   // in milisecond
     verbosity   =                      0;
     timeToFinishSegment =              1;
     tol         =                  0.005;   //0.001 with 10ms
@@ -40,6 +40,8 @@ reachingSupervisor::reachingSupervisor()
     localPlanningTime   =            1.0;
     globalPlanningTime  =           10.0;
     targetName          =      "Octopus";
+
+    gotPlan             =          false;
 }
 
 bool reachingSupervisor::configure(ResourceFinder &rf)
@@ -144,6 +146,7 @@ bool reachingSupervisor::updateModule()
 
         printf("===============================\n");
         printf("[%s] updateModule()\n", name.c_str());
+        gotPlan = true;
         planPortIn.setNewMsg(false);
 
 
@@ -160,6 +163,10 @@ bool reachingSupervisor::updateModule()
                 printf("\tnumberWaypoint = %d\n",listTraject[0].getNbWaypoint());
                 string tempCtrlPtName = listTraject[i].getCtrlPointName();
                 printf("\tCtrlPointName = %s\n",tempCtrlPtName.c_str());
+
+                if (tempCtrlPtName=="End-Effector")
+                    lengthEE = listTraject[i].getLengthTraj();
+
                 vector<Vector> tempTrajectory = listTraject[i].getWaypoints();
                 for (int j=0; j<tempTrajectory.size(); j++)
                 {
@@ -287,6 +294,14 @@ bool reachingSupervisor::close()
     planPortIn.interrupt();
     planPortIn.close();
     listTrajectories.clear();
+
+    rpcSrvr.interrupt();
+    rpcSrvr.close();
+
+    rpc2Planner.interrupt();
+    rpc2Planner.close();
+
+    delete tempWaypoint;
 
     return true;
 }

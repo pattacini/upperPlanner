@@ -107,9 +107,9 @@ service reachingSupervisor_IDL
   * Send position planning request to reaching-planner
   * @param _targetPos Vector of 3D position of the target
   * @param _deadline  planning time for each local planner
-  * @return true/false on success/failure.
+  * @return Double value of expected time to finish moving to _targetPos. If value is negative, sending fails
   */
-  bool run_planner_pos(1:Vector _targetPos, 2:double _deadline);
+  double run_planner_pos(1:Vector _targetPos, 2:double _deadline);
 
   /**
   * Resume the particle generator after stop()
