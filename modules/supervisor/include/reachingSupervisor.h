@@ -80,6 +80,7 @@ protected:
     deque<waypointTrajectory>   listTrajectories;
     int                         numberWaypoint;
     vector<string>              ctrlPointsNames;
+    double                      lengthEE;   // Length of trajectory of End-Effector
 
     int         rate;
     int         verbosity;
@@ -90,6 +91,7 @@ protected:
     motionPlan  planPortIn1;
     RpcServer   rpcSrvr;
     RpcClient   rpc2Planner;
+    bool        gotPlan;
 
 
 
@@ -239,10 +241,30 @@ public:
     string getTarget();
 
     /**
-     * @brief Sends planning request to the planner
+     * @brief Sends planning request to the planner with targetName
      * @return true/false on success/failure.
+     * @see targetName
      */
     bool sendCmd2Planner();
+
+    /**
+     * @brief Sends position planning request to the planner
+     * @targetPos Vector of 3D position of target
+     * @return true/false on success/failure.
+     */
+    bool sendCmd2PlannerPos(const Vector &targetPos);
+
+    /**
+     * @brief Resumes generating particles to finish the motion plan after stopCtrl()
+     * @return true/false on success/failure.
+     */
+    bool resumeCtrl();
+
+    /**
+     * @brief Stops generating particles
+     * @return true/false on success/failure.
+     */
+    bool stopCtrl();
 
     /************************************************************************/
     // Thrift methods
@@ -310,6 +332,40 @@ public:
     {
         setDeadline(_deadline);
         return sendCmd2Planner();
+    }
+
+
+    double run_planner_pos(const Vector &_targetPos, const double _deadline)
+    {
+        setDeadline(_deadline);
+        if (sendCmd2PlannerPos(_targetPos))
+        {
+            double start = yarp::os::Time::now();
+            double stop;
+            while (!gotPlan && (stop-start<=globalPlanningTime))
+            {
+                yarp::os::Time::delay(_deadline);
+                stop = yarp::os::Time::now();
+            }
+            gotPlan = false;
+
+            if (stop-start<=globalPlanningTime)
+                return lengthEE/speedEE;
+            else
+                return -1.0;
+        }
+        else
+            return -1.0;
+    }
+
+    bool resume()
+    {
+        return resumeCtrl();
+    }
+
+    bool stop()
+    {
+        return stopCtrl();
     }
 };
 

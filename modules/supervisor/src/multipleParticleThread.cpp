@@ -44,10 +44,10 @@ void multipleParticleThread::run()
         vector<Vector> x_n = getParticle();
         vector<Vector> x_d = lastWaypoints;
 
-        int countRunning = 1, countFinished = 1;
+        int countRunning = 0, countFinished = 0;
         for (int i=0; i< numberCtrlPoints; i++)
         {
-//        printf("check\n");
+//        printf("[multipleParticleThread] run() check\n");
 
 
             if (distWpWp(x_n[i],x_d[i])<=tol)
@@ -102,7 +102,6 @@ void multipleParticleThread::run()
 void multipleParticleThread::threadRelease()
 {
     mIntegrator.clear();
-
 }
 
 bool multipleParticleThread::setupNewParticle(const vector<Vector> &_x_0, const vector<Vector> &_vel)
@@ -143,6 +142,13 @@ bool multipleParticleThread::stopParticle()
 {
     LockGuard lg(mutex);
     isRunning=false;
+    return true;
+}
+
+bool multipleParticleThread::resumeParticle()
+{
+    LockGuard lg(mutex);
+    isRunning = true;
     return true;
 }
 

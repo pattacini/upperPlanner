@@ -3,12 +3,14 @@
 
 #include <yarp/os/all.h>
 #include <yarp/sig/Vector.h>
+#include <yarp/math/Math.h>
 
 #include <vector>
 #include <deque>
 #include <string>
 #include <fstream>
 #include <stdarg.h>
+#include <math.h>
 
 using namespace std;
 using namespace yarp::sig;
@@ -113,6 +115,39 @@ public:
     vector<Vector> getWaypoints()
     {
         return waypoints;
+    }
+
+    /**
+     * @brief Find the distance between 2 waypoints
+     * @param wp1: 3D yarp Vector of 3D coordinate of a waypoint 1
+     * @param wp2: 3D yarp Vector of 3D coordinate of a waypoint 2
+     * @return: a double value of the distance.
+     */
+    double distWpWp(const Vector &wp1, const Vector &wp2)
+    {
+        double distance = 1000;
+        if ((wp1.size()==numberDimension) && (wp2.size()==numberDimension))
+        {
+            double sqSum = 0;
+            for (int i=0; i<numberDimension; i++)
+                sqSum += pow((wp1[i]-wp2[i]),2.0);
+            distance = sqrt(sqSum);
+        }
+        return distance;
+    }
+
+
+    /**
+     * @brief Compute the length of the trajectory
+     * @return Double value of the length
+     */
+    double getLengthTraj()
+    {
+        double cost=0.0;
+        for (int i=0; i<waypoints.size()-1; i++)
+            cost += distWpWp(waypoints[i],waypoints[i+1]);
+
+        return cost;
     }
 
 };

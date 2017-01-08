@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Sequence_posleft_arm TotPositions="1" ReferencePart="left_arm">
+    <Position Index="0" Timing="-0.10">
+        <JointPositions Count="16">
+            <PosValue>0.00</PosValue>
+            <PosValue>80.00</PosValue>
+            <PosValue>0.00</PosValue>
+            <PosValue>50.00</PosValue>
+            <PosValue>0.00</PosValue>
+            <PosValue>0.00</PosValue>
+            <PosValue>0.00</PosValue>
+            <PosValue>59.00</PosValue>
+            <PosValue>20.00</PosValue>
+            <PosValue>20.00</PosValue>
+            <PosValue>0.00</PosValue>
+            <PosValue>10.00</PosValue>
+            <PosValue>10.00</PosValue>
+            <PosValue>10.00</PosValue>
+            <PosValue>10.00</PosValue>
+            <PosValue>10.00</PosValue>
+        </JointPositions>
+        <JointVelocities Count="16">
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+            <SpeedValue>10.00</SpeedValue>
+        </JointVelocities>
+    </Position>
+</Sequence_posleft_arm>

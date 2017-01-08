@@ -176,9 +176,10 @@ protected:
     int     targetID;       // ID of the object considered as target in OPC (at /memory/rpc)
 
     RpcServer   rpcSrvr;
-    bool        replan;        // Flag to run the planner
-    RpcClient   rpc2OPC;        // rpc client to connect with port /OPC/rpc
-    RpcClient   rpc2actReEn;
+    bool        replan;         // Flag to run the planner
+    RpcClient   rpc2OPC;        // rpc client to connect to port /OPC/rpc
+    RpcClient   rpc2ARE;        // rpc client to connect to port /actionsRenderingEngine/get:io
+    RpcClient   rpc2calib;      // rpc client to connect to port /iolReachingCalibration/rpc
 
     // Variables for Batch operation
     unsigned int countReplan;
@@ -187,9 +188,11 @@ protected:
     double  solvingTime;        // Total time for each whole planner of all control points
     double  planningTime;       // Deadline for local planner
     double  planningTimeGlob;   // Global deadline for the whole planner
+    bool    interruptFlag;      // Flag to interrup planner if the time is over the planningTimeGlob
     double  costEE;
     double  costElbow;
     bool    fixEnv;             // Flag to set environment fixed for cost-vs-time benchmark
+    bool    generateObstacles;  // Flag to generate obstacle randomly
 
     // Flag to know if the torso shall be used or not
     bool    useTorso;
@@ -212,6 +215,7 @@ protected:
     // Best trajectory for Elbow
     vector<Vector> bestTrajElbow;
     vector<Vector> bestTrajRootElbow;
+    bool planForElbow;
 
     // Best trajectory for Half of Elbow
     vector<Vector> bestTrajHalfElbow;
@@ -230,7 +234,11 @@ protected:
 
     // Goal
     Vector target;
+    Vector rpcCmdPos;   // Position received from rpc command <-- planPos
 //    Vector startPos;
+
+    // Received Command
+    string rpcCmd;      // String store rpcCmd
 
     // Manipulator
     iCubArm *arm;
@@ -369,6 +377,13 @@ public:
     void processRpcCommand();
 
     /**
+    * @brief Get information (coordinate and dimension) of partner's hands from /OPC/rpc port of WYSIWYD application
+    * @param handRoot is the 6 parameter yarp Vector of hand's 3D coordinate and 3D dimension
+    * @return Output is a boolean value indicating if a hand is available (true) or not (false)
+    */
+    bool getHandFromOPC(vector<Vector> &handsRoot);
+
+    /**
     * @brief Get information (coordinate and dimension) of 3D object from /OPC/rpc port of WYSIWYD application
     * @param objectName: string value of name of the object wanted to obtain information, i.e targetName (Octopus, box, etc.)
     * @param idObject: int value output of the id of the object wanted to obtain information, which is stored in /OPC
@@ -398,6 +413,12 @@ public:
      * @return Output is a boolean value indicating if the table is available (true) or not (false). If not, it means that you forgot to calibrate the table. Please refer documentation for more information.
      */
     bool getTableHeightFromOPC(double &tableHeight);
+
+    /**
+     * @brief Get calibrated position of object from iolReachingCalibration
+     * @param object: Vector of 3D position of object
+     */
+    void getCalibObj(Vector &object);
 
     /**
     * @brief Expanding the size of all obstacles closed to any waypoints of a trajectory to prevent waypoints of the trajectory of the next controlled point to be assigned in "bad" position
