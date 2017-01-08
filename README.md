@@ -88,9 +88,6 @@ Material included here is Copyright of *iCub Facility - Istituto Italiano di Tec
 ## Publication
 Phuong D.H. Nguyen; Hoffmann, M.; Pattacini, U. & Metta, G. (2016), A fast heuristic Cartesian space motion planning algorithm for many-DoF robotic manipulators in dynamic environments, in 'Humanoid Robots (Humanoids), 2016 IEEE-RAS 16th International Conference on', IEEE, pp. 884-891. [[IEEE Xplore]](http://dx.doi.org/10.1109/HUMANOIDS.2016.7803377) [[postprint]](https://sites.google.com/site/matejhof/publications/NguyenEtAl__CartesianSpacePlanningHumanoids_2016_postprint.pdf?attredirects=0)
 
-## Publication
-Nguyen, P. D.; Hoffmann, M.; Pattacini, U. & Metta, G. (2016), A fast heuristic Cartesian space motion planning algorithm for many-DoF robotic manipulators in dynamic environments, in 'Humanoid Robots (Humanoids), 2016 IEEE-RAS 16th International Conference on', IEEE, pp. 884-891. [[IEEE Xplore]](http://dx.doi.org/10.1109/HUMANOIDS.2016.7803377) [[postprint]](https://sites.google.com/site/matejhof/publications/NguyenEtAl__CartesianSpacePlanningHumanoids_2016_postprint.pdf?attredirects=0)
-
 ## References
 [1] S. Karaman and E. Frazzoli, *"Optimal kinodynamic motion planning using incremental sampling-based methods,"* 49th IEEE Conference on Decision and Control (CDC), Atlanta, GA, 2010, pp. 7681-7687.
 
