@@ -749,19 +749,15 @@ bool upperPlanner::updateModule()
                     {
                         sendObj2ROS("obstacle",obsSetRoot[i]);
                     }
-
-
+                    
                     SharedData_new d;
                     // d.text is a string
                     d.text="obstacles";
-
                     //d.content is a vector, let's push some data
                     d.content.push_back(obsSetRoot.size());
 
                     port.write(d);
-
                     sendObj2ROS("target",goalRoot);
-
                     yarp::os::Time::delay(.5);
                 }
             }
@@ -776,10 +772,9 @@ bool upperPlanner::updateModule()
             Vector targetCenterRoot(nDim,0.0), targetCenterSim(nDim,0.0);
             Vector targetRoot(2*nDim,0.0), targetSim(2*nDim,0.0);
 
-            // Obtain target
-            if (rpcCmd == "planPos")  //Remove when finishing debug the getCalibObj
+            // Obtain target position in case of received rpc command "replan" 
+            if (rpcCmd == "replan")  
             {
-
                 haveTarget = getObjFromOPC_Name(targetName,targetID, targetRoot);   // target from OPC
                 targetCenterRoot = targetRoot.subVector(0,2);                       // center of target from OPC
                 getCalibObj(targetCenterRoot);                                      // calibrated center of target from iolReachingCalibration
@@ -836,24 +831,6 @@ bool upperPlanner::updateModule()
                     yInfo("hand %d coordinate: %s", i,handsRoot[i].toString().c_str());
                 }
             }
-
-//            targetCenterRoot = targetRoot.subVector(0,2);
-//            convertPosFromRootToSimFoR(targetCenterRoot,targetCenterSim);
-//            goal.setSubvector(0,targetCenterSim);
-//            goal[3] = targetRoot[4];
-//            goal[4] = targetRoot[5];
-//            goal[5] = targetRoot[3];
-
-//            goal.setSubvector(0,startPose);
-
-//            printf("targetCenterRoot: %f, %f, %f\n",targetCenterRoot[0], targetCenterRoot[1], targetCenterRoot[2]);
-//            printf("targetCenterSim: %f, %f, %f\n",targetCenterSim[0], targetCenterSim[1], targetCenterSim[2]);
-
-
-            // Get objects from messages, information in Root frame
-
-            // Convert to World (simulator) frame
-
         }
 
         if (rpcCmd == "planPos")
@@ -870,7 +847,6 @@ bool upperPlanner::updateModule()
 
         if (haveTarget)
         {
-
             target = goal;
             start = clock();
 
@@ -906,10 +882,8 @@ bool upperPlanner::updateModule()
                 plannerEE.setDeadline(planningTimeEE);      // World frame
                 plannerEE.setObstacles(obsSet);             // World frame
 
-
                 plannerEE.setStart(startPose);              // World frame
         //        plannerEE.setStart(xCur);                   // Root frame
-
 
                 printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                 printf("!!!                      !!!\n");
@@ -920,7 +894,6 @@ bool upperPlanner::updateModule()
 
                 if(running_mode=="single")
                     plannerEE.logVertices();
-
             }
             while (bestTrajEE.size()==0);
 
@@ -956,18 +929,15 @@ bool upperPlanner::updateModule()
 
                         for (int indexGoalLocal=1; indexGoalLocal< bestTrajEE.size(); indexGoalLocal++)
                         {
-
                             //singlePlanner localPlannerHalfElbow(verbosity,name,"local-Half-Elbow");
                             vector<Vector> bestTrajLocalHalfElbow;
                             vector<Vector> bestTrajRootLocalHalfElbow;
-
                             double sizeGoalLocalHalfElbow = lForearm;
                             Vector localGoalHalfElbow(6,sizeGoalLocalHalfElbow);
                             for (int i=0; i<nDim; i++)
                                 localGoalHalfElbow[i] = bestTrajEE[indexGoalLocal][i];  // World frame
 
             //                obsSetExpandedHalfElbow = expandObstacle(bestTrajEE,obsSet,lForearm/2.0);
-
                             printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                             printf("!!!                          !!!\n");
                             printf("!!! LOCAL HALF-ELBOW PLANNER !!!\n");
@@ -991,7 +961,6 @@ bool upperPlanner::updateModule()
                                 localPlannerHalfElbow.setObstacles(obsSet);  //Add "real" obstacle set to the planner of Elbow
 
                                 localPlannerHalfElbow.setObstacles(obsSetExpandedHalfElbow);
-
 
                                 convertPosFromRootToSimFoR(xLocalHalfElbow,startPoseLocalHalfElbow);
                                 localPlannerHalfElbow.setStart(startPoseLocalHalfElbow);    // World frame (sim frame)
@@ -1032,40 +1001,31 @@ bool upperPlanner::updateModule()
                                                 convertPosFromSimToRootFoR(wpNew,wpNewRoot);
                                                 paddingWaypoints.push_back(wpNew);
                                                 paddingRootWaypoints.push_back(wpNewRoot);
-
                                                 cout<<"\tCheck padding"<<endl;
 
             //                                    vector<Vector>::iterator it, itRoot;
             //                                    it = bestTrajEE.begin();
             //                                    bestTrajEE.insert(it+indexGoalLocal,1,wpNew);
             //                                    convertPosFromSimToRootFoR(wpNew,wpNewRoot);
-
             //                                    itRoot = bestTrajRootEE.begin();
             //                                    bestTrajRootEE.insert(itRoot+indexGoalLocal,1,wpNewRoot);
-
             //                                    indexGoalLocal++;
-
                                                 replanPadWaypoint = false;
                                             }
                                             else
                                             {
                                                 // replanning
-
                                                 printf("\tReplanning for padding waypoint!!!\n");
-
                                                 paddingWaypoints.clear();
                                                 paddingRootWaypoints.clear();
                                                 replanPadWaypoint = true;
-
                                             }
                                             printf("===============================\n");
                                             if (replanPadWaypoint)
                                             {
-
                                                 break;
                                             }
                                         }
-
                                     }
             //                    bestTrajLocalHalfElbow.clear();
             //                    bestTrajRootLocalHalfElbow.clear();
@@ -1088,7 +1048,6 @@ bool upperPlanner::updateModule()
                                 cout<<"\tCheck insert Root frame"<<endl;
                                 printf("===============================\n");
 
-
                                 indexGoalLocal +=paddingWaypoints.size();
                             }
 
@@ -1105,7 +1064,6 @@ bool upperPlanner::updateModule()
                                 }
                                 lastHalfElbow = bestTrajLocalHalfElbow[bestTrajLocalHalfElbow.size()-1];
                                 lastRootHalfElbow = bestTrajRootLocalHalfElbow[bestTrajRootLocalHalfElbow.size()-1];
-
                 //                        replanLocal = false;
                             }
                         }
@@ -1116,8 +1074,6 @@ bool upperPlanner::updateModule()
                         printf("Number of waypoints of End-effector 's path: %d\n", (int)bestTrajEE.size());
                         printf("Number of waypoints of Half Elbow 's path: %d\n", (int)bestTrajHalfElbow.size());
                     }
-
-
         //            if (robot =="icubSim")  // Remove this and else when finishing debug with Elbow checking
         //            {
 
@@ -1136,10 +1092,7 @@ bool upperPlanner::updateModule()
 
                             convertPosFromSimToRootFoR(elbow,elbowRoot);
                             bestTrajRootElbow.push_back(elbowRoot);
-
                         }
-
-
                         printf("Length of Half Forearm: %f \n", lForearm/2.0);
                         if (bestTrajEE.size()!=0)
                             success = true;
@@ -1195,7 +1148,6 @@ bool upperPlanner::updateModule()
                         bestTrajRootElbow.clear();
                         obsSetExpandedHalfElbow.clear();
                     }
-
         //            }
         //            else
         //            {
@@ -1265,7 +1217,6 @@ bool upperPlanner::updateModule()
 
                 if (success)
                 {
-
                     // 5. Display Trajectory
                     displayTraj(bestTrajEE,"blue");
                     displayTraj(bestTrajHalfElbow,"yellow");
@@ -1283,7 +1234,6 @@ bool upperPlanner::updateModule()
                         updateTrajGui(bestTrajRootHalfElbow, "HE");
                         updateTrajGui(bestTrajRootElbow, "E");
                     }
-
     //                // 6.Sending message of Trajectory through port
     //                EEPortOut.setTrajectory(bestTrajRootEE);
     //                EEPortOut.sendTrajectory();
@@ -1295,7 +1245,6 @@ bool upperPlanner::updateModule()
                     string execution = "no";
                     cout<<"Do you want to execute the plan (yes/no)"<<endl;
 //                    getline(cin,execution);
-
                     execution = "yes";
 
                     if (execution == "yes")
@@ -1317,11 +1266,8 @@ bool upperPlanner::updateModule()
                         printf("DISCARD PLAN\n");
                     }
                 }
-
-
                 replan = false;
             }
-
         }
         else
         {
@@ -1329,8 +1275,6 @@ bool upperPlanner::updateModule()
         }
 
         // 7.Clearing all planners to make sure they won't effect the next run
-
-
         bestTrajEE.clear();
         bestTrajRootEE.clear();
 
@@ -1349,7 +1293,6 @@ bool upperPlanner::updateModule()
 //        {
 //            cout<< msgROS.text << ": " << msgROS.content << endl;
 //        }
-
     }
     return true;
 }
