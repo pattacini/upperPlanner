@@ -43,6 +43,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 	- Run all modules in scripted application. Remember running the `iCub_SIM` first for simulation case.
 	- Connect all modules.
 	- Open a terminal and connect to *reactController* and make *reactController* receive references from *supervisor*:
+	
 		```
 		yarp rpc /reactController/rpc:i
 		set_streaming_xd
@@ -50,7 +51,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/devel#commands) 
 	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](https://github.com/robotology-playground/reaching-planner/tree/devel#documentation). Some useful rpc commands can be listed here:
 
-		- `run_planner <deadline>`, to plan and move arm to a target in *objectsPropertiesCollector* that shown in front of robot. Target can be modified by `set_target <name>`
+		- `run_planner <deadline>`, to plan and move arm to a target in *OPC* that is shown in front of robot. Target can be changed by rpc command: `set_target <name>`
 		- `run_planner_pos <Vector of 3D position> <deadline>`, to plan and move arm to a position. 
 		- `stop`, to stop moving the arm.
 		- `resume`, to continue moving the arm after stopping.
@@ -61,7 +62,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 		populateSpecific3
 		```
 
-	- Then open a terminal and connect to *OPC* to modulate objects' name an position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
+	- Then open a terminal and connect to *OPC* to modulate objects' name and position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
 		```
 		yarp rpc /OPC/rpc
 		set ((id 2) (name hand))
