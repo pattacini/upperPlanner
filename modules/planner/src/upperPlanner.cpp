@@ -782,14 +782,14 @@ bool upperPlanner::updateModule()
 
         if (rpcCmd == "planPos")
         {
-            Vector rpcCmdPosSim;
+            Vector rpcCmdPosSim(3,0.0);
             Vector fakeDims(3,0.05);
             convertPosFromRootToSimFoR(rpcCmdPos,rpcCmdPosSim);
             goal.setSubvector(0,rpcCmdPosSim);
             goal.setSubvector(3,fakeDims);
             haveTarget = true;
 
-            yInfo("[%s] goal is set as received position %s",name.c_str(), goal.toString().c_str());
+            yInfo("[%s] goal is set as %s, received position is %s",name.c_str(), goal.toString().c_str(), rpcCmdPos.toString().c_str());
         }
 
         if (haveTarget)
