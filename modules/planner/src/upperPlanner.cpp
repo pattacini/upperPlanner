@@ -374,12 +374,6 @@ bool upperPlanner::configure(ResourceFinder &rf){
     cmdGui.addString("reset");
     portToGui.write(cmdGui);
 
-//    initShowTrajGui("EE","blue");
-//    initShowTrajGui("End-Effector","blue");
-//    initShowTrajGui("Half-Elbow","yellow");
-//    initShowTrajGui("Elbow","purple");
-
-
     //****RPC Port ************************************************************************
     rpcSrvr.open(("/"+name+"/rpc:i").c_str());
     attach(rpcSrvr);
@@ -390,8 +384,6 @@ bool upperPlanner::configure(ResourceFinder &rf){
     {
         yError("[%s] Unable to open port %s.", name.c_str(),port2OPC.c_str());
     }
-//    string portOPCrpc = "/objectsPropertiesCollector/rpc";
-//    string portOPCrpc = "/memory/rpc";
 
     // Need to move to connection in xml file application
     string portOPCrpc = "/OPC/rpc"; // For WYSIWYD
@@ -423,12 +415,8 @@ bool upperPlanner::configure(ResourceFinder &rf){
     string port_ARE = "/actionsRenderingEngine/get:io"; // For WYSIWYD
     Network::connect(port2ARE.c_str(), port_ARE.c_str());
 
-    //   rpcDataProcessor processor;
-    //   rpcSrvr.setReader(processor);
-
     //****Normal communication port *******************************************************
     ts.update();
-    //   upperTrajectPortOut.open(("/"+name+"/bestCartesianTrajectory:o").c_str());
 
     EEPortOut.setControlPoint("End-Effector");
     EEPortOut.open(("/"+name+"/End-Effector/bestCartesianTrajectory:o").c_str());
@@ -520,35 +508,8 @@ bool upperPlanner::configure(ResourceFinder &rf){
     nodeName = "/yarp_connector_planner";
     sharedTopicName = "/signal2Yarp";
 
-//    yarp::os::Network network;
-//    yarp::os::Node node(nodeName);   // added a Node
-
-//    if (!port.topic(nodeName + "/data"))              // replaced open() with topic()
-//    {
-//        cerr<<"Error opening port, check your yarp network\n";
-//        return -1;
-//    }
-
-//    if (!port_object.topic(nodeName + "/objects"))              // replaced open() with topic()
-//    {
-//        cerr<<"Error opening port, check your yarp network\n";
-//        return -1;
-//    }
-
-//    if (!sub_signalFromROS.topic(sharedTopicName)) {
-//        cerr<< "Failed to subscriber to "<<sharedTopicName<<endl;
-//        return -1;
-//    }
-
-
-
     return true;
 }
-
-//bool upperPlanner::attach(RpcServer &source)
-//{
-////    return this->yarp().attachAsServer(source);
-//}
 
 double upperPlanner::getPeriod()
 {
@@ -632,23 +593,12 @@ bool upperPlanner::updateModule()
             planningTime +=0.2;
         }
 
-//        singlePlanner plannerEE(verbosity,name,robot,"End-effector");
-//        singlePlanner plannerElbow(verbosity,name, robot, "Elbow");
-//        singlePlanner plannerHalfElbow(verbosity,name, robot,"Half-Elbow");
-
-
         // 1.Reading message of Trajectory through port
 
         // 2.Perception part: obtaining information of Target, Workspace, Obstacles
         // Information should be in <root> FoR
 
         double xReaching = 0.7, zReaching = 0.7;
-        // Test=======================================================
-//        Vector workspace(6,0.0);
-//        workspace[3]= xReaching;    //8.0/10.0;
-//        workspace[4]=20.0/10.0;
-//        workspace[5]= zReaching;    //8.0/10.0;
-
         double scale = 10.0;
         double sizeObject = 1.0/scale;  //1.0/10.0;
         double sizeGoal = .15; //1.4/scale;
@@ -687,13 +637,11 @@ bool upperPlanner::updateModule()
             goal[1]=5.64/scale; //6.0/scale; //7.0/scale;
             goal[2]=3.7/scale;  //1.0/scale;
 
-//            target = goal;
-//            convertPosFromSimToRootFoR(goal,target);
             Vector goalRoot(6,0.0);
             convertObjFromSimToRootFoR(goal,goalRoot);
 
             srand(time(NULL));
-    //        vector<Vector> obsSet;
+
             if (!fixEnv)
             {
                 obsSet.clear();
@@ -820,7 +768,6 @@ bool upperPlanner::updateModule()
                     obsSet.push_back(obstacleSim);
                     printf("obstacle: %f, %f, %f, %f, %f, %f\n",obstacle[0], obstacle[1], obstacle[2],obstacle[3], obstacle[4], obstacle[5]);
                 }
-
             }
 
             vector<Vector> handsRoot;
@@ -883,7 +830,6 @@ bool upperPlanner::updateModule()
                 plannerEE.setObstacles(obsSet);             // World frame
 
                 plannerEE.setStart(startPose);              // World frame
-        //        plannerEE.setStart(xCur);                   // Root frame
 
                 printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                 printf("!!!                      !!!\n");
@@ -926,10 +872,8 @@ bool upperPlanner::updateModule()
 
                         obsSetExpandedHalfElbow = expandObstacle(bestTrajEE,obsSet,lForearm/2.0);
                         // Creating a Control point in the Forearm at middle of EE and Elbow
-
                         for (int indexGoalLocal=1; indexGoalLocal< bestTrajEE.size(); indexGoalLocal++)
-                        {
-                            //singlePlanner localPlannerHalfElbow(verbosity,name,"local-Half-Elbow");
+                        {                            
                             vector<Vector> bestTrajLocalHalfElbow;
                             vector<Vector> bestTrajRootLocalHalfElbow;
                             double sizeGoalLocalHalfElbow = lForearm;
@@ -937,7 +881,6 @@ bool upperPlanner::updateModule()
                             for (int i=0; i<nDim; i++)
                                 localGoalHalfElbow[i] = bestTrajEE[indexGoalLocal][i];  // World frame
 
-            //                obsSetExpandedHalfElbow = expandObstacle(bestTrajEE,obsSet,lForearm/2.0);
                             printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
                             printf("!!!                          !!!\n");
                             printf("!!! LOCAL HALF-ELBOW PLANNER !!!\n");
@@ -951,7 +894,6 @@ bool upperPlanner::updateModule()
 
                             bool replanPadWaypoint = false;
                             vector<Vector> paddingWaypoints, paddingRootWaypoints;
-            //                while (bestTrajLocalHalfElbow.size()==0 || replanPadWaypoint)
                             do
                             {
                                 singlePlanner localPlannerHalfElbow(verbosity,name,robot,running_mode,"local-Half-Elbow");
@@ -966,7 +908,7 @@ bool upperPlanner::updateModule()
                                 localPlannerHalfElbow.setStart(startPoseLocalHalfElbow);    // World frame (sim frame)
 
                                 localPlannerHalfElbow.executeTrajectory(bestTrajLocalHalfElbow,bestTrajRootLocalHalfElbow, "yellow");
-            //                }
+
                                 if (bestTrajLocalHalfElbow.size()==0)
                                 {
                                     replanPadWaypoint = true;
@@ -985,7 +927,6 @@ bool upperPlanner::updateModule()
                                             printf("===============================\n");
                                             printf("Padding EE's trajectory: %d-th\n",i);
                                             Vector wpj = bestTrajLocalHalfElbow[i];         // World frame
-            //                                Vector wp1 = startPoseLocalHalfElbow;           // World frame, of EE Trajectory
                                             Vector wp1 = bestTrajEE[indexGoalLocal-1];      // World frame, of EE Trajectory
                                             Vector wp2 = localGoalHalfElbow.subVector(0,2); // World frame, of EE Trajectory
                                             Vector wpNew(3,0.0), wpNewRoot(3,0.0);
@@ -1003,13 +944,6 @@ bool upperPlanner::updateModule()
                                                 paddingRootWaypoints.push_back(wpNewRoot);
                                                 cout<<"\tCheck padding"<<endl;
 
-            //                                    vector<Vector>::iterator it, itRoot;
-            //                                    it = bestTrajEE.begin();
-            //                                    bestTrajEE.insert(it+indexGoalLocal,1,wpNew);
-            //                                    convertPosFromSimToRootFoR(wpNew,wpNewRoot);
-            //                                    itRoot = bestTrajRootEE.begin();
-            //                                    bestTrajRootEE.insert(itRoot+indexGoalLocal,1,wpNewRoot);
-            //                                    indexGoalLocal++;
                                                 replanPadWaypoint = false;
                                             }
                                             else
@@ -1027,8 +961,6 @@ bool upperPlanner::updateModule()
                                             }
                                         }
                                     }
-            //                    bestTrajLocalHalfElbow.clear();
-            //                    bestTrajRootLocalHalfElbow.clear();
                                 }
                             }
                             while (replanPadWaypoint);
@@ -1064,7 +996,6 @@ bool upperPlanner::updateModule()
                                 }
                                 lastHalfElbow = bestTrajLocalHalfElbow[bestTrajLocalHalfElbow.size()-1];
                                 lastRootHalfElbow = bestTrajRootLocalHalfElbow[bestTrajRootLocalHalfElbow.size()-1];
-                //                        replanLocal = false;
                             }
                         }
 
@@ -1074,8 +1005,6 @@ bool upperPlanner::updateModule()
                         printf("Number of waypoints of End-effector 's path: %d\n", (int)bestTrajEE.size());
                         printf("Number of waypoints of Half Elbow 's path: %d\n", (int)bestTrajHalfElbow.size());
                     }
-        //            if (robot =="icubSim")  // Remove this and else when finishing debug with Elbow checking
-        //            {
 
                     // ELBOW Checking
                     if (bestTrajEE.size() == bestTrajHalfElbow.size())
@@ -1124,7 +1053,6 @@ bool upperPlanner::updateModule()
                             double dist2D_EB_yAxis = sqrt(pow(bestTrajElbow[i][0],2.0)+pow(bestTrajElbow[i][2],2.0));
                             printf("\t\tDistance of Elbow to y-axis: %f\n", dist2D_EB_yAxis);
                             if (dist2D_EB_yAxis>workspace[3]/2.0)
-    //                        if (distWpWp(bestTrajElbow[i],workspace.subVector(0,2))>workspace[3]/2.0)
                             {
                                 success = false;
                                 printf("\t\tElbow's waypoint %d is too far away\n", i);
@@ -1148,11 +1076,6 @@ bool upperPlanner::updateModule()
                         bestTrajRootElbow.clear();
                         obsSetExpandedHalfElbow.clear();
                     }
-        //            }
-        //            else
-        //            {
-        //                success = true;
-        //            }
                 }
                 while (!success);
             }
@@ -1185,7 +1108,6 @@ bool upperPlanner::updateModule()
                 }
                 else
                 {
-//                    replan = true;
                     if (useROS)
                     {
                         yarp_msg::SharedData_new msgROS;
@@ -1234,12 +1156,6 @@ bool upperPlanner::updateModule()
                         updateTrajGui(bestTrajRootHalfElbow, "HE");
                         updateTrajGui(bestTrajRootElbow, "E");
                     }
-    //                // 6.Sending message of Trajectory through port
-    //                EEPortOut.setTrajectory(bestTrajRootEE);
-    //                EEPortOut.sendTrajectory();
-
-    //                HalfElbowPortOut.setTrajectory(bestTrajRootHalfElbow);
-    //                HalfElbowPortOut.sendTrajectory();
 
                     // For safety reason, asking for permission before execution the plan
                     string execution = "no";
@@ -1286,13 +1202,6 @@ bool upperPlanner::updateModule()
 
         printf("THE END %d\n", countReplan);
         printf("===============================\n");
-
-//        yarp_msg::SharedData_new msgROS;
-//        sub_signalFromROS.read(msgROS, false);
-//        if (msgROS.text == "finished")
-//        {
-//            cout<< msgROS.text << ": " << msgROS.content << endl;
-//        }
     }
     return true;
 }
@@ -1527,7 +1436,6 @@ void upperPlanner::logBatchSummary()
             logfile2<<costElbow<<"\n";
         }
     }
-//    logfile1.close();
 }
 
 bool upperPlanner::padWaypoint(const Vector &point1, const Vector &point2,
@@ -1582,7 +1490,6 @@ bool upperPlanner::padWaypoint(const Vector &point1, const Vector &point2,
     }
 
     return result;
-
 }
 
 void upperPlanner::updateArmChain()
@@ -1611,8 +1518,6 @@ void upperPlanner::updateArmChain()
 
         indexElbow = 3;
     }
-
-
 }
 
 void upperPlanner::processRpcCommand()
@@ -1637,7 +1542,6 @@ void upperPlanner::processRpcCommand()
         replan = false;
     }
     rpcSrvr.reply(out);
-
 }
 
 bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
@@ -1764,13 +1668,11 @@ bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, V
                 if (Bottle *b1=b->get(1).asList())
                 {
                     cmd.clear();
-//                    int id=b1->get(0).asInt();
                     idObject=b1->get(0).asInt();
                     cmd.addVocab(Vocab::encode("get"));
                     Bottle &info=cmd.addList();
                     Bottle &info2=info.addList();
                     info2.addString("id");
-//                    info2.addInt(id);
                     info2.addInt(idObject);
 
                 }
@@ -1844,7 +1746,6 @@ bool upperPlanner::getObjFromOPC_Name(const string &objectName, int &idObject, V
     objectRoot = objectIn3D;
 
     return isPresent;
-
 }
 
 vector<int> upperPlanner::getObsIDFromOPC_Name()
@@ -1853,7 +1754,6 @@ vector<int> upperPlanner::getObsIDFromOPC_Name()
     Bottle cmd,reply;
     cmd.addVocab(Vocab::encode("ask"));
     Bottle &content=cmd.addList();
-//    Bottle &cond_1=content.addList();
     content.addString("all");
 
     rpc2OPC.write(cmd,reply);
@@ -2194,9 +2094,6 @@ vector<Vector> upperPlanner::expandObstacle(const vector<Vector> &traject, const
 //                        xMax = Px1(1);
                 }
 
-
-
-
                 Vector obsExpanded(6,0.0);
                 for (int i=0; i<nDim; i++)
                 {
@@ -2204,7 +2101,6 @@ vector<Vector> upperPlanner::expandObstacle(const vector<Vector> &traject, const
                     obsExpanded[i+nDim] = maxVerticesNew[i]-minVerticesNew[i];
                 }
                 obsSetExpanded.push_back(obsExpanded);
-
             }
         }
     }
@@ -2220,7 +2116,6 @@ Vector upperPlanner::findOtherEndPoint(const Vector &oneEndPoint, const Vector &
 
     distEnd2Mid = distWpWp(oneEndPoint,halfPoint);
     scale = lengthLimb/distEnd2Mid;
-
 
     // Find intersection points of vectors from Waypoint to vertices of obstacle, with the admissible surface (sphere) of the next control point
     Vector otherEndPoint(nDim,0.0);
@@ -2276,7 +2171,6 @@ void upperPlanner::findCenterOnSurfaces(const Vector &obstacle,
         }
         normVectors.push_back(normVector);
     }
-
 }
 
 double upperPlanner::dotProduct(const Vector &v1, const Vector &v2)
@@ -2337,13 +2231,11 @@ bool upperPlanner::collisionCheckPathSegment(const Vector &point1, const Vector 
         vector<Vector> centers;
         vector<Vector> normVects;
         // Find center and normal vector of 6 surface of each obstacle
-//        printf("\tFind center and norm vector for obstacle %d-th \n", i);
         findCenterOnSurfaces(obstacles[i],centers,normVects);
         for (int j=0; j<centers.size(); j++)
         {
             Vector intersectPoint(nDim,0.0);
             // Find intersection point between two sucessive waypoint and the surface of obstacle
-//            printf("\tFind intersection point between path segment and surface %d-th\n",j);
             if (intersectionSegmentPlane(point1,point2,centers[j],normVects[j],intersectPoint))
             {
                 // Check if the intersection point is in inside or on obstacle
@@ -2352,7 +2244,6 @@ bool upperPlanner::collisionCheckPathSegment(const Vector &point1, const Vector 
 
                 vector<Vector> subObsSet;
                 subObsSet.push_back(obstacles[i]);
-//                printf("\tCollision check for explored intersection \n");
                 if (collisionCheck(intersectPoint,subObsSet))
                 {
                     collided = true;
@@ -2362,7 +2253,6 @@ bool upperPlanner::collisionCheckPathSegment(const Vector &point1, const Vector 
         }
     }
     return collided;
-
 }
 
 double upperPlanner::distWpObs(const Vector &waypoint, const Vector &obstacle)
@@ -2478,14 +2368,11 @@ void upperPlanner::convertPosFromRootToSimFoR(const Vector &pos, Vector &outPos)
     pos_temp.resize(4);
     pos_temp(3) = 1.0;
 
-    //printf("convertPosFromRootToSimFoR: need to convert %s in icub root FoR to simulator FoR.\n",pos.toString().c_str());
-    //printf("convertPosFromRootToSimFoR: pos in icub root resized to 4, with last value set to 1:%s\n",pos_temp.toString().c_str());
-
     outPos.resize(4,0.0);
     outPos = T_world_root * pos_temp;
-    //printf("convertPosFromRootToSimFoR: outPos in simulator FoR:%s\n",outPos.toString().c_str());
+
     outPos.resize(3);
-    //printf("convertPosFromRootToSimFoR: outPos after resizing back to 3 values:%s\n",outPos.toString().c_str());
+
     return;
 }
 
@@ -2495,14 +2382,11 @@ void upperPlanner::convertPosFromSimToRootFoR(const Vector &pos, Vector &outPos)
     pos_temp.resize(4);
     pos_temp(3) = 1.0;
 
-    //printf("convertPosFromRootToSimFoR: need to convert %s in icub root FoR to simulator FoR.\n",pos.toString().c_str());
-    //printf("convertPosFromRootToSimFoR: pos in icub root resized to 4, with last value set to 1:%s\n",pos_temp.toString().c_str());
-
     outPos.resize(4,0.0);
     outPos = T_root_world * pos_temp;
-    //printf("convertPosFromRootToSimFoR: outPos in simulator FoR:%s\n",outPos.toString().c_str());
+
     outPos.resize(3);
-    //printf("convertPosFromRootToSimFoR: outPos after resizing back to 3 values:%s\n",outPos.toString().c_str());
+
     return;
 }
 
@@ -2548,7 +2432,6 @@ void upperPlanner::displayTraj(const vector<Vector> &trajectory,
             createStaticSphere(0.03, trajectory[i], color);
         }
     }
-
 }
 
 void upperPlanner::createStaticSphere(double radius, const Vector &pos, const string &color)
@@ -2613,12 +2496,10 @@ void upperPlanner::createStaticBox(const Vector &pos, const string &type)
     if (type == "obstacle")
       {
         cmd.addInt(1);cmd.addInt(0);cmd.addInt(0); //red
-//        cmd.addString("true"); //collisions
       }
     else if (type == "goal")
       {
         cmd.addInt(0);cmd.addInt(1);cmd.addInt(0); //green
-//        cmd.addString("false"); //no collisions
       }
     cmd.addString("false"); //no collisions
     printMessage(5,"createBox(): sending %s \n",cmd.toString().c_str());
@@ -2658,7 +2539,6 @@ void upperPlanner::displayWorkspaceGui()
     }
     convertObjFromSimToRootFoR(target,obsGui);
     createObsGui(obsGui,"goal",0);
-
 }
 
 template <typename T>
@@ -2685,7 +2565,7 @@ void upperPlanner::createObsGui(const Vector &pos, const string &type, const int
         cmdGui.clear();
         cmdGui.addString("object");
         cmdGui.addString(objectName);
-//        cmdGui.addString("");
+
         for (int i=3; i<pos.size(); i++)    // size
         {
             cmdGui.addDouble(pos[i]*1000.0);
@@ -2713,10 +2593,7 @@ void upperPlanner::createObsGui(const Vector &pos, const string &type, const int
         cmdGui.addDouble(.9);
 
         portToGui.write(cmdGui);
-
     }
-
-
 }
 
 void upperPlanner::displayWpsGui(const vector<Vector> &trajectory, const string &ctrlPoint, const string &color)
@@ -2783,7 +2660,6 @@ void upperPlanner::createWpGui(const Vector &pos, const string &ctrlPoint,
         cmdGui.addDouble(.9);
 
         portToGui.write(cmdGui);
-
     }
 }
 
@@ -2822,7 +2698,6 @@ void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
 
     cmdGui.addString("trajectory");
     cmdGui.addString(ctrlPoint.c_str());    // trajectory identifier
-//    cmdGui.addString(ctrlPoint.c_str());              // trajectory name
     cmdGui.addString("");               // trajectory name
     cmdGui.addInt(512);                 // max samples in circular queue
     cmdGui.addDouble(1200.0);             // lifetime of samples
@@ -2846,12 +2721,10 @@ void upperPlanner::initShowTrajGui(const string &ctrlPoint, const string &color)
     {
         cmdGui.addInt(255);cmdGui.addInt(255);cmdGui.addInt(0); //yellow
     }
-//    cmdGui.addInt(0);cmdGui.addInt(0);cmdGui.addInt(255);
     cmdGui.addDouble(1.0);             // alpha [0,1]
     cmdGui.addDouble(5.0);             // line width
 
     portToGui.write(cmdGui);
-
 }
 
 void upperPlanner::updateTrajGui(const vector<Vector> &trajectory, const string &ctrlPoint)
@@ -2860,7 +2733,6 @@ void upperPlanner::updateTrajGui(const vector<Vector> &trajectory, const string 
     {
         printf("\n===============================\n");
         cout<<"DISPLAY TRAJECTORY GUI"<<endl;
-
 
         for (int i=0; i<trajectory.size(); i++)
         {
@@ -2875,7 +2747,6 @@ void upperPlanner::updateTrajGui(const vector<Vector> &trajectory, const string 
             portToGui.write(cmdGui);
         }
     }
-
 }
 
 // empty line to make gcc happy
