@@ -20,6 +20,8 @@
 	- *homeostasis*
 	- *allostaticController*
 	- *behaviorManager*
+	- *kinectServer*
+	- *referenceFrameHandler*
 
 ## Pipeline
 
@@ -71,15 +73,22 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 			set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05))
 			set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))
 			```		
-		- Using `Kinect` to obtain the humans' hands as objects, this requires **kinectServer** and **referenceFrameHandler** from **WYSIWYD**. It is necessary to calibrate the Kinect wrt the icub's vision system. It can be done as following:
-			```		
-			1) Delete all but the first line in **referenceFrameHandler.ini**
-			2) Start *referenceFrameHandler* and *agentDetector*
-			3) Put one object on the table (and only one!), which needs to be visible to both the iCub and the Kinect. Make sure *iol2opc* runs nicely and reports the proper coordinates in iCubGui.
-			4) Left click on the depth image where the object is
-			5) Move the object and repeat 4); do this at least 3 times
-			6) Right click on the depth image to saves the calibration
-			7) Check the referenceFrameHandler.ini and restart agentDetector 
+		- Or Using `Kinect` to obtain the humans' hands as objects, this requires **kinectServer** and **referenceFrameHandler** from **WYSIWYD**. It is necessary to calibrate the Kinect wrt the icub's vision system. It can be done as following:
+			
+			```
+			1) Delete all but the first line in **referenceFrameHandler.ini**;
+			
+			2) Start *referenceFrameHandler* and *agentDetector*;
+			
+			3) Put one object on the table (and only one!), which needs to be visible to both the iCub and the Kinect. Make sure *iol2opc* runs nicely and reports the proper coordinates in iCubGui;
+			
+			4) Left click on the depth image where the object is;
+			
+			5) Move the object and repeat 4); do this at least 3 times;
+			
+			6) Right click on the depth image to saves the calibration;
+			
+			7) Check the referenceFrameHandler.ini and restart agentDetector. 
 			```
 			
 ## Documentation
