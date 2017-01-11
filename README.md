@@ -56,22 +56,32 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 		- `stop`, to stop moving the arm.
 		- `resume`, to continue moving the arm after stopping.
 
-	- In order to see the effect of **PPS**, open a terminal and connect to *opcPopulater*:
-		```
-		yarp rpc /opcPopulater/rpc
-		populateSpecific3
-		```
+	- In order to see the effect of **PPS**: 
+		- Using *opcPopulater* for *virtual objects*. Open a terminal and connect to *opcPopulater*:
+		
+			```
+			yarp rpc /opcPopulater/rpc
+			populateSpecific3
+			```
 
-	- Then open a terminal and connect to *OPC* to modulate objects' name and position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
-		```
-		yarp rpc /OPC/rpc
-		set ((id 2) (name hand))
-		set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05))
-		set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))
-		```		
-	
-
-
+		- Then open a terminal and connect to *OPC* to modulate objects' name and position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
+			```
+			yarp rpc /OPC/rpc
+			set ((id 2) (name hand))
+			set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05))
+			set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))
+			```		
+		- Using `Kinect` to obtain the humans' hands as objects, this requires **kinectServer** and **referenceFrameHandler** from **WYSIWYD**. It is necessary to calibrate the Kinect wrt the icub's vision system. It can be done as following:
+			```		
+			1) Delete all but the first line in **referenceFrameHandler.ini**
+			2) Start *referenceFrameHandler* and *agentDetector*
+			3) Put one object on the table (and only one!), which needs to be visible to both the iCub and the Kinect. Make sure *iol2opc* runs nicely and reports the proper coordinates in iCubGui.
+			4) Left click on the depth image where the object is
+			5) Move the object and repeat 4); do this at least 3 times
+			6) Right click on the depth image to saves the calibration
+			7) Check the referenceFrameHandler.ini and restart agentDetector 
+			```
+			
 ## Documentation
 Online documentation is available here: [http://robotology-playground.github.com/reaching-with-avoidance](http://robotology-playground.github.com/reaching-planner).
 
