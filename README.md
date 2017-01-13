@@ -1,4 +1,4 @@
-# reaching-with-avoidance
+# reaching-with-avoidance [![Build Status](https://travis-ci.org/robotology-playground/reaching-planner.svg?branch=master)](https://travis-ci.org/robotology-playground/reaching-planner)
 ===
 ## Synopsis
 
