@@ -39,8 +39,10 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 
 ## Applications:
 - In simulation:
-	- For **reaching only**: [multiple-Cartesian-point_localhost.xml](https://github.com/robotology-playground/reaching-planner/blob/devel/app/script/multiple-Cartesian-point_localhost.xml)
-	- For **reaching with avoidance**: [planner_reactCtrl_PPS_localhost.xml](https://github.com/robotology-playground/reaching-planner/blob/devel/app/script/planner_reactCtrl_PPS_localhost.xml)
+	- For **reaching only**: [multiple-Cartesian-point_localhost.xml](https://github.com/robotology-playground/reaching-planner/blob/master/app/script/multiple-Cartesian-point_localhost.xml)
+	- For **reaching with avoidance**: [planner_reactCtrl_PPS_localhost.xml](https://github.com/robotology-playground/reaching-planner/blob/master/app/script/planner_reactCtrl_PPS_localhost.xml)  
+- In robot:
+	- For **reaching with avoidance**: [planner_reactCtrl_PPS_icub.xml](https://github.com/robotology-playground/reaching-planner/blob/master/app/script/planner_reactCtrl_PPS_iCub.xml)  
 - How to run:
 	- Run all modules in scripted application. Remember running the `iCub_SIM` first for simulation case.
 	- Connect all modules.
@@ -50,8 +52,8 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 		yarp rpc /reactController/rpc:i
 		set_streaming_xd
 		```
-	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/devel#commands) 
-	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](https://github.com/robotology-playground/reaching-planner/tree/devel#documentation). Some useful rpc commands can be listed here:
+	- Open a terminal and connect to *reaching-supervior* as described in [Commands](https://github.com/robotology-playground/reaching-planner/tree/master#commands) 
+	- Query a new motion plan and control the arm for reaching by sending commands to *reaching-supervisor* as described in [Documentation](https://github.com/robotology-playground/reaching-planner/tree/master#documentation). Some useful rpc commands can be listed here:
 
 		- `run_planner <deadline>`, to plan and move arm to a target in *OPC* that is shown in front of robot. Target can be changed by rpc command: `set_target <name>`
 		- `run_planner_pos <Vector of 3D position> <deadline>`, to plan and move arm to a position. 
