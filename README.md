@@ -67,7 +67,7 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 			populateSpecific3
 			```  
 		- Modulate the object `value` with command, with `value` accepting double in range `-0.5 ~ 0`:  
-			``` setValueEntity object <value>```  
+			``` setValueEntity <object_name> <value>```  
 
 		- Then open a terminal and connect to *OPC* to modulate objects' name and position. Following example change the name of `unknown_2` object to `hand`(of other agent) to make *PPS* take into account the hand's position, then move it to change the effect of *PPS* on the motion of arm. The expected effect will be the robot's arm is approaching a desired position then stopping if the partner's hand move to and interfere the motion path of robot's arm.
 			```
