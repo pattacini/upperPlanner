@@ -172,6 +172,13 @@
         <to>/iCubGui/objects</to>
         <protocol>udp</protocol>
     </connection>
+    
+    <!--karmaWYSIWYD connections-->
+    <connection>
+        <from>/karmaMotor/reaching-supervisor/rpc:o</from>
+        <to>/reaching-supervisor/rpc:i</to>
+        <protocol>udp</protocol>
+    </connection>
 
     <!--PPS connections-->
     <connection>
