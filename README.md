@@ -73,8 +73,8 @@ i.e: `yarp rpc /<planner_module_name>/rpc:i`.
 			```
 			yarp rpc /OPC/rpc
 			set ((id 2) (name hand))
-			set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05))
-			set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05))
+			set ((id 2) (robot_position_x -0.3) (robot_position_y -0.15) (robot_position_z 0.05) (position_3d (-0.3 -0.15 0.05)))
+			set ((id 2) (robot_position_x -0.8) (robot_position_y -0.15) (robot_position_z 0.05) (position_3d (-0.8 -0.15 0.05)))
 			```		
 		- Or Using `Kinect` to obtain the humans' hands as objects, this requires **kinectServer** and **referenceFrameHandler** from **WYSIWYD**. It is necessary to calibrate the Kinect wrt the icub's vision system. It can be done as following:
 			
