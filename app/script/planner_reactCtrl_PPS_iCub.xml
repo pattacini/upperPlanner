@@ -177,7 +177,7 @@
     <connection>
         <from>/karmaMotor/reaching-supervisor/rpc:o</from>
         <to>/reaching-supervisor/rpc:i</to>
-        <protocol>udp</protocol>
+        <protocol>tcp</protocol>
     </connection>
 
     <!--PPS connections-->
