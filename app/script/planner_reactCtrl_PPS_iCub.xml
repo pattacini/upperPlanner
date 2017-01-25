@@ -155,6 +155,11 @@
 		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>
         <to>/reactController/streamedWholeBodyTargets:i</to>
     </connection>
+    
+	<connection>
+		<from>/reaching-supervisor/reactController/rpc:o</from>
+        <to>/reactController/rpc:i</to>
+    </connection>
 
 	<connection>
 		<from>/reaching-supervisor/reaching-planner/rpc:o</from>

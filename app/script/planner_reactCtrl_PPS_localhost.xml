@@ -170,6 +170,11 @@
 		<from>/reaching-supervisor/particlesCartesianTrajectory:o</from>
         <to>/reactController/streamedWholeBodyTargets:i</to>
     </connection>
+    
+	<connection>
+		<from>/reaching-supervisor/reactController/rpc:o</from>
+        <to>/reactController/rpc:i</to>
+    </connection>
 
 	<connection>
 		<from>/reaching-supervisor/reaching-planner/rpc:o</from>
@@ -192,7 +197,7 @@
     <connection>
         <from>/karmaMotor/reaching-supervisor/rpc:o</from>
         <to>/reaching-supervisor/rpc:i</to>
-        <protocol>udp</protocol>
+        <protocol>tcp</protocol>
     </connection>
 
     <!--PPS connections-->

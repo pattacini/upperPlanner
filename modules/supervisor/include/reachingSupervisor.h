@@ -91,6 +91,7 @@ protected:
     motionPlan  planPortIn1;
     RpcServer   rpcSrvr;
     RpcClient   rpc2Planner;
+    RpcClient   rpc2reactCtrl;
     bool        gotPlan;
 
 
@@ -253,6 +254,12 @@ public:
      * @return true/false on success/failure.
      */
     bool sendCmd2PlannerPos(const Vector &targetPos);
+
+    /**
+     * @brief Sends stop command to reactController rpc port
+     * @return
+     */
+    bool sendCmd2ReactCtrl_stop();
 
     /**
      * @brief Resumes generating particles to finish the motion plan after stopCtrl()

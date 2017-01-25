@@ -96,6 +96,11 @@ bool reachingSupervisor::configure(ResourceFinder &rf)
     if (!rpc2Planner.open(portToPlanner.c_str()))
         yError("[%s] Unable to open port << portToPlanner << endl",name.c_str());
 
+    // Output port to send command to reactCtroller
+    string portToReactCtrl = "/"+name+"/reactController/rpc:o";
+    if (!rpc2reactCtrl.open(portToReactCtrl.c_str()))
+        yError("[%s] Unable to open port << portToReactCtrl << endl",name.c_str());
+
     // Input port from the Planner
     string portFromPlanner = "/"+name+"/bestCartesianTrajectory:i";
     if (!planPortIn.open(portFromPlanner.c_str()))
@@ -448,6 +453,13 @@ bool reachingSupervisor::sendCmd2PlannerPos(const Vector &targetPos)
     return rpc2Planner.write(cmd);
 }
 
+bool reachingSupervisor::sendCmd2ReactCtrl_stop()
+{
+    Bottle cmd;
+    cmd.addString("stop");
+    return rpc2reactCtrl.write(cmd);
+}
+
 bool reachingSupervisor::resumeCtrl()
 {
     return tempWaypoint->resumeParticle();
@@ -455,5 +467,6 @@ bool reachingSupervisor::resumeCtrl()
 
 bool reachingSupervisor::stopCtrl()
 {
+    sendCmd2ReactCtrl_stop();
     return tempWaypoint->stopParticle();
 }
