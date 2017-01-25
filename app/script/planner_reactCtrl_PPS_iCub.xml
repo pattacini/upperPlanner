@@ -16,7 +16,7 @@
     <!--Controller modules-->
     <module>
         <name>reactController</name>
-        <parameters>--robot --globalTol 0.02 --orientationControl on --referenceGen minJerk</parameters>
+        <parameters>--robot icub --globalTol 0.02 --orientationControl on --referenceGen minJerk</parameters>
         <node>icub22</node>
         <tag>controller</tag>
     </module>
@@ -24,7 +24,8 @@
 
     <!--Planner modules-->
     <module>
-        <name>reaching-planner --robot icub</name>
+        <name>reaching-planner</name>
+        <parameters>--robot icub</parameters>
         <node>icub21</node>
         <tag>planner</tag>
     </module>
@@ -74,7 +75,7 @@
 
     <module>
         <name>visuoTactileRF</name>
-        <parameters>--robot icub --taxelsFile taxels1D_45cmRF_skinV2_learned.ini --rate 20</parameters>
+        <parameters>--robot icub --taxelsFile taxelsFiles/taxels1D_45cmRF_skinV2_perfect_all.ini --rate 20</parameters>
         <node>icub21</node>
         <stdio></stdio>
     </module>
