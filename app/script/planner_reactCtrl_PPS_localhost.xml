@@ -27,7 +27,7 @@
     <!--Controller modules-->
     <module>
         <name>reactController</name>
-        <parameters>--robot icubSim --globalTol 0.005</parameters>
+        <parameters>--robot icubSim --globalTol 0.005 --referenceGen none</parameters>
         <node>localhost</node>
         <tag>controller</tag>
     </module>
@@ -47,7 +47,7 @@
 
     <module>
         <name>reaching-supervisor</name>
-        <parameters>--speedEE 0.02</parameters>
+        <parameters>--speedEE 0.05 --rate 20</parameters>
         <node>localhost</node>
         <tag>supervisor</tag>
     </module>
@@ -90,7 +90,7 @@
 
     <module>
         <name>visuoTactileRF</name>
-        <parameters>--robot icubSim --taxelsFile taxels1D_45cmRF_skinV2_learned.ini --rate 20</parameters>
+        <parameters>--robot icubSim --taxelsFile taxelsFiles/taxels1D_45cmRF_skinV2_perfect_all.ini --rate 20</parameters>
         <node>localhost</node>
         <stdio></stdio>
     </module>
@@ -109,28 +109,28 @@
     <module>
         <name>iCubSkinGui</name>
         <!-- Remember to use the proper configuration files (i.e. "_V2.ini" for V2 robots) -->
-        <parameters>--from left_forearm.ini --useCalibration --xpos 0 --ypos 0 --width 300 --height 300</parameters>
+        <parameters>--from left_forearm_V2.ini --useCalibration --xpos 0 --ypos 0 --width 200 --height 200</parameters>
         <node>localhost</node>
         <tag>skinGuiLF</tag>
     </module>
     <module>
         <name>iCubSkinGui</name>
         <!-- Remember to use the proper configuration files (i.e. "_V2.ini" for V2 robots) -->
-        <parameters>--from left_hand_V2_1.ini --useCalibration --xpos 320 --ypos 0 --width 300 --height 300</parameters>
+        <parameters>--from left_hand_V2_1.ini --useCalibration --xpos 210 --ypos 0 --width 200 --height 200</parameters>
         <node>localhost</node>
         <tag>skinGuiLH</tag>
     </module>
     <module>
         <name>iCubSkinGui</name>
         <!-- Remember to use the proper configuration files (i.e. "_V2.ini" for V2 robots) -->
-        <parameters>--from right_forearm.ini --useCalibration --xpos 640 --ypos 0 --width 300 --height 300</parameters>
+        <parameters>--from right_forearm_V2.ini --useCalibration --xpos 420 --ypos 0 --width 200 --height 200</parameters>
         <node>localhost</node>
         <tag>skinGuiRF</tag>
     </module>
     <module>
         <name>iCubSkinGui</name>
         <!-- Remember to use the proper configuration files (i.e. "_V2.ini" for V2 robots) -->
-        <parameters>--from right_hand_V2_1.ini --useCalibration --xpos 960 --ypos 0 --width 300 --height 300</parameters>
+        <parameters>--from right_hand_V2_1.ini --useCalibration --xpos 630 --ypos 0 --width 200 --height 200</parameters>
         <node>localhost</node>
         <tag>skinGuiRH</tag>
     </module>
