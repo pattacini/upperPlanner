@@ -1555,9 +1555,9 @@ bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
     cmd.addVocab(Vocab::encode("ask"));
     Bottle &content=cmd.addList();
     Bottle &cond_1=content.addList();
-    cond_1.addString("entity");
+    cond_1.addString("name");
     cond_1.addString("==");
-    cond_1.addString("agent");
+    cond_1.addString("partner");
 
     rpc2OPC.write(cmd,reply);
     if (reply.size()>1)
@@ -1575,7 +1575,7 @@ bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
                     Bottle &info2=info.addList();
                     info2.addString("id");
                     info2.addInt(idAgent);
-
+                    yDebug("got partner with id");
                 }
                 else
                     yError("uncorrect reply from OPC 2!");
@@ -1594,11 +1594,13 @@ bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
                         if ((b->find("isPresent").asInt())==1)
                         {
                             isPresent = true;
-
+                            yDebug("partner is present");
                             if (Bottle *b1=b->find("body").asList())
                             {
+                                yDebug("found body");
                                 if (Bottle *b2=b1->find("handLeft").asList())
                                 {
+                                    yDebug("found handLeft");
                                     for (int i=0; i<3; i++)
                                     {
                                         objectIn3D[i]=b2->get(i).asDouble();
@@ -1607,6 +1609,7 @@ bool upperPlanner::getHandFromOPC(vector<Vector> &handsRoot)
                                 }
                                 else if (Bottle *b2=b1->find("handRight").asList())
                                 {
+                                    yDebug("found handRight");
                                     for (int i=0; i<3; i++)
                                     {
                                         objectIn3D[i]=b2->get(i).asDouble();
