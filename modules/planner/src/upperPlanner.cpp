@@ -45,7 +45,7 @@ upperPlanner::upperPlanner()
     nDim        =                 3;
     lShoulder   =              0.05;
     lArm        =              0.22;
-    lForearm    =              0.20;    //0.16;
+    lForearm    =              0.1977; //0.20;    //0.16;
 
     if (robot == "icubSim")
     {
