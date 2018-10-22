@@ -28,12 +28,14 @@
 
     <module>
             <name>reactController</name>
+	        <parameters>--robot icubSim --globalTol 0.001 --referenceGen none --orientationControl off --vMax 40 --rctCTrlRate 20 --additionalControlPoints on</parameters>
             <node>localhost</node>
             <tag>controller</tag>
     </module>
 
     <module>
             <name>reaching-planner</name>
+			<parameters>--planForElbow on --generateObstacles on</parameters>
             <node>localhost</node>
             <tag>planner</tag>
     </module>
@@ -48,6 +50,7 @@
 
     <module>
             <name>reaching-supervisor</name>
+			<parameters>--speedEE 0.002 --rate 20 --tolerance 0.001</parameters>
             <node>localhost</node>
             <tag>supervisor</tag>
     </module>
@@ -75,6 +78,36 @@
 	<connection>
 		<from>/reaching-planner1/bestCartesianTrajectory:o</from>
         <to>/reaching-supervisor/bestCartesianTrajectory1:i</to>
+    </connection>
+
+    <connection>
+        <from>/icubSim/head/state:o</from>
+        <to>/iCubGui/head:i</to>
+        <protocol>udp</protocol>
+    </connection>
+
+    <connection>
+        <from>/icubSim/inertial</from>
+        <to>/iCubGui/inertial:i</to>
+        <protocol>udp</protocol>
+    </connection>
+
+    <connection>
+        <from>/icubSim/left_arm/state:o</from>
+        <to>/iCubGui/left_arm:i</to>
+        <protocol>udp</protocol>
+    </connection>
+
+    <connection>
+        <from>/icubSim/right_arm/state:o</from>
+        <to>/iCubGui/right_arm:i</to>
+        <protocol>udp</protocol>
+    </connection>
+
+    <connection>
+        <from>/icubSim/torso/state:o</from>
+        <to>/iCubGui/torso:i</to>
+        <protocol>udp</protocol>
     </connection>
 
 
